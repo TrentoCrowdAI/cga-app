@@ -1,0 +1,3 @@
+rootProject.name = 'CGA_frontend'
+
+include ':app'
