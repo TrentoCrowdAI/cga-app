@@ -1,41 +1,39 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import NavigatorButton from "./src/NavigatorButton";
+import MyTimer from "./src/MyTimer";
+import Question from "./src/Question"
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-// type Props = {};
-export default class App extends React.Component {
+export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View style={styles.rootContainer}>
+        <View style={styles.timerContainer}>
+          <MyTimer />
+        </View>
+        <View style={styles.questionContainer}>
+          <Question />
+        </View>
+        <View style={styles.navigatorButtonContainer}>
+          <NavigatorButton />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  rootContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  timerContainer: {
+    flex: 1,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  questionContainer: {
+    flex: 5
   },
+  navigatorButtonContainer: {
+    flex: 1
+  }
 });
