@@ -5,9 +5,10 @@ Frontend of the CGA project
 ## Organization
 
 In the src repository you can find:
+- Mode: modality of the interface (professional, handover and show)
 - Pages: where all the app pages are composed
-- Images: where there are logos and images
-- Components: where you can find all the components which the pages are made of
+- Components: components which the pages are made of
+- Images: logos and images
 
 
 ## Quick start
