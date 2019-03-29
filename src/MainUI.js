@@ -53,6 +53,7 @@ export default class MainUI extends Component {
           <Timer interval={timer} />
         </View>
         <View style={styles.questionContainer}>
+          <Question />
         </View>
         <View style={styles.navigatorButtonContainer}>
           <View style={styles.buttonContainer}>
