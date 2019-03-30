@@ -15,10 +15,10 @@ export default class CheckboxGroup extends Component {
   };
 
   renderList(initialArr) {
-    return initialArr.map((label, index) => {
+    return initialArr.map((options, index) => {
       this.state.itemSelected[index] = false;
       return (
-        <Checkbox key={index} text={label} updateState={this.update} checked={this.state.itemSelected[index]}/>
+        <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]}/>
       );
     });
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, ListItem, Text, Radio, Right, Left, List } from 'native-base';
+import { Container, Content, ListItem, Text, Radio, Right, Left, List, Title } from 'native-base';
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {
@@ -17,9 +17,9 @@ export default class RadioGroup extends Component {
   };
 
   renderList(initialArr) {
-    return initialArr.map((label, index) => {
+    return initialArr.map((options, index) => {
       return (
-        <RadioButton key={index} text={label} updateState={this.updateState} selected={this.state.itemSelected} index={"" + index} />
+        <RadioButton key={index} text={options.labels[0].content} updateState={this.updateState} selected={this.state.itemSelected} index={"" + index} />
       );
     });
   }
@@ -27,11 +27,9 @@ export default class RadioGroup extends Component {
   render() {
     return (
       <Container>
-        <Content>
-          <List>
-            {this.renderList(this.props.labels)}
-          </List>
-        </Content>
+        <List>
+          {this.renderList(this.props.labels)}
+        </List>
       </Container>
     );
   }
