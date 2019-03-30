@@ -3,10 +3,14 @@ import { Container, Content, ListItem, Text, Radio, Right, Left, List, Title } f
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      itemSelected: "1"
+      indexQuestion: props.indexQuestion,
+      itemSelected: "0"
+    }
+    if(props.saved != undefined){
+      this.state.itemSelected = props.saved;
     }
   }
 
@@ -14,6 +18,7 @@ export default class RadioGroup extends Component {
     this.setState({
       itemSelected: val
     });
+    this.props.save(this.state.indexQuestion, val);
   };
 
   renderList(initialArr) {

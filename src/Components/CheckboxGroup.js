@@ -6,19 +6,25 @@ export default class CheckboxGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      indexQuestion: this.props.indexQuestion,
       itemSelected: {},
+    }
+    if(props.saved != undefined){
+      this.state.itemSelected = props.saved;
     }
   }
 
   update = (index, val) => {
     this.state.itemSelected[index] = val;
+    this.props.save(this.state.indexQuestion, this.state.itemSelected);
   };
 
   renderList(initialArr) {
     return initialArr.map((options, index) => {
-      this.state.itemSelected[index] = false;
+      if(this.state.itemSelected[index] == undefined)
+        this.state.itemSelected[index] = false;
       return (
-        <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]}/>
+        <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]} index={index}/>
       );
     });
   }

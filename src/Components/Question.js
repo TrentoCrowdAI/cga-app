@@ -8,6 +8,7 @@ export default class Question extends Component {
   constructor(props){
     super(props);
     this.state = {
+      indexQuestion: this.props.indexQuestion,
       data: this.props.data,
       question: ""
     };
@@ -16,7 +17,7 @@ export default class Question extends Component {
   createTextbox = (label) => {
     return (
       <Container>
-        <Textbox label={label}/>
+        <Textbox label={label} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved}/>
       </Container>
     );
   }
@@ -24,7 +25,7 @@ export default class Question extends Component {
   createRadioGroup = (labels) => {
     return (
       <Container>
-        <RadioGroup labels={labels} />
+        <RadioGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
       </Container>
     );
   }
@@ -32,7 +33,7 @@ export default class Question extends Component {
   createCheckboxGroup = (labels) => {
     return (
       <Container>
-        <CheckboxGroup labels={labels} />
+        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
       </Container>
     );
   }
@@ -50,7 +51,9 @@ export default class Question extends Component {
 
   componentWillReceiveProps(nextProp){
     this.setState({
-      data: nextProp.data
+      indexQuestion: nextProp.indexQuestion,
+      data: nextProp.data,
+      question: {}
     });
     this.renderQuestion();
   }

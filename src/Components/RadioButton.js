@@ -5,8 +5,8 @@ export default class RadioButton extends Component {
   constructor(props){
     super(props);
     this.state = {
-      itemSelected: this.props.selected,
-      index: this.props.index
+      itemSelected: props.selected,
+      index: props.index
     }
   }
 

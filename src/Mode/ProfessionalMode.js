@@ -2,14 +2,12 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Header} from 'react-native';
 import {Container, Content} from 'native-base';
 import HeaderOptions from "../Components/HeaderOptions.js";
-import Navigator from "../Components/Navigator.js";
-import Question from "../Components/Question.js"
+import NavigatorQuestion from "../Components/NavigatorQuestion.js";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
       example:   {
             id:	1,
             name:	"Demographics",
@@ -336,7 +334,7 @@ export default class App extends Component {
                             content:	"Per quale ragione sta ancora lavorando?"
                         }
                     ],
-                    type :  "MultipleChoice",
+                    type :  "MultipleChoise",
                     options:[
                         {
                             id:	1,
@@ -402,41 +400,18 @@ export default class App extends Component {
                     ],
                 }
             ],
-        },
-      questionObj: {},
-    }
-  }
-
-  nextQuestion = () => {
-    if(this.state.index < (this.state.example.items.length)-1){
-      this.setState({
-        index: this.state.index + 1,
-        questionObj: this.state.example.items[this.state.index]
-      });
-    }
-  }
-
-  prevQuestion = () => {
-    if(this.state.index > 0){
-      this.setState({
-        index: this.state.index - 1,
-        questionObj: this.state.example.items[this.state.index]
-      });
+        }
     }
   }
 
   render() {
-    this.state.questionObj = this.state.example.items[this.state.index];
     return (
       <Container style={{flexDirection: 'column'}}>
         <Container style={{flex: 1}}>
           <HeaderOptions title={this.state.example.name}/>
         </Container>
         <Container style={{flex: 2}}>
-          <Question data={this.state.questionObj}/>
-        </Container>
-        <Container style={{flex: 1}}>
-          <Navigator prev={this.prevQuestion} next={this.nextQuestion} />
+          <NavigatorQuestion example={this.state.example} />
         </Container>
       </Container>
     );
