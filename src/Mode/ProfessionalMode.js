@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Header} from 'react-native';
-import {Container, Content} from 'native-base';
-import HeaderOptions from "../Components/HeaderOptions.js";
+import {StyleSheet, View, Header } from 'react-native';
+import {Container, Content, Picker, Item, Text, Icon, Button} from 'native-base';
 import NavigatorQuestion from "../Components/NavigatorQuestion.js";
 
-export default class App extends Component {
+export default class ProfessionalMode extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -402,16 +401,35 @@ export default class App extends Component {
             ],
         }
     }
+    this.props.navigation.setParams({Title: this.state.example.name })
   }
+
+  static navigationOptions = ({ navigation }) => {
+
+    return {
+      title: navigation.getParam('Title', 'Default Title'),
+      //Default Title of ActionBar
+      headerStyle: {
+        backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),
+        //Background color of ActionBar
+      },
+      headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
+      //Text color of ActionBar
+      headerRight: (
+          <Button transparent>
+            <Text />
+            <Icon name='more' />
+          </Button>
+
+      ),
+    };
+  };
 
   render() {
     return (
-      <Container style={{flexDirection: 'column'}}>
+      <Container style={{flex: 1, flexDirection: 'column'}}>
         <Container style={{flex: 1}}>
-          <HeaderOptions title={this.state.example.name}/>
-        </Container>
-        <Container style={{flex: 2}}>
-          <NavigatorQuestion example={this.state.example} />
+          <NavigatorQuestion example={this.state.example}/>
         </Container>
       </Container>
     );

@@ -5,6 +5,7 @@ INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\mai
 INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml:1:1-26:12
 INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml:1:1-26:12
 MERGED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml:1:1-26:12
+MERGED from [:react-native-gesture-handler] C:\Users\giova\Documents\UNI\Tirocinio\cga-app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.59.1] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\react-native-0.59.1.aar\a2e6952e5b811d846adb82987f3f7b4d\AndroidManifest.xml:2:1-13:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\2391a4ac6563d3d5d2655eb6a350df5c\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0.aar\dce6d538499665da6b545e6ff13ac07d\AndroidManifest.xml:17:1-22:12
@@ -129,6 +130,8 @@ uses-sdk
 INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\giova\Documents\UNI\Tirocinio\cga-app\android\app\src\main\AndroidManifest.xml
+MERGED from [:react-native-gesture-handler] C:\Users\giova\Documents\UNI\Tirocinio\cga-app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-gesture-handler] C:\Users\giova\Documents\UNI\Tirocinio\cga-app\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.59.1] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\react-native-0.59.1.aar\a2e6952e5b811d846adb82987f3f7b4d\AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.59.1] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\react-native-0.59.1.aar\a2e6952e5b811d846adb82987f3f7b4d\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\giova\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\2391a4ac6563d3d5d2655eb6a350df5c\AndroidManifest.xml:20:5-44
