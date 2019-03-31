@@ -5,35 +5,48 @@ export default class MyPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      indexQuestion: props.indexQuestion,
+      labels: props.labels,
       selected: undefined
     };
+    this.props.save(this.state.indexQuestion, props.labels[0].key);
   }
+
   onValueChange(value: string) {
     this.setState({
       selected: value
     });
+    this.props.save(this.state.indexQuestion, value);
   }
+
+  renderItems() {
+    return(
+      <Content>
+        <Form>
+          <Picker
+            mode="dropdown"
+            placeholder="Select One"
+            placeholderStyle={{ color: "#2874F0" }}
+            note={false}
+            selectedValue={this.state.selected}
+            onValueChange={this.onValueChange.bind(this)}
+          >
+          {
+            this.state.labels.map((option, index) => {
+              return <Picker.Item key={index} label={option.label} value={option.key} />
+            })
+          }
+          </Picker>
+        </Form>
+      </Content>
+    );
+
+  }
+
   render() {
     return (
       <Container>
-        <Content>
-          <Form>
-            <Picker
-              mode="dropdown"
-              placeholder="Select One"
-              placeholderStyle={{ color: "#2874F0" }}
-              note={false}
-              selectedValue={this.state.selected}
-              onValueChange={this.onValueChange.bind(this)}
-            >
-              <Picker.Item label="Wallet" value="key0" />
-              <Picker.Item label="ATM Card" value="key1" />
-              <Picker.Item label="Debit Card" value="key2" />
-              <Picker.Item label="Credit Card" value="key3" />
-              <Picker.Item label="Net Banking" value="key4" />
-            </Picker>
-          </Form>
-        </Content>
+        {this.renderItems()}
       </Container>
     );
   }

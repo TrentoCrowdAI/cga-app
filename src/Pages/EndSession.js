@@ -8,7 +8,17 @@ export default class EndSession extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      labels: [
+          {
+              label:	"The patient is tired",
+              key: "tired"
+          },
+          {
+            label:	"The patient haven't other time",
+            key: "time"
+          }
+      ],
+      savedData: {}
     }
   }
 
@@ -25,12 +35,8 @@ export default class EndSession extends Component {
     };
   };
 
-  update = () =>{
-
-  }
-
-  save = () =>{
-
+  save = (index, value) =>{
+    this.state.savedData[index] = value;
   }
 
   render() {
@@ -40,10 +46,10 @@ export default class EndSession extends Component {
           <Title><Text>Why you want to stop the session??</Text></Title>
         </Container>
         <Container style={{flex: 1}}>
-          <MyPicker save={this.save} />
+          <MyPicker save={this.save} labels={this.state.labels} indexQuestion="1"/>
         </Container>
         <Container style={{flex: 1}}>
-          <Textbox label="Note" save={this.save} />
+          <Textbox label="Note" save={this.save} indexQuestion="1"/>
         </Container>
         <Container style={{flex: 1}}>
           <Button primary onPress={(() => alert("pressed"))} ><Text>Next</Text></Button>

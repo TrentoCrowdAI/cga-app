@@ -4,9 +4,9 @@ import EndSession from '../Pages/EndSession.js';
 import Guide from '../Pages/Guide.js';
 
 const AppNavigator = createStackNavigator({
-  Guide: {screen: Guide},
-  EndSession: {screen: EndSession},
   ProfessionalMode: {screen: ProfessionalMode},
+  EndSession: {screen: EndSession},
+  Guide: {screen: Guide},
 });
 
 const AppContainer = createAppContainer(AppNavigator);
