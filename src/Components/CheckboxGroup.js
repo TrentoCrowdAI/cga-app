@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, ListItem, Text, Radio, Right, Left, List, CheckBox} from 'native-base';
+import { Container, Content, ListItem, Text, Radio, Right, Left, List, CheckBox, Button} from 'native-base';
 import Checkbox from "./Checkbox";
 
 export default class CheckboxGroup extends Component {
@@ -8,6 +8,7 @@ export default class CheckboxGroup extends Component {
     this.state = {
       indexQuestion: this.props.indexQuestion,
       itemSelected: {},
+      images: this.props.images
     }
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;

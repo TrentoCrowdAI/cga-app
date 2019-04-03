@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Header } from 'react-native';
-import {Container, Content, Picker, Item, Text, Icon, Button} from 'native-base';
-import NavigatorQuestion from "../Components/NavigatorQuestion.js";
+import {Container, Content, Picker, Item, Text, Icon, Button, Left, Right} from 'native-base';
+import Question from "../Components/Question.js";
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -239,7 +239,7 @@ export default class ProfessionalMode extends Component {
                     ],
                 },
                 {
-                    id:	12,
+                    id:	11,
                     description: "Occupational History - 'Which work",
                     labels:	[
                         {
@@ -319,92 +319,186 @@ export default class ProfessionalMode extends Component {
                     ]
                 },
                 {
-                    id:	13,
-                    description: "Occupational History - 'Main reason for working",
+                    id:	12,
+                    description: "'Has the interviewed diabets' question",
                     labels:	[
                         {
-                            id:	1,
-                            language: "English",
-                            content:	"What would be the main reason you are currently working?"
+                          id:	1,
+                          language: "English",
+                          content:	"Do you have diabetes?"
                         },
                         {
-                            id:	2,
-                            language: "Italian",
-                            content:	"Per quale ragione sta ancora lavorando?"
+                          id:	2,
+                          language: "Italian",
+                          content:	"Ha il diabete??"
                         }
                     ],
-                    type :  "MultipleChoise",
+                    type: "SingleChoise",
                     options:[
                         {
                             id:	1,
-                            value: "need_money",
+                            value: "have_diabets",
                             labels:	[
                                 {
                                     id:	1,
                                     language: "English",
-                                    content:	"Need the money"
+                                    content:	"Yes"
                                 },
                                 {
                                     id:	2,
                                     language: "Italian",
-                                    content:	"Bisogno del denaro"
+                                    content:	"Si"
                                 }
                             ],
                             type: "selectItem"
                         },
                         {
                             id:	2,
-                            value: "more_active",
+                            value: "havenot_diabet",
                             labels:	[
                                 {
                                     id:	3,
                                     language: "English",
-                                    content:	"Want to be more active"
+                                    content:	"No"
                                 },
                                 {
                                     id:	4,
                                     language: "Italian",
-                                    content:	"Bisonogo di essere in attivita"
+                                    content:	"No"
                                 }
                             ],
                             type: "selectItem"
-                        },
-                        {
-                            id:	2,
-                            value: "other",
-                            labels:	[
-                                {
-                                    id:	3,
-                                    language: "English",
-                                    content:	"Other activity"
-                                },
-                                {
-                                    id:	4,
-                                    language: "Italian",
-                                    content:	"Un’altra attivita"
-                                }
-                            ],
-                            type: "selectItemOther"
                         }
                     ],
                     rules: [],
-                    flowConstraints:
-                    [
+                    validators: [],
+                    flowConstraints: [
+                        {
+                            id: 2,
+                            type: "next_question",
+                            condition: "",
+                            value: 13
+                        }
+                    ],
+                },
+                {
+                    id:	13,
+                    description: "Take any of these medicine",
+                    labels:	[
+                        {
+                            id:	1,
+                            language: "English",
+                            content:	"Do you take one of these medicines?"
+                        },
+                        {
+                            id:	2,
+                            language: "Italian",
+                            content:	"Prende una di queste medicine?"
+                        }
+                    ],
+                    type: "MultipleChoise",
+                    options:[
+                        {
+                            id:	1,
+                            value: "diabets_1",
+                            labels:	[
+                                {
+                                    id:	1,
+                                    language: "English",
+                                    content:	"Metformin"
+                                },
+                                {
+                                    id:	2,
+                                    language: "Italian",
+                                    content:	"Metformin"
+                                }
+                            ],
+                            type: "selectItem"
+                        },
+                        {
+                            id:	2,
+                            value: "cholesterol",
+                            labels:	[
+                                {
+                                    id:	3,
+                                    language: "English",
+                                    content:	"ArmoLipid PLUS"
+                                },
+                                {
+                                    id:	4,
+                                    language: "Italian",
+                                    content:	"ArmoLipid PLUS"
+                                }
+                            ],
+                            type: "selectItem"
+                        },
+                        {
+                            id:	2,
+                            value: "cholesterol",
+                            labels:	[
+                                {
+                                    id:	3,
+                                    language: "English",
+                                    content:	"Eufortyn"
+                                },
+                                {
+                                    id:	4,
+                                    language: "Italian",
+                                    content:	"Eufortyn"
+                                }
+                            ],
+                           type: "selectItem"
+                       }
+                    ],
+                    images: ["../Images/Metformin.jpg", "../Images/ArmoPlus.jpg", "../Images/Euforyn.jpg"],
+                    rules: [],
+                    validators: [],
+                    flowConstraints: [
                         {
                             id: 1,
                             type: "next_question",
                             condition: "",
-                            value: 20
+                            value: 13
                         }
-                    ],
-                }
+                    ]
+                },
             ],
-        }
+        },
+      indexQuestion: 0,
+      questionObj: {},
+      savedData: {}
+    };
+    this.state.questionObj = this.state.example.items[this.state.indexQuestion];
+    this.props.navigation.setParams({ Title: this.state.example.name });
+    this.props.navigation.setParams({indexQuestion: this.state.indexQuestion, questionObj: this.state.questionObj, savedData: this.state.savedData});
+  }
+
+  nextQuestion = () => {
+    if(this.state.indexQuestion < (this.state.example.items.length)-1){
+      this.setState({
+        indexQuestion: this.state.indexQuestion + 1,
+        questionObj: this.state.example.items[this.state.indexQuestion + 1],
+      });
+      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion + 1, questionObj: this.state.example.items[this.state.indexQuestion + 1], savedData: this.state.savedData});
     }
-    this.props.navigation.setParams({Title: this.state.example.name })
+  }
+
+  prevQuestion = () => {
+    if(this.state.indexQuestion > 0){
+      this.setState({
+        indexQuestion: this.state.indexQuestion - 1,
+        questionObj: this.state.example.items[this.state.indexQuestion - 1]
+      });
+      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion - 1, questionObj: this.state.example.items[this.state.indexQuestion - 1], savedData: this.state.savedData});
+    }
+  }
+
+  saveValue = (index, value) => {
+    this.state.savedData[index] = value;
   }
 
   static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
 
     return {
       title: navigation.getParam('Title', 'Default Title'),
@@ -416,20 +510,37 @@ export default class ProfessionalMode extends Component {
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
       headerRight: (
-          <Button transparent>
-            <Text />
-            <Icon name='more' />
-          </Button>
-
-      ),
+        <Button transparent onPress={() => navigation.navigate('ModalMenu', {indexQuestion: navigation.state.params.indexQuestion, questionObj: navigation.state.params.questionObj, savedData: navigation.state.params.savedData})}><Text /><Icon name='more' /></Button>
+      )
     };
   };
 
+  componentWillReceiveProps(nextProp){
+    if(nextProp.navigation.state.params.skipQuestion == true && nextProp.navigation.state.params.savedData != undefined){
+      nextProp.navigation.state.params.skipQuestion = false;
+      this.nextQuestion();
+    }else if(nextProp.navigation.state.params.handoverMode == true && nextProp.navigation.state.params.savedData != undefined){
+      nextProp.navigation.state.params.handoverMode = false;
+      this.setState({
+        savedData: nextProp.navigation.state.params.savedData,
+      });
+      this.nextQuestion();
+    }
+  }
+
   render() {
     return (
-      <Container style={{flex: 1, flexDirection: 'column'}}>
+      <Container>
         <Container style={{flex: 1}}>
-          <NavigatorQuestion example={this.state.example}/>
+          <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+        </Container>
+        <Container style={{flexDirection: 'row'}}>
+          <Left>
+            <Button primary onPress={() => this.prevQuestion()}><Text>Previous</Text></Button>
+          </Left>
+          <Right>
+            <Button primary  onPress={() => this.nextQuestion()}><Text>Next</Text></Button>
+          </Right>
         </Container>
       </Container>
     );

@@ -38,6 +38,14 @@ export default class Question extends Component {
     );
   }
 
+  createCheckboxGroupWithImages = (labels, images) => {
+    return (
+      <Container>
+        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={this.props.images} />
+      </Container>
+    );
+  }
+
   renderQuestion = () => {
     if(this.state.data.type == "inputText"){
       this.state.question = this.createTextbox(this.state.data.options[0].content);
