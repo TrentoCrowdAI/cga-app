@@ -9,7 +9,7 @@ export default class EndSession extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Stop Session",
+      title: "End Session",
       //Default Title of ActionBar
       headerStyle: {
         backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),

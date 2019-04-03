@@ -1,7 +1,9 @@
 ------------------------------src folder---------------------------------------
 ___________________________Components folder___________________________________
+AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion)
 Checkbox --> ()
 CheckboxGroup --> (Checkbox)
+ImageViewer --> ()
 MyPicker --> ()
 NavigatorQuestion --> (Question)
 Question --> (Textbox, CheckboxGroup, RadioGroup)
@@ -11,10 +13,13 @@ TextBox --> ()
 YesNoDialog --> ()
 _______________________________________________________________________________
 _____________________________Mode folder_______________________________________
-ProfessionalMode --> (NavigatorQuestion)
+HandoverMode --> (Question)
+ProfessionalMode --> (Question)
 _______________________________________________________________________________
 ____________________________Pages folder_______________________________________
-EndSession --> (MyPicker)
 Guide --> ()
+EndSession --> ()
+SkipQuestion --> (MyPicker, TextBox)
+StopSession --> (MyPicker, TextBox)
 _______________________________________________________________________________
 -------------------------------------------------------------------------------

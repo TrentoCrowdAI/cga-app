@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Content, ListItem, Text, Radio, Right, Left, List, CheckBox, Button} from 'native-base';
 import Checkbox from "./Checkbox";
+import ImageViewer from "./ImageViewer.js";
 
 export default class CheckboxGroup extends Component {
   constructor(props) {
@@ -8,7 +9,8 @@ export default class CheckboxGroup extends Component {
     this.state = {
       indexQuestion: this.props.indexQuestion,
       itemSelected: {},
-      images: this.props.images
+      images: this.props.images,
+      imageViewerVisible: false,
     }
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;
@@ -30,12 +32,26 @@ export default class CheckboxGroup extends Component {
     });
   }
 
+  showImageViewer = () => {
+    this.setState({
+      imageViewerVisible: true
+    });
+  }
+
+  renderButtonImages = () => {
+    if(this.state.images != undefined){
+      return (<Button primary onPress={() => this.showImageViewer()}><Text>Images</Text></Button>);
+    }
+  }
+
   render() {
     return (
       <Container>
         <Content>
           <List>
             {this.renderList(this.props.labels)}
+            {this.renderButtonImages()}
+            <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
           </List>
         </Content>
       </Container>

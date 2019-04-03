@@ -30,18 +30,10 @@ export default class Question extends Component {
     );
   }
 
-  createCheckboxGroup = (labels) => {
+  createCheckboxGroup = (labels, images) => {
     return (
       <Container>
-        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
-      </Container>
-    );
-  }
-
-  createCheckboxGroupWithImages = (labels, images) => {
-    return (
-      <Container>
-        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={this.props.images} />
+        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images}/>
       </Container>
     );
   }
@@ -53,7 +45,7 @@ export default class Question extends Component {
       this.state.question = this.createRadioGroup(this.state.data.options);
     }
     else if(this.state.data.type == "MultipleChoise"){
-      this.state.question = this.createCheckboxGroup(this.state.data.options);
+      this.state.question = this.createCheckboxGroup(this.state.data.options, this.state.data.images);
     }
   }
 

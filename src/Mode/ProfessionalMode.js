@@ -450,7 +450,7 @@ export default class ProfessionalMode extends Component {
                            type: "selectItem"
                        }
                     ],
-                    images: ["../Images/Metformin.jpg", "../Images/ArmoPlus.jpg", "../Images/Euforyn.jpg"],
+                    images: [{path:"https://drive.google.com/uc?id=1K1Q1fQbFyXE1oJOJL_QBqBZtffUFYERq", title:"Metformin"}, {path:"https://drive.google.com/uc?id=15FSa83I8GAnkuNenR-G0rRvrEhlwOUUA", title:"ArmoPlus"}, {path:"https://drive.google.com/uc?id=1TJ4p__S1aKADIYitsIFEkj_coapNfn1A", title:"Euforyn"}],
                     rules: [],
                     validators: [],
                     flowConstraints: [
@@ -474,7 +474,10 @@ export default class ProfessionalMode extends Component {
   }
 
   nextQuestion = () => {
-    if(this.state.indexQuestion < (this.state.example.items.length)-1){
+    if(this.state.indexQuestion == (this.state.example.items.length)-1){
+      alert("unable to proceed inconsistence found");
+    }
+    if(this.state.indexQuestion <= (this.state.example.items.length)-2){
       this.setState({
         indexQuestion: this.state.indexQuestion + 1,
         questionObj: this.state.example.items[this.state.indexQuestion + 1],
