@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Header } from 'react-native';
 import {Container, Button, Text} from 'native-base';
 import Question from "../Components/Question.js";
 

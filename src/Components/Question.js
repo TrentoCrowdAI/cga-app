@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Input, Button, Title, Text, Left, Right } from 'native-base';
+import { Container, Title, Text } from 'native-base';
 import Textbox from "./Textbox";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, ListItem, Text, Radio, Right, Left, List, CheckBox, Button} from 'native-base';
+import { Container, Content,  Text, Button, List } from 'native-base';
 import Checkbox from "./Checkbox";
 import ImageViewer from "./ImageViewer.js";
 
@@ -32,16 +32,20 @@ export default class CheckboxGroup extends Component {
     });
   }
 
-  showImageViewer = () => {
+  setImageViewerVisible = (value) => {
     this.setState({
-      imageViewerVisible: true
+      imageViewerVisible: value
     });
   }
 
   renderButtonImages = () => {
     if(this.state.images != undefined){
-      return (<Button primary onPress={() => this.showImageViewer()}><Text>Images</Text></Button>);
+      return (<Button primary onPress={() => this.setImageViewerVisible(true)}><Text>Images</Text></Button>);
     }
+  }
+
+  componentWillReceiveProps(nextProp){
+    this.setImageViewerVisible(false);
   }
 
   render() {

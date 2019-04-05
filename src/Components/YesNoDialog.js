@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text } from 'native-base';
 import { MaterialDialog } from 'react-native-material-dialog';
 
 export default class YesNoDialog extends Component {

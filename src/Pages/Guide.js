@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Header} from 'react-native';
-import {Container, Content, Text} from 'native-base';
+import React, { Component } from 'react';
+import { Container,  Text } from 'native-base';
 
 export default class Guide extends Component {
   constructor(props) {

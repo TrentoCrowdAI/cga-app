@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Container, Input, Item, Label } from 'native-base';
+import { Container, Input, Item, Label } from 'native-base';
 
 export default class Textbox extends Component {
   constructor(props){

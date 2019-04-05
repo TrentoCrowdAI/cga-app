@@ -1,25 +1,34 @@
-------------------------------src folder---------------------------------------
-___________________________Components folder___________________________________
+--------------------------------------------Package usage--------------------------------------------------------------
+react-navigator --> (AppNavigator) (link https://facebook.github.io/react-native/docs/navigation)
+native-base --> (Checkbox, CheckboxGroup, ImageViewer, ModalMenu, MyPicker, Question, RadioButton, RadioGroup, TextBox,
+                 YesNoDialog, HandoverMode, ProfessionalMode, EndSession, Guide, SkipQuestion, StopSession )
+                 (links https://docs.nativebase.io/docs/GetStarted.html https://www.npmjs.com/package/native-base)
+react-native-image-view --> (ImageViewer) (link https://www.npmjs.com/package/react-native-image-view)
+react-native-material-dialog --> (YesNoDialog) (link https://www.npmjs.com/package/react-native-material-dialog)
+-----------------------------------------------------------------------------------------------------------------------
+
+--------------------------------------------Components usage----------------------------------------------
+_________________________________________Components folder________________________________________________
 AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion)
 Checkbox --> ()
-CheckboxGroup --> (Checkbox)
+CheckboxGroup --> (Checkbox, ImageViewer)
 ImageViewer --> ()
+ModalMenu --> ()
 MyPicker --> ()
-NavigatorQuestion --> (Question)
 Question --> (Textbox, CheckboxGroup, RadioGroup)
 RadioButton --> ()
 RadioGroup --> (RadioButton)
 TextBox --> ()
 YesNoDialog --> ()
-_______________________________________________________________________________
-_____________________________Mode folder_______________________________________
+___________________________________________________________________________________________________________
+___________________________________________Mode folder_____________________________________________________
 HandoverMode --> (Question)
 ProfessionalMode --> (Question)
-_______________________________________________________________________________
-____________________________Pages folder_______________________________________
-Guide --> ()
+___________________________________________________________________________________________________________
+__________________________________________Pages folder_____________________________________________________
 EndSession --> ()
+Guide --> ()
 SkipQuestion --> (MyPicker, TextBox)
 StopSession --> (MyPicker, TextBox)
-_______________________________________________________________________________
--------------------------------------------------------------------------------
+____________________________________________________________________________________________________________
+------------------------------------------------------------------------------------------------------------

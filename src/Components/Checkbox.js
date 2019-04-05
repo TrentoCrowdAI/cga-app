@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, ListItem, CheckBox, Text, Body, Left, Right } from 'native-base';
+import { ListItem, CheckBox, Text, Left, Right } from 'native-base';
 
 export default class Checkbox extends Component {
   constructor(props){

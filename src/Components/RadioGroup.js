@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, ListItem, Text, Radio, Right, Left, List, Title } from 'native-base';
+import { Container, List } from 'native-base';
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Container, Title, Text, Button} from 'native-base';
+import {Container, Title, Text } from 'native-base';
 
 export default class EndSession extends Component {
   constructor(props) {

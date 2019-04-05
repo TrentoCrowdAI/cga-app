@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Container, Title, Text, Button} from 'native-base';
+import React, { Component } from 'react';
+import { Container, Title, Text, Button } from 'native-base';
 import MyPicker from '../Components/MyPicker.js';
 import Textbox from '../Components/Textbox.js';
 

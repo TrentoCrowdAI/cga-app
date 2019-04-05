@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Header } from 'react-native';
-import {Container, Content, Picker, Item, Text, Icon, Button, Left, Right} from 'native-base';
+import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
 
 export default class ProfessionalMode extends Component {

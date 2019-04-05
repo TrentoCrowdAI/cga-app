@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Container, Title, Text, Button} from 'native-base';
+import { View } from 'react-native';
+import { Text } from 'native-base';
 import ImageView from 'react-native-image-view';
 
 export default class ImageViewer extends Component {
@@ -26,14 +26,12 @@ export default class ImageViewer extends Component {
       }
     }
     return (
-      <Container style={{flex: 1, flexDirection: "column"}}>
       <ImageView
         images={images}
         imageIndex={0}
         isVisible={this.state.isVisible}
         renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
       />
-      </Container>
     );
   }
 }
