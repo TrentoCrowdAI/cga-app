@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View } from 'react-native';
-import { Text } from 'native-base';
+import { Text, Icon } from 'native-base';
 import ImageView from 'react-native-image-view';
 
 export default class ImageViewer extends Component {
@@ -12,7 +12,7 @@ export default class ImageViewer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProp){
+  componentWillReceiveProps(nextProp){ //when the component receive an update it set the state of the imageviewer as the prop state
     this.setState({
       isVisible: nextProp.isVisible,
     });
@@ -22,7 +22,7 @@ export default class ImageViewer extends Component {
     const images = [ ];
     if(this.state.images != undefined){
       for(i = 0; i < this.state.images.length; i++){
-        images.push({source: {uri: this.state.images[i].path}, title: this.state.images[i].title, width: 806, height: 720 })
+        images.push({source: {uri: this.state.images[i].path}, title: this.state.images[i].title, width: 400, height: 400 })
       }
     }
     return (
@@ -30,6 +30,8 @@ export default class ImageViewer extends Component {
         images={images}
         imageIndex={0}
         isVisible={this.state.isVisible}
+        renderArrowLeft={(currentImage) => <Icon name='arrow-back'/>}
+        renderArrowRight={(currentImage) => <Icon name='arrow-forward'/>}
         renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
       />
     );

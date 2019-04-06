@@ -15,6 +15,7 @@ CheckboxGroup --> (Checkbox, ImageViewer)
 ImageViewer --> ()
 ModalMenu --> ()
 MyPicker --> ()
+MyTimer --> ()
 Question --> (Textbox, CheckboxGroup, RadioGroup)
 RadioButton --> ()
 RadioGroup --> (RadioButton)
@@ -23,7 +24,7 @@ YesNoDialog --> ()
 ___________________________________________________________________________________________________________
 ___________________________________________Mode folder_____________________________________________________
 HandoverMode --> (Question)
-ProfessionalMode --> (Question)
+ProfessionalMode --> (Question, MyTimer)
 ___________________________________________________________________________________________________________
 __________________________________________Pages folder_____________________________________________________
 EndSession --> ()

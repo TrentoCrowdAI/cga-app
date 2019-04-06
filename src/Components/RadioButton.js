@@ -10,13 +10,13 @@ export default class RadioButton extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProp){
+  componentWillReceiveProps(nextProp){ //when this componente receive an update props it update his state
     this.setState({
       itemSelected: nextProp.selected,
     });
   }
 
-  update = () => {
+  update = () => { //function in order to update this state and the relative state in the main component
     this.state.itemSelected = this.state.index;
     this.props.updateState(this.state.index);
   };

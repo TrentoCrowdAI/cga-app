@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Content,  Text, Button, List } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Content,  Text, Button, List, Icon } from 'native-base';
 import Checkbox from "./Checkbox";
 import ImageViewer from "./ImageViewer.js";
 
@@ -17,12 +18,12 @@ export default class CheckboxGroup extends Component {
     }
   }
 
-  update = (index, val) => {
+  update = (index, val) => {  //function in order to update this state and the relative state in the main component
     this.state.itemSelected[index] = val;
     this.props.save(this.state.indexQuestion, this.state.itemSelected);
   };
 
-  renderList(initialArr) {
+  renderList = (initialArr) => { //this function prepare the list of checkbox in order to add them in one time
     return initialArr.map((options, index) => {
       if(this.state.itemSelected[index] == undefined)
         this.state.itemSelected[index] = false;
@@ -32,33 +33,45 @@ export default class CheckboxGroup extends Component {
     });
   }
 
-  setImageViewerVisible = (value) => {
+  setImageViewerVisible = (value) => { //this function change the state of the imageviewer in order to set it visible or invisible
     this.setState({
       imageViewerVisible: value
     });
   }
 
-  renderButtonImages = () => {
+  renderButtonImages = () => { //this function prepare the button that allows to show the image viewer
     if(this.state.images != undefined){
-      return (<Button primary onPress={() => this.setImageViewerVisible(true)}><Text>Images</Text></Button>);
+      return (<Button primary onPress={() => this.setImageViewerVisible(true)} style={styles.button}><Icon name="image"/><Text>Images</Text></Button>);
     }
   }
 
-  componentWillReceiveProps(nextProp){
+  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
     this.setImageViewerVisible(false);
   }
 
   render() {
     return (
-      <Container>
-        <Content>
-          <List>
-            {this.renderList(this.props.labels)}
-            {this.renderButtonImages()}
-            <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
-          </List>
-        </Content>
+      <Container style={{flex: 1, flexDirection:"column"}}>
+        <Container style={{flex: 3}}>
+          <Content>
+            <List>
+              {this.renderList(this.props.labels)}
+            </List>
+          </Content>
+        </Container>
+        <Container style={{flex: 1}}>
+          {this.renderButtonImages()}
+          <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
+        </Container>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    button: {
+      alignSelf: 'center',
+      width:150,
+      backgroundColor: '#2b2d42'
+    }
+});

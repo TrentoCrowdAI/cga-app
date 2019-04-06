@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container,  Text } from 'native-base';
+import { Container, Text, Card, CardItem, Body } from 'native-base';
 
 export default class Guide extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ export default class Guide extends Component {
     }
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
     return {
       title: "Guide",
       //Default Title of ActionBar
@@ -24,13 +24,17 @@ export default class Guide extends Component {
   render() {
     return (
       <Container style={{flex: 1}}>
-        <Text>Text (Insert the data and press next)</Text>
-        <Text>Multiple Choise (Select at most one option and click next)</Text>
-        <Text>Single Choise (Select at least one option and click next)</Text>
-
-        <Text>If you need to skip the question tap the 3 dot button on the main bar and tap "skip question" option, after the app will show you an alert, compile it and now you can skip the question.</Text>
-
-        <Text>If you need to pass to handover mode tap the 3 dot button and tap on "handover mode", now you can pass the phone to you patient.</Text>
+        <Card>
+          <CardItem>
+            <Body>
+              <Text>Text (Insert the data and press next)</Text>
+              <Text>Multiple Choise (Select at most one option and click next)</Text>
+              <Text>Single Choise (Select at least one option and click next)</Text>
+              <Text>If you need to skip the question tap the 3 dot button on the main bar and tap "skip question" option, after the app will show you an alert, compile it and now you can skip the question.</Text>
+              <Text>If you need to pass to handover mode tap the 3 dot button and tap on "handover mode", now you can pass the phone to you patient.</Text>
+            </Body>
+          </CardItem>
+        </Card>
       </Container>
     );
   }

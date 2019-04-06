@@ -10,7 +10,7 @@ export default class Checkbox extends Component {
     }
   }
 
-  update = () => {
+  update = () => { //function in order to update this state and the relative state in the main component
     this.setState({
       itemSelected: !this.state.itemSelected
     });

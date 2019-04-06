@@ -13,7 +13,7 @@ export default class Textbox extends Component {
     }
   }
 
-  update = (text) =>{
+  update = (text) =>{//function in order to update this state and the relative state in the main component
     this.setState({
       value:text
     });
@@ -23,9 +23,9 @@ export default class Textbox extends Component {
   render() {
     return (
       <Container>
-        <Item floatingLabel>
+        <Item regular>
           <Label>{this.props.label}</Label>
-          <Input style={{flex:1}} value={this.state.value} onChangeText={(text) => { this.update(text); }}/>
+          <Input style={{flex:1}} placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }}/>
         </Item>
       </Container>
     );

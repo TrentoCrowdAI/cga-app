@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import { StyleSheet } from 'react-native';
 import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
+import MyTimer from "../Components/MyTimer.js";
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -449,7 +451,7 @@ export default class ProfessionalMode extends Component {
                            type: "selectItem"
                        }
                     ],
-                    images: [{path:"https://drive.google.com/uc?id=1K1Q1fQbFyXE1oJOJL_QBqBZtffUFYERq", title:"Metformin"}, {path:"https://drive.google.com/uc?id=15FSa83I8GAnkuNenR-G0rRvrEhlwOUUA", title:"ArmoPlus"}, {path:"https://drive.google.com/uc?id=1TJ4p__S1aKADIYitsIFEkj_coapNfn1A", title:"Euforyn"}],
+                    images: [{path:"https://drive.google.com/uc?id=1RWl8fYGRt-zftD3GKAQlnJJV25THyejO", title:"Metformin"}, {path:"https://drive.google.com/uc?id=15FSa83I8GAnkuNenR-G0rRvrEhlwOUUA", title:"ArmoPlus"}, {path:"https://drive.google.com/uc?id=1TJ4p__S1aKADIYitsIFEkj_coapNfn1A", title:"Euforyn"}],
                     rules: [],
                     validators: [],
                     flowConstraints: [
@@ -469,37 +471,10 @@ export default class ProfessionalMode extends Component {
     };
     this.state.questionObj = this.state.example.items[this.state.indexQuestion];
     this.props.navigation.setParams({ Title: this.state.example.name });
-    this.props.navigation.setParams({indexQuestion: this.state.indexQuestion, questionObj: this.state.questionObj, savedData: this.state.savedData});
+    this.props.navigation.setParams({indexQuestion: this.state.indexQuestion, questionObj: this.state.questionObj, savedData: this.state.savedData}); //setting the first params that will be passed to ModalMenu
   }
 
-  nextQuestion = () => {
-    if(this.state.indexQuestion == (this.state.example.items.length)-1){
-      alert("unable to proceed inconsistence found");
-    }
-    if(this.state.indexQuestion <= (this.state.example.items.length)-2){
-      this.setState({
-        indexQuestion: this.state.indexQuestion + 1,
-        questionObj: this.state.example.items[this.state.indexQuestion + 1],
-      });
-      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion + 1, questionObj: this.state.example.items[this.state.indexQuestion + 1], savedData: this.state.savedData});
-    }
-  }
-
-  prevQuestion = () => {
-    if(this.state.indexQuestion > 0){
-      this.setState({
-        indexQuestion: this.state.indexQuestion - 1,
-        questionObj: this.state.example.items[this.state.indexQuestion - 1]
-      });
-      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion - 1, questionObj: this.state.example.items[this.state.indexQuestion - 1], savedData: this.state.savedData});
-    }
-  }
-
-  saveValue = (index, value) => {
-    this.state.savedData[index] = value;
-  }
-
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
     const params = navigation.state.params || {};
 
     return {
@@ -512,16 +487,44 @@ export default class ProfessionalMode extends Component {
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate('ModalMenu', {indexQuestion: navigation.state.params.indexQuestion, questionObj: navigation.state.params.questionObj, savedData: navigation.state.params.savedData})}><Text /><Icon name='more' /></Button>
+        <Button transparent onPress={() => navigation.navigate('ModalMenu', {indexQuestion: navigation.state.params.indexQuestion, questionObj: navigation.state.params.questionObj, savedData: navigation.state.params.savedData})}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
       )
     };
   };
 
-  componentWillReceiveProps(nextProp){
-    if(nextProp.navigation.state.params.skipQuestion == true && nextProp.navigation.state.params.savedData != undefined){
+  //this two functions change and save the question datas when the user tap on next/previous
+  nextQuestion = () => {
+    if(this.state.indexQuestion == (this.state.example.items.length)-1){
+      alert("unable to proceed inconsistence found");
+    }
+    if(this.state.indexQuestion <= (this.state.example.items.length)-2){
+      this.setState({
+        indexQuestion: this.state.indexQuestion + 1,
+        questionObj: this.state.example.items[this.state.indexQuestion + 1],
+      });
+      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion + 1, questionObj: this.state.example.items[this.state.indexQuestion + 1], savedData: this.state.savedData});//every time that the question change the function set the data for the ModalMenu
+    }
+  }
+
+  prevQuestion = () => {
+    if(this.state.indexQuestion > 0){
+      this.setState({
+        indexQuestion: this.state.indexQuestion - 1,
+        questionObj: this.state.example.items[this.state.indexQuestion - 1]
+      });
+      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion - 1, questionObj: this.state.example.items[this.state.indexQuestion - 1], savedData: this.state.savedData});//every time that the question change the function set the data for the ModalMenu
+    }
+  }
+
+  saveValue = (index, value) => { //this function allow the component to update its state
+    this.state.savedData[index] = value;
+  }
+
+  componentWillReceiveProps(nextProp){ //when the component receive an updated props it update his state
+    if(nextProp.navigation.state.params.skipQuestion == true && nextProp.navigation.state.params.savedData != undefined){ //N.B.: Decide on what to do with savedData object returned by the Page SkipQuestion.js
       nextProp.navigation.state.params.skipQuestion = false;
       this.nextQuestion();
-    }else if(nextProp.navigation.state.params.handoverMode == true && nextProp.navigation.state.params.savedData != undefined){
+    }else if(nextProp.navigation.state.params.handoverMode == true && nextProp.navigation.state.params.savedData != undefined){ //it save the data passed from the HandoverMode.js
       nextProp.navigation.state.params.handoverMode = false;
       this.setState({
         savedData: nextProp.navigation.state.params.savedData,
@@ -532,19 +535,27 @@ export default class ProfessionalMode extends Component {
 
   render() {
     return (
-      <Container>
-        <Container style={{flex: 1}}>
+      <Container style={{flex: 1, flexDirection: "column"}}>
+        <Container style={{flex: 0.1}}>
+          <MyTimer />
+        </Container>
+        <Container style={{flex: 2}}>
           <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
         </Container>
-        <Container style={{flexDirection: 'row'}}>
-          <Left>
-            <Button primary onPress={() => this.prevQuestion()}><Text>Previous</Text></Button>
-          </Left>
-          <Right>
-            <Button primary  onPress={() => this.nextQuestion()}><Text>Next</Text></Button>
-          </Right>
+        <Container style={{flex: 1}}>
+          <Container style={{flexDirection: 'row'}}>
+            <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
+            <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+          </Container>
         </Container>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    button: {
+      width:150,
+      backgroundColor: '#2b2d42'
+    }
+});

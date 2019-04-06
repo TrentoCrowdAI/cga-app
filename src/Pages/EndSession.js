@@ -6,7 +6,7 @@ export default class EndSession extends Component {
     super(props);
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
     return {
       title: "End Session",
       //Default Title of ActionBar

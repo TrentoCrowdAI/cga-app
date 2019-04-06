@@ -14,14 +14,14 @@ export default class RadioGroup extends Component {
     }
   }
 
-  updateState = (val) => {
+  updateState = (val) => { //function in order to update this state and the relative state in the main component
     this.setState({
       itemSelected: val
     });
     this.props.save(this.state.indexQuestion, val);
   };
 
-  renderList(initialArr) {
+  renderList(initialArr) { //this function prepare the list of radiobutton in order to add them in one time
     return initialArr.map((options, index) => {
       return (
         <RadioButton key={index} text={options.labels[0].content} updateState={this.updateState} selected={this.state.itemSelected} index={"" + index} />

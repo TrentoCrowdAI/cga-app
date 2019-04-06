@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
 import { Container, Button, Text } from 'native-base';
 
 export default class ModalMenu extends Component {
@@ -19,6 +20,7 @@ export default class ModalMenu extends Component {
     };
   };
 
+  //functions in order to change the activity
   skipQuestion = () => {
     this.props.navigation.goBack();
     this.props.navigation.navigate("SkipQuestion");
@@ -42,11 +44,21 @@ export default class ModalMenu extends Component {
   render() {
     return (
       <Container>
-        <Button block primary onPress={() => this.skipQuestion()}><Text>Skip Question</Text></Button>
-        <Button block primary onPress={() => this.handoverMode()}><Text>Handover mode</Text></Button>
-        <Button block primary onPress={() => this.endSession()}><Text>Stop Session</Text></Button>
-        <Button block primary onPress={() => this.showGuide()}><Text>Show Guide</Text></Button>
+        <Container style={{flex:0.02}}/>
+        <Button block onPress={() => this.skipQuestion()} style={styles.button} ><Text>Skip Question</Text></Button>
+        <Container style={{flex:0.02}}/>
+        <Button block onPress={() => this.handoverMode()} style={styles.button} ><Text>Handover mode</Text></Button>
+        <Container style={{flex:0.02}}/>
+        <Button block onPress={() => this.endSession()} style={styles.button} ><Text>Stop Session</Text></Button>
+        <Container style={{flex:0.02}}/>
+        <Button block onPress={() => this.showGuide()} style={styles.button} ><Text>Show Guide</Text></Button>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    button: {
+      backgroundColor: '#2b2d42'
+    }
+});

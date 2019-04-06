@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Title, Text, Button } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Title, Text, Button, Icon, Right } from 'native-base';
 import MyPicker from '../Components/MyPicker.js';
 import Textbox from '../Components/Textbox.js';
 
@@ -21,7 +22,7 @@ export default class SkipQuestion extends Component {
     }
   }
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
     return {
       title: "Skip Question",
       //Default Title of ActionBar
@@ -34,11 +35,11 @@ export default class SkipQuestion extends Component {
     };
   };
 
-  save = (index, value) =>{
+  save = (index, value) => { //this function allow the component to update its state
     this.state.savedData[index] = value;
   }
 
-  returnToProfessionalMode = () => {
+  returnToProfessionalMode = () => { //this question allow the component to change the activity passing some data to the professionalmode activity
     this.props.navigation.navigate("ProfessionalMode", {skipQuestion: true, savedData: this.state.savedData});
   }
 
@@ -46,18 +47,28 @@ export default class SkipQuestion extends Component {
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Container style={{flex: 1}}>
-          <Title><Text>Why you want to skip the question??</Text></Title>
+          <Title style={styles.title}><Text>Why you want to skip the question??</Text></Title>
         </Container>
         <Container style={{flex: 1}}>
           <MyPicker save={this.save} labels={this.state.labels} indexQuestion="1"/>
         </Container>
         <Container style={{flex: 1}}>
-          <Textbox label="Note" save={this.save} indexQuestion="1"/>
+          <Textbox label="Note" placeholder="Comment your choice" save={this.save}/>
         </Container>
-        <Container style={{flex: 1}}>
-          <Button primary onPress={(() => this.returnToProfessionalMode())} ><Text>Next</Text></Button>
+        <Container style={{flex: 1, flexDirection:'row'}}>
+          <Right><Button primary onPress={(() => this.returnToProfessionalMode())} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
         </Container>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    button: {
+      width: 150,
+      backgroundColor: '#2b2d42'
+    },
+    title: {
+      marginTop: 24
+    }
+});
