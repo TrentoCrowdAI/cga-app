@@ -4,6 +4,13 @@ import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
 import MyTimer from "../Components/MyTimer.js";
 
+/*
+getdata fetch body
+body: JSON.stringify({
+  firstParam: 'yourValue',
+  secondParam: 'yourOtherValue',
+})
+*/
 export default class ProfessionalMode extends Component {
   constructor(props) {
     super(props);

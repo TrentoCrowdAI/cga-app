@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import { Container, Text } from 'native-base'
+import { Container, Text, Icon } from 'native-base'
 import moment from 'moment';
 import Question from "./Question"
 
 function Timer({ interval }){
   const duration = moment.duration(interval);
   return (
-    <Text style={{alignSelf: 'center'}}>
-      {duration.minutes()}:{duration.seconds()}
-    </Text>
+    <Container style={{flexDirection:'row'}}>
+      <Container style={{flex:4}}/>
+      <Container style={{flex:1}}>
+        <Icon name='timer'/>
+      </Container>
+      <Container style={{flex:1}}>
+        <Text>{duration.minutes()}:{duration.seconds()}</Text>
+      </Container>
+      <Container style={{flex:4}}/>
+    </Container>
   );
 }
 

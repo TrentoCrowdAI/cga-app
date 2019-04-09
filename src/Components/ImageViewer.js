@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
-import { Text, Icon } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Text, Icon, Button, Left, Right } from 'native-base';
 import ImageView from 'react-native-image-view';
 
 export default class ImageViewer extends Component {
@@ -9,9 +9,16 @@ export default class ImageViewer extends Component {
     this.state = {
       images: props.images,
       isVisible: props.isVisible,
+      index: 0,
+      controls:{
+        close: true, // Component for close button in up right corner, as onPress prop accepts function to close modal
+        next: true, // Component for next image button, as onPress prop accepts function to scroll to next image
+        prev: true, // Component for previous image button, as onPress prop accepts function to scroll to previous image
+      }
     }
   }
-
+  //<Container><Icon name='arrow-back'/></Container>
+  //<Container><Icon name='arrow-forward'/></Container>
   componentWillReceiveProps(nextProp){ //when the component receive an update it set the state of the imageviewer as the prop state
     this.setState({
       isVisible: nextProp.isVisible,
@@ -25,15 +32,23 @@ export default class ImageViewer extends Component {
         images.push({source: {uri: this.state.images[i].path}, title: this.state.images[i].title, width: 400, height: 400 })
       }
     }
+
     return (
       <ImageView
+        glideAlways
         images={images}
-        imageIndex={0}
+        controls={this.state.controls}
+        imageIndex={this.state.index}
         isVisible={this.state.isVisible}
-        renderArrowLeft={(currentImage) => <Icon name='arrow-back'/>}
-        renderArrowRight={(currentImage) => <Icon name='arrow-forward'/>}
-        renderFooter={(currentImage) => (<View><Text>My footer</Text></View>)}
+        onClose={() => this.setState({isVisible: false})}
       />
     );
   }
 }
+
+const styles = StyleSheet.create({
+    button: {
+      width:150,
+      backgroundColor: '#2b2d42'
+    }
+});
