@@ -13,6 +13,18 @@ export default class Textbox extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
+    this.setState({                   //in this particular case this fix the error in which the question isn't updated when the next question has the same typology of the showed question
+      indexQuestion: nextProp.indexQuestion,
+      value: ""
+    });
+    if(nextProp.saved != undefined){
+      this.setState({
+        value: nextProp.saved
+      });
+    }
+  }
+
   update = (text) =>{//function in order to update this state and the relative state in the main component
     this.setState({
       value:text

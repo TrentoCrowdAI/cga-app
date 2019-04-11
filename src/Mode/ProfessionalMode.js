@@ -4,13 +4,6 @@ import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
 import MyTimer from "../Components/MyTimer.js";
 
-/*
-getdata fetch body
-body: JSON.stringify({
-  firstParam: 'yourValue',
-  secondParam: 'yourOtherValue',
-})
-*/
 export default class ProfessionalMode extends Component {
   constructor(props) {
     super(props);
@@ -476,9 +469,24 @@ export default class ProfessionalMode extends Component {
       questionObj: {},
       savedData: {}
     };
+    this.getData();
     this.state.questionObj = this.state.example.items[this.state.indexQuestion];
     this.props.navigation.setParams({ Title: this.state.example.name });
     this.props.navigation.setParams({indexQuestion: this.state.indexQuestion, questionObj: this.state.questionObj, savedData: this.state.savedData}); //setting the first params that will be passed to ModalMenu
+  }
+
+  getData = (link) => {
+    try {
+      fetch('https://cga-mock-server.herokuapp.com/v1/surveyItems', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then(response => response.json()).then(data => console.log(JSON.stringify(data)));
+    } catch(err) {
+        console.log("Error fetching data-----------", err);
+    }
   }
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity

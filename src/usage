@@ -13,7 +13,7 @@ AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide
 Checkbox --> ()
 CheckboxGroup --> (Checkbox, ImageViewer)
 ImageViewer --> ()
-ModalMenu --> ()
+ModalMenu --> (YesNoDialog)
 MyPicker --> ()
 MyTimer --> ()
 Question --> (Textbox, CheckboxGroup, RadioGroup)

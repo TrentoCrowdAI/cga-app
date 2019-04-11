@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Button, Text } from 'native-base';
+import YesNoDialog from './YesNoDialog.js';
 
 export default class ModalMenu extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      dialogVisible: false,
+    }
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -32,8 +36,11 @@ export default class ModalMenu extends Component {
   }
 
   endSession = () => {
-    this.props.navigation.goBack();
-    this.props.navigation.navigate("StopSession");
+    this.setState({
+      dialogVisible: true,
+    });
+    /*this.props.navigation.goBack();
+    this.props.navigation.navigate("StopSession");*/
   }
 
   showGuide = () => {
@@ -52,6 +59,7 @@ export default class ModalMenu extends Component {
         <Button block onPress={() => this.endSession()} style={styles.button} ><Text>Stop Session</Text></Button>
         <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.showGuide()} style={styles.button} ><Text>Show Guide</Text></Button>
+        <YesNoDialog title="Warning" visible={this.state.dialogVisible} text="Are you sure to end the session?" navigation={this.props.navigation}/>
       </Container>
     );
   }

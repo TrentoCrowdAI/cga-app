@@ -19,7 +19,7 @@ export default class HandoverMode extends Component {
       title: navigation.getParam('Title', 'Handover Mode'),
       //Default Title of ActionBar
       headerStyle: {
-        backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),
+        backgroundColor: navigation.getParam('BackgroundColor', '#1c77c3'),
         //Background color of ActionBar
       },
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
@@ -37,7 +37,6 @@ export default class HandoverMode extends Component {
   render() {
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
-
         <Container style={{flex: 2}}>
           <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
         </Container>
@@ -52,6 +51,6 @@ export default class HandoverMode extends Component {
 const styles = StyleSheet.create({
     button: {
       alignSelf: 'center',
-      backgroundColor: '#2b2d42'
+      backgroundColor: '#56cbf9'
     }
 });

@@ -17,6 +17,12 @@ export default class Checkbox extends Component {
     this.props.updateState(this.state.index, !this.state.itemSelected);
   };
 
+  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
+    this.setState({
+      itemSelected: nextProp.checked
+    });
+  }
+
   render() {
     return (
       <ListItem>

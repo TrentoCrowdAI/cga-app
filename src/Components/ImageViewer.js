@@ -17,8 +17,7 @@ export default class ImageViewer extends Component {
       }
     }
   }
-  //<Container><Icon name='arrow-back'/></Container>
-  //<Container><Icon name='arrow-forward'/></Container>
+
   componentWillReceiveProps(nextProp){ //when the component receive an update it set the state of the imageviewer as the prop state
     this.setState({
       isVisible: nextProp.isVisible,

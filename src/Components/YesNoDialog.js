@@ -6,13 +6,18 @@ export default class YesNoDialog extends Component {
   constructor(props){
     super(props);
     this.state = {
-      visible: props.visible
+      visible: props.visible,
     }
   }
 
-  move = () => {
+  componentWillReceiveProps(nextProp){//the dialog it's instanced but not visible when the user click on the action the props will be updated and the dialog will be show
+    this.setState({ visible: nextProp.visible });
+  }
+
+  moveToEndSession = () => { //this function allow the dialog to open a new activity
     this.setState({ visible: false });
-    this.props.navigation.navigate('EndSession');
+    this.props.navigation.goBack();
+    this.props.navigation.navigate('StopSession');
   }
 
   render() {
@@ -20,7 +25,8 @@ export default class YesNoDialog extends Component {
       <MaterialDialog
         title={this.props.title}
         visible={this.state.visible}
-        onOk={() => this.move()}
+        colorAccent="#2b2d42"
+        onOk={() => this.moveToEndSession()}
         onCancel={() => this.setState({ visible: false })}>
         <Text>{this.props.text}</Text>
       </MaterialDialog>

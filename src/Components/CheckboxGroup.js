@@ -18,6 +18,20 @@ export default class CheckboxGroup extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
+    this.setState({                   //in this particular case this fix the error in which the question isn't updated when the next question has the same typology of the showed question
+      indexQuestion: nextProp.indexQuestion,
+      itemSelected: {},
+      images: nextProp.images,
+      imageViewerVisible: false,
+    });
+    if(nextProp.saved != undefined){
+      this.setState({
+        itemSelected: nextProp.saved
+      });
+    }
+  }
+
   update = (index, val) => {  //function in order to update this state and the relative state in the main component
     this.state.itemSelected[index] = val;
     this.props.save(this.state.indexQuestion, this.state.itemSelected);
@@ -25,7 +39,7 @@ export default class CheckboxGroup extends Component {
 
   renderList = (initialArr) => { //this function prepare the list of checkbox in order to add them in one time
     return initialArr.map((options, index) => {
-      if(this.state.itemSelected[index] == undefined)
+      if(this.state.itemSelected[index] == undefined)//checks if the state hasn't been restored from the props.saved
         this.state.itemSelected[index] = false;
       return (
         <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]} index={index}/>
@@ -43,10 +57,6 @@ export default class CheckboxGroup extends Component {
     if(this.state.images != undefined){
       return (<Button primary onPress={() => this.setImageViewerVisible(true)} style={styles.button}><Icon name="image"/><Text>Images</Text></Button>);
     }
-  }
-
-  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
-    this.setImageViewerVisible(false);
   }
 
   render() {
@@ -72,6 +82,6 @@ const styles = StyleSheet.create({
     button: {
       alignSelf: 'center',
       width:150,
-      backgroundColor: '#2b2d42'
+      backgroundColor: '#8d99ae'
     }
 });

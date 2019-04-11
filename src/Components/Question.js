@@ -11,7 +11,7 @@ export default class Question extends Component {
     this.state = {
       indexQuestion: this.props.indexQuestion,
       data: this.props.data,
-      question: ""
+      question: {}
     };
   }
 
@@ -38,6 +38,14 @@ export default class Question extends Component {
         <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images}/>
       </Container>
     );
+  }
+
+  createFakeQuestion = () => {
+    return(
+      <Container>
+        <Text>FAKE</Text>
+      </Container>
+    )
   }
 
   //basing on the question type this method create the question object in order to show it
@@ -85,7 +93,7 @@ export default class Question extends Component {
     this.setState({ //when it has updated his state, this function will prepare another question object in order to show the next/previous question
       indexQuestion: nextProp.indexQuestion,
       data: nextProp.data,
-      question: {}
+      question: null
     });
     this.renderQuestion();
   }
