@@ -27,6 +27,9 @@ export default class MyTimer extends Component {
       start: now,
       now: 0
     };
+  }
+
+  componentDidMount(){
     this.timer = setInterval(() => {
       this.setState({ now : new Date().getTime()});
     }, 100);

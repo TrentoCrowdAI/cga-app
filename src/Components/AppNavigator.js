@@ -6,8 +6,10 @@ import EndSession from '../Pages/EndSession.js';
 import Guide from '../Pages/Guide.js';
 import ModalMenu from './ModalMenu.js';
 import SkipQuestion from '../Pages/SkipQuestion.js';
+import SplashScreen from '../Pages/SplashScreen.js'
 
 const AppNavigator = createStackNavigator({
+    SplashScreen: {screen: SplashScreen},
     ProfessionalMode: {screen: ProfessionalMode},
     ModalMenu: { screen: ModalMenu },
     StopSession: {screen: StopSession},
