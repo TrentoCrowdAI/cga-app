@@ -39,7 +39,7 @@ export default class CheckboxGroup extends Component {
 
   renderList = (initialArr) => { //this function prepare the list of checkbox in order to add them in one time
     return initialArr.map((options, index) => {
-      if(this.state.itemSelected[index] == undefined)//checks if the state hasn't been restored from the props.saved
+      if(this.state.itemSelected[index] == undefined)//checks if the state hasn't been restored from the props.saved otherwise it set it to false
         this.state.itemSelected[index] = false;
       return (
         <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]} index={index}/>
@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
     button: {
       alignSelf: 'center',
       width:150,
-      backgroundColor: '#8d99ae'
+      backgroundColor: '#FF9933'
     }
 });

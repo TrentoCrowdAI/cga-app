@@ -40,14 +40,6 @@ export default class Question extends Component {
     );
   }
 
-  createFakeQuestion = () => {
-    return(
-      <Container>
-        <Text>FAKE</Text>
-      </Container>
-    )
-  }
-
   //basing on the question type this method create the question object in order to show it
   renderQuestion = () => {
     if(this.state.data.type == "inputText"){
@@ -62,22 +54,22 @@ export default class Question extends Component {
 
   //this function resolve the problem of a title with a lot of characters, if the lenght of the title is bigger than the threshold it split the title in more than one
   renderTitle = () =>{
-    maxLen = 50
+    maxLen = 40
     if(this.state.data.labels[0].content.length < maxLen) //basi case when the title is smaller than the treshold
-      return(<Title style={styles.title}><Text>{this.state.data.labels[0].content}</Text></Title>);
+      return(<Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title>);
     else{
       vectTitle = []
       i = 0
       while(i < this.state.data.labels[0].content.length){
         if( i == 0 ){//only the first title has the margintop attribute
-          vectTitle.push(<Title key={i} style={styles.title}><Text>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
+          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
           i = i + maxLen;
         }
         else if((i + maxLen) < this.state.data.labels[0].content.length){
-          vectTitle.push(<Title key={i}><Text>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
           i = i + maxLen;
         } else {//when the characters are minus than the treshold it create a title with the remained characters
-          vectTitle.push(<Title key={i}><Text>{this.state.data.labels[0].content.substring(i, this.state.data.labels[0].content.length)}</Text></Title>);
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, this.state.data.labels[0].content.length)}</Text></Title>);
           i = this.state.data.labels[0].content.length;
         }
       }
@@ -115,6 +107,9 @@ export default class Question extends Component {
 
 const styles = StyleSheet.create({
     title: {
-      marginTop: 24
+      marginTop: 24,
+    },
+    titleText:{
+      fontSize: 20,
     }
 });
