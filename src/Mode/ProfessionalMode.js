@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
-import MyTimer from "../Components/MyTimer.js";
+import MyTimer from "../Components/MyTimer";
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -81,7 +81,7 @@ export default class ProfessionalMode extends Component {
   render() {
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
-        <Container style={{flex: 0.1}}>
+        <Container style={{flex: 0.22}}>
           <MyTimer />
         </Container>
         <Container style={{flex: 2}}>
