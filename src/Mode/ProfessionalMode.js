@@ -40,7 +40,7 @@ export default class ProfessionalMode extends Component {
   //this two functions change and save the question datas when the user tap on next/previous
   nextQuestion = () => {
     if(this.state.indexQuestion == (this.state.survey.items.length)-1){
-      alert("unable to proceed inconsistence found");
+      alert("Unable to proceed! \nInconsistence found");
     }
     if(this.state.indexQuestion <= (this.state.survey.items.length)-2){
       this.setState({

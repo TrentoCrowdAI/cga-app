@@ -1,3 +1,7 @@
+/* Checkbox group is the component where the Multichoice questions are instantiated
+*  calling the component Checkbox for each question.
+*/
+
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Content,  Text, Button, List, Icon } from 'native-base';
@@ -18,7 +22,8 @@ export default class CheckboxGroup extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
+  // In order to fix an error when this component receive an update of the props param it set the image viewer to invisible
+  componentWillReceiveProps(nextProp){ 
     this.setState({                   //in this particular case this fix the error in which the question isn't updated when the next question has the same typology of the showed question
       indexQuestion: nextProp.indexQuestion,
       itemSelected: {},
