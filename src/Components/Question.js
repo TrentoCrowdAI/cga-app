@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text } from 'native-base';
+import { Container, Title, Text, Button } from 'native-base';
 import Textbox from "./Textbox";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";
@@ -81,6 +81,15 @@ export default class Question extends Component {
     }
   }
 
+  //functions in order to change the activity
+  skipQuestion = () => {
+    this.props.navigation.navigate("SkipQuestion");
+  }
+
+  handoverMode = () => {
+    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.props.indexQuestion, questionObj: this.state.question, savedData: this.state.data});
+  }
+
   componentWillReceiveProps(nextProp){ //this question allow the component to update itself when it receive an updated props,
     this.setState({ //when it has updated his state, this function will prepare another question object in order to show the next/previous question
       indexQuestion: nextProp.indexQuestion,
@@ -93,12 +102,23 @@ export default class Question extends Component {
   render() {
     this.renderQuestion();
     return (
-      <Container style={{flex: 1, flexDirection: "column"}}>
+      <Container style={styles.container}>
         <Container style={{flex: 1}}>
           {this.renderTitle()}
         </Container>
-        <Container style={{flex: 2}}>
+        <Container style={{flex: 1}}>
           {this.state.question}
+        </Container>
+        <Container style={{flex: 1, flexDirection: "row"}}>
+          <Container style={{flex:2}} />
+          <Container style={{flex:1}}>
+            <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
+          </Container>
+          <Container style={{flex:0.2}} />
+          <Container style={{flex:1}}>
+            <Button block onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
+          </Container>
+          <Container style={{flex:2}} />
         </Container>
       </Container>
     );
@@ -106,10 +126,20 @@ export default class Question extends Component {
 }
 
 const styles = StyleSheet.create({
-    title: {
-      marginTop: 24,
-    },
-    titleText:{
-      fontSize: 20,
-    }
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+  },
+  title: {
+    marginTop: 24,
+  },
+  titleText:{
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: '#2b2d42'
+  }
 });

@@ -10,13 +10,16 @@ export default class ProfessionalMode extends Component {
     this.state = {
       survey: props.navigation.state.params.survey,
       indexQuestion: 0,
-      questionObj: {},
+      questionObj_0: {},
+      questionObj_1: {},
       savedData: {},
       isLoading: true
     };
-    this.state.questionObj = this.state.survey.items[this.state.indexQuestion];
+    this.state.questionObj_0 = this.state.survey.items[this.state.indexQuestion];
+    if(this.calculateSizeNext(this.state.indexQuestion) == true){
+      this.state.questionObj_1 = this.state.survey.items[this.state.indexQuestion+1];
+    }
     this.props.navigation.setParams({ Title: this.state.survey.name });
-    this.props.navigation.setParams({indexQuestion: this.state.indexQuestion, questionObj: this.state.questionObj, savedData: this.state.savedData}); //setting the first params that will be passed to ModalMenu
   }
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
@@ -37,27 +40,160 @@ export default class ProfessionalMode extends Component {
     };
   };
 
+  calculateSizeNext = (i) => {
+    treshold = 5;
+    retval = false;
+    if((i+1) <= (this.state.survey.items.length - 1)){
+      if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i+1].type == "inputText"){//check if the first type is a input text
+        retval = true;
+      }else if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i+1].type != "inputText"){
+        if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
+          retval = true;
+        }
+      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i+1].type == "inputText"){
+        if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
+          retval = true;
+        }
+      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i+1].type != "inputText"){
+        if(this.state.survey.items[i].options != null && this.state.survey.items[i].options.length < treshold){
+          if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
+            retval = true;
+          }
+        }
+      }
+    }
+    console.log(retval);
+    return retval;
+  }
+
+  calculateSizePrev = (i) => {
+    treshold = 5;
+    retval = false;
+    if((i-1) >= 0){
+      if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i-1].type == "inputText"){//check if the first type is a input text
+        retval = true;
+      }else if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i-1].type != "inputText"){
+        if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
+          retval = true;
+        }
+      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i-1].type == "inputText"){
+        if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
+          retval = true;
+        }
+      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i-1].type != "inputText"){
+        if(this.state.survey.items[i].options != null && this.state.survey.items[i].options.length < treshold){
+          if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
+            retval = true;
+          }
+        }
+      }
+    }
+    console.log(retval);
+    return retval;
+  }
+
   //this two functions change and save the question datas when the user tap on next/previous
   nextQuestion = () => {
-    if(this.state.indexQuestion == (this.state.survey.items.length)-1){
-      alert("unable to proceed inconsistence found");
-    }
-    if(this.state.indexQuestion <= (this.state.survey.items.length)-2){
-      this.setState({
-        indexQuestion: this.state.indexQuestion + 1,
-        questionObj: this.state.survey.items[this.state.indexQuestion + 1],
-      });
-      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion + 1, questionObj: this.state.survey.items[this.state.indexQuestion + 1], savedData: this.state.savedData});//every time that the question change the function set the data for the ModalMenu
+    if(this.state.questionObj_1 == null){
+      if((this.state.indexQuestion + 1) <= (this.state.survey.items.length-1)){
+        this.setState({
+          indexQuestion: this.state.indexQuestion + 1
+        });
+        if((this.state.indexQuestion + 3) <= (this.state.survey.items.length-1)){
+          if(this.calculateSizeNext(this.state.indexQuestion + 1) == false){
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+              questionObj_1: null,
+            });
+          }else{
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+              questionObj_1: this.state.survey.items[this.state.indexQuestion + 3],
+            });
+          }
+        }else if ((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
+          this.setState({
+            questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+            questionObj_1: null,
+          });
+        }
+      }
+    }else{
+      if((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
+        this.setState({
+          indexQuestion: this.state.indexQuestion + 2
+        });
+        if((this.state.indexQuestion + 3) <= (this.state.survey.items.length-1)){
+          if(this.calculateSizeNext(this.state.indexQuestion + 1) == false){
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+              questionObj_1: null,
+            });
+          }else{
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+              questionObj_1: this.state.survey.items[this.state.indexQuestion + 3],
+            });
+          }
+        }else if ((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
+          this.setState({
+            questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
+            questionObj_1: null,
+          });
+        }
+      }
     }
   }
 
   prevQuestion = () => {
-    if(this.state.indexQuestion > 0){
-      this.setState({
-        indexQuestion: this.state.indexQuestion - 1,
-        questionObj: this.state.survey.items[this.state.indexQuestion - 1]
-      });
-      this.props.navigation.setParams({indexQuestion: this.state.indexQuestion - 1, questionObj: this.state.survey.items[this.state.indexQuestion - 1], savedData: this.state.savedData});//every time that the question change the function set the data for the ModalMenu
+    if(this.state.questionObj_1 == null){
+      if(this.state.indexQuestion > 1){
+        this.setState({
+          indexQuestion: this.state.indexQuestion - 1
+        });
+        if((this.state.indexQuestion - 2) >= 0){
+          if(this.calculateSizePrev(this.state.indexQuestion - 1) == false){
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+              questionObj_1: null,
+            });
+          }else{
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
+              questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
+            });
+          }
+        }else if((this.state.indexQuestion - 1) >= 0){
+          this.setState({
+            questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+            questionObj_1: null,
+          });
+        }
+      }
+    }else{
+      if(this.state.indexQuestion > 1){
+        this.setState({
+          indexQuestion: this.state.indexQuestion - 2
+        });
+        if((this.state.indexQuestion - 2) >= 0){
+          if(this.calculateSizePrev(this.state.indexQuestion - 1) == false){
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+              questionObj_1: null,
+            });
+          }else{
+            this.setState({
+              questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
+              questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
+            });
+          }
+        }else if((this.state.indexQuestion - 1) >= 0){
+          this.setState({
+            questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+            questionObj_1: null,
+          });
+        }
+      }
     }
   }
 
@@ -79,22 +215,42 @@ export default class ProfessionalMode extends Component {
   }
 
   render() {
-    return (
-      <Container style={{flex: 1, flexDirection: "column"}}>
-        <Container style={{flex: 0.1}}>
-          <MyTimer />
-        </Container>
-        <Container style={{flex: 2}}>
-          <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
-        </Container>
-        <Container style={{flex: 1}}>
-          <Container style={{flexDirection: 'row'}}>
-            <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
-            <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+    if(this.state.questionObj_1 == null){
+      return (
+        <Container style={{flex: 1, flexDirection: "column"}}>
+          <Container style={{flex: 0.1}}>
+            <MyTimer />
+          </Container>
+          <Container style={{flex: 2}}>
+            <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+          </Container>
+          <Container style={{flex: 1}}>
+            <Container style={{flexDirection: 'row'}}>
+              <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
+              <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+            </Container>
           </Container>
         </Container>
-      </Container>
-    );
+      );
+    }else{
+      return (
+        <Container style={{flex: 1, flexDirection: "column"}}>
+          <Container style={{flex: 0.1}}>
+            <MyTimer />
+          </Container>
+          <Container style={{flex: 2}}>
+            <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+            <Question data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]}/>
+          </Container>
+          <Container style={{flex: 1}}>
+            <Container style={{flexDirection: 'row'}}>
+              <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
+              <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+            </Container>
+          </Container>
+        </Container>
+      );
+    }
   }
 }
 

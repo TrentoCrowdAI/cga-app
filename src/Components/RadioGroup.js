@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, List } from 'native-base';
+import { Container, List, Content } from 'native-base';
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {
@@ -44,9 +44,11 @@ export default class RadioGroup extends Component {
   render() {
     return (
       <Container>
-        <List>
-          {this.renderList(this.props.labels)}
-        </List>
+        <Content>
+          <List>
+            {this.renderList(this.props.labels)}
+          </List>
+        </Content>
       </Container>
     );
   }

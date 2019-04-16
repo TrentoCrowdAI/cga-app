@@ -25,16 +25,6 @@ export default class ModalMenu extends Component {
   };
 
   //functions in order to change the activity
-  skipQuestion = () => {
-    this.props.navigation.goBack();
-    this.props.navigation.navigate("SkipQuestion");
-  }
-
-  handoverMode = () => {
-    this.props.navigation.goBack();
-    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.props.navigation.state.params.indexQuestion, questionObj: this.props.navigation.state.params.questionObj, savedData: this.props.navigation.state.params.savedData});
-  }
-
   endSession = () => {
     this.setState({
       dialogVisible: true,
@@ -51,11 +41,6 @@ export default class ModalMenu extends Component {
   render() {
     return (
       <Container>
-        <Container style={{flex:0.02}}/>
-        <Button block onPress={() => this.skipQuestion()} style={styles.button} ><Text>Skip Question</Text></Button>
-        <Container style={{flex:0.02}}/>
-        <Button block onPress={() => this.handoverMode()} style={styles.button} ><Text>Handover mode</Text></Button>
-        <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.endSession()} style={styles.button} ><Text>Stop Session</Text></Button>
         <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.showGuide()} style={styles.button} ><Text>Show Guide</Text></Button>
