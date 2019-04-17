@@ -106,10 +106,10 @@ export default class Question extends Component {
         <Container style={{flex: 1}}>
           {this.renderTitle()}
         </Container>
-        <Container style={{flex: 1}}>
+        <Container style={{flex: 2}}>
           {this.state.question}
         </Container>
-        <Container style={{flex: 1, flexDirection: "row"}}>
+        <Container style={{flex: 0.5, flexDirection: "row"}}>
           <Container style={{flex:2}} />
           <Container style={{flex:1}}>
             <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>

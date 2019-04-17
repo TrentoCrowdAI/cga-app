@@ -16,7 +16,7 @@ export default class ProfessionalMode extends Component {
       isLoading: true
     };
     this.state.questionObj_0 = this.state.survey.items[this.state.indexQuestion];
-    if(this.calculateSizeNext(this.state.indexQuestion) == true){
+    if(this.calculateSize(this.state.indexQuestion) == true){
       this.state.questionObj_1 = this.state.survey.items[this.state.indexQuestion+1];
     }
     this.props.navigation.setParams({ Title: this.state.survey.name });
@@ -40,7 +40,7 @@ export default class ProfessionalMode extends Component {
     };
   };
 
-  calculateSizeNext = (i) => {
+  calculateSize = (i) => {
     treshold = 5;
     retval = false;
     if((i+1) <= (this.state.survey.items.length - 1)){
@@ -62,138 +62,59 @@ export default class ProfessionalMode extends Component {
         }
       }
     }
-    console.log(retval);
-    return retval;
-  }
-
-  calculateSizePrev = (i) => {
-    treshold = 5;
-    retval = false;
-    if((i-1) >= 0){
-      if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i-1].type == "inputText"){//check if the first type is a input text
-        retval = true;
-      }else if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i-1].type != "inputText"){
-        if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
-          retval = true;
-        }
-      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i-1].type == "inputText"){
-        if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
-          retval = true;
-        }
-      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i-1].type != "inputText"){
-        if(this.state.survey.items[i].options != null && this.state.survey.items[i].options.length < treshold){
-          if(this.state.survey.items[i-1].options != null && this.state.survey.items[i-1].options.length < treshold){
-            retval = true;
-          }
-        }
-      }
-    }
-    console.log(retval);
     return retval;
   }
 
   //this two functions change and save the question datas when the user tap on next/previous
   nextQuestion = () => {
-    if(this.state.questionObj_1 == null){
-      if((this.state.indexQuestion + 1) <= (this.state.survey.items.length-1)){
+    showedQuestions = 1;
+    if(this.state.questionObj_0 != null){
+      showedQuestions = 2;
+    }
+    if((this.state.indexQuestion + showedQuestions + 1) < (this.state.survey.items.length)){ //check if i can proceed with two questions
+      if(this.calculateSize(this.state.indexQuestion + showedQuestions) == false){
         this.setState({
-          indexQuestion: this.state.indexQuestion + 1
+          indexQuestion: this.state.indexQuestion + showedQuestions,
+          questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
+          questionObj_1: null,
         });
-        if((this.state.indexQuestion + 3) <= (this.state.survey.items.length-1)){
-          if(this.calculateSizeNext(this.state.indexQuestion + 1) == false){
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-              questionObj_1: null,
-            });
-          }else{
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-              questionObj_1: this.state.survey.items[this.state.indexQuestion + 3],
-            });
-          }
-        }else if ((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
-          this.setState({
-            questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-            questionObj_1: null,
-          });
-        }
-      }
-    }else{
-      if((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
+      }else{
         this.setState({
-          indexQuestion: this.state.indexQuestion + 2
+          indexQuestion: this.state.indexQuestion + showedQuestions,
+          questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
+          questionObj_1: this.state.survey.items[this.state.indexQuestion + showedQuestions + 1],
         });
-        if((this.state.indexQuestion + 3) <= (this.state.survey.items.length-1)){
-          if(this.calculateSizeNext(this.state.indexQuestion + 1) == false){
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-              questionObj_1: null,
-            });
-          }else{
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-              questionObj_1: this.state.survey.items[this.state.indexQuestion + 3],
-            });
-          }
-        }else if ((this.state.indexQuestion + 2) <= (this.state.survey.items.length-1)){
-          this.setState({
-            questionObj_0: this.state.survey.items[this.state.indexQuestion + 2],
-            questionObj_1: null,
-          });
-        }
       }
+    }else if((this.state.indexQuestion + showedQuestions) < (this.state.survey.items.length)){ //check if i can proceed with one question
+      this.setState({
+        indexQuestion: this.state.indexQuestion + showedQuestions,
+        questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
+        questionObj_1: null,
+      });
     }
   }
 
   prevQuestion = () => {
-    if(this.state.questionObj_1 == null){
-      if(this.state.indexQuestion > 1){
+    if((this.state.indexQuestion - 2) >= 0){ //check if i can proceed with two questions
+      if(this.calculateSize(this.state.indexQuestion - 2) == false){
         this.setState({
-          indexQuestion: this.state.indexQuestion - 1
+          indexQuestion: this.state.indexQuestion - 1,
+          questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+          questionObj_1: null,
         });
-        if((this.state.indexQuestion - 2) >= 0){
-          if(this.calculateSizePrev(this.state.indexQuestion - 1) == false){
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
-              questionObj_1: null,
-            });
-          }else{
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
-              questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
-            });
-          }
-        }else if((this.state.indexQuestion - 1) >= 0){
-          this.setState({
-            questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
-            questionObj_1: null,
-          });
-        }
-      }
-    }else{
-      if(this.state.indexQuestion > 1){
+      }else{
         this.setState({
-          indexQuestion: this.state.indexQuestion - 2
+          indexQuestion: this.state.indexQuestion - 2,
+          questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
+          questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
         });
-        if((this.state.indexQuestion - 2) >= 0){
-          if(this.calculateSizePrev(this.state.indexQuestion - 1) == false){
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
-              questionObj_1: null,
-            });
-          }else{
-            this.setState({
-              questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
-              questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
-            });
-          }
-        }else if((this.state.indexQuestion - 1) >= 0){
-          this.setState({
-            questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
-            questionObj_1: null,
-          });
-        }
       }
+    }else if((this.state.indexQuestion - 1) >= 0){ //check if i can proceed with one question
+      this.setState({
+        indexQuestion: this.state.indexQuestion - 1,
+        questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+        questionObj_1: null,
+      });
     }
   }
 
@@ -221,10 +142,10 @@ export default class ProfessionalMode extends Component {
           <Container style={{flex: 0.1}}>
             <MyTimer />
           </Container>
-          <Container style={{flex: 2}}>
+          <Container style={{flex: 3}}>
             <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
           </Container>
-          <Container style={{flex: 1}}>
+          <Container style={{flex: 0.5}}>
             <Container style={{flexDirection: 'row'}}>
               <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
               <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
@@ -238,11 +159,11 @@ export default class ProfessionalMode extends Component {
           <Container style={{flex: 0.1}}>
             <MyTimer />
           </Container>
-          <Container style={{flex: 2}}>
+          <Container style={{flex: 3}}>
             <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
             <Question data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]}/>
           </Container>
-          <Container style={{flex: 1}}>
+          <Container style={{flex: 0.5}}>
             <Container style={{flexDirection: 'row'}}>
               <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
               <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
