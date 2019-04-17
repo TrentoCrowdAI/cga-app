@@ -41,6 +41,7 @@ export default class ModalMenu extends Component {
   render() {
     return (
       <Container>
+        <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.endSession()} style={styles.button} ><Text>Stop Session</Text></Button>
         <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.showGuide()} style={styles.button} ><Text>Show Guide</Text></Button>

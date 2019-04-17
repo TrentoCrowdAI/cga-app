@@ -9,7 +9,8 @@ export default class HandoverMode extends Component {
     this.state = {
       indexQuestion: this.props.navigation.state.params.indexQuestion,
       questionObj: this.props.navigation.state.params.questionObj,
-      savedData: this.props.navigation.state.params.savedData,
+      data: this.props.navigation.state.params.data,
+      savedData: {},
     };
   }
 
@@ -27,7 +28,7 @@ export default class HandoverMode extends Component {
   };
 
   saveValue = (index, value) => { //this function allow the component to update its state
-    this.state.savedData[index] = value;
+    this.state.savedData = {index:index, obj:{value: 'handover', real_value: value}};
   }
 
   returnToProfessionalMode = () => { //this question allow the component to change the activity passing some data to the professionalmode activity
@@ -38,7 +39,7 @@ export default class HandoverMode extends Component {
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Container style={{flex: 2}}>
-          <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+          <Question questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true}/>
         </Container>
         <Container style={{flex: 1}}>
           <Button primary onPress={() => this.returnToProfessionalMode()} style={styles.button}><Text>save</Text></Button>

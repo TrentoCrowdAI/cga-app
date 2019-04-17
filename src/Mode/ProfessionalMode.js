@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { Container, Text, Button, Left, Right, Icon } from 'native-base';
 import Question from "../Components/Question.js";
 import MyTimer from "../Components/MyTimer.js";
+import QuestionPlaceholder from "../Components/QuestionPlaceholder.js";
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export default class ProfessionalMode extends Component {
       survey: props.navigation.state.params.survey,
       indexQuestion: 0,
       questionObj_0: {},
-      questionObj_1: {},
+      questionObj_1: undefined,
       savedData: {},
       isLoading: true
     };
@@ -40,7 +41,7 @@ export default class ProfessionalMode extends Component {
     };
   };
 
-  calculateSize = (i) => {
+  calculateSize = (i) => {//this function calculate if two questions are suitable in order to be shown together in one page in the professionalmode
     treshold = 5;
     retval = false;
     if((i+1) <= (this.state.survey.items.length - 1)){
@@ -68,53 +69,81 @@ export default class ProfessionalMode extends Component {
   //this two functions change and save the question datas when the user tap on next/previous
   nextQuestion = () => {
     showedQuestions = 1;
-    if(this.state.questionObj_0 != null){
+    if(this.state.questionObj_1 != null){
       showedQuestions = 2;
     }
-    if((this.state.indexQuestion + showedQuestions + 1) < (this.state.survey.items.length)){ //check if i can proceed with two questions
-      if(this.calculateSize(this.state.indexQuestion + showedQuestions) == false){
+    if(!((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
+        || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined ))){
+      Alert.alert(
+        'Attention',
+        'Complete all the question before proceed!',
+        [
+          {text: 'OK', onPress: () => console.log('OK pressed')},
+        ],
+        {cancelable: false},
+      );
+    }else{
+      if((this.state.indexQuestion + showedQuestions + 1) < (this.state.survey.items.length)){ //check if i can proceed with two questions
+        if(this.calculateSize(this.state.indexQuestion + showedQuestions) == false){
+          this.setState({
+            indexQuestion: this.state.indexQuestion + showedQuestions,
+            questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
+            questionObj_1: null,
+          });
+        }else{
+          this.setState({
+            indexQuestion: this.state.indexQuestion + showedQuestions,
+            questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
+            questionObj_1: this.state.survey.items[this.state.indexQuestion + showedQuestions + 1],
+          });
+        }
+      }else if((this.state.indexQuestion + showedQuestions) < (this.state.survey.items.length)){ //check if i can proceed with one question
         this.setState({
           indexQuestion: this.state.indexQuestion + showedQuestions,
           questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
           questionObj_1: null,
         });
-      }else{
-        this.setState({
-          indexQuestion: this.state.indexQuestion + showedQuestions,
-          questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
-          questionObj_1: this.state.survey.items[this.state.indexQuestion + showedQuestions + 1],
-        });
       }
-    }else if((this.state.indexQuestion + showedQuestions) < (this.state.survey.items.length)){ //check if i can proceed with one question
-      this.setState({
-        indexQuestion: this.state.indexQuestion + showedQuestions,
-        questionObj_0: this.state.survey.items[this.state.indexQuestion + showedQuestions],
-        questionObj_1: null,
-      });
     }
   }
 
   prevQuestion = () => {
-    if((this.state.indexQuestion - 2) >= 0){ //check if i can proceed with two questions
-      if(this.calculateSize(this.state.indexQuestion - 2) == false){
+    showedQuestions = 1;
+    if(this.state.questionObj_1 != null){
+      showedQuestions = 2;
+    }
+    if(!((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
+        || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined ))){
+      Alert.alert(
+        'Attention',
+        'Complete all the question before come back!',
+        [
+          {text: 'OK', onPress: () => console.log('OK pressed')},
+        ],
+        {cancelable: false},
+      );
+    }else{
+      if((this.state.indexQuestion - 2) >= 0){ //check if i can proceed with two questions
+        if(this.calculateSize(this.state.indexQuestion - 2) == false){
+          this.setState({
+            indexQuestion: this.state.indexQuestion - 1,
+            questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
+            questionObj_1: null,
+          });
+        }else{
+          this.setState({
+            indexQuestion: this.state.indexQuestion - 2,
+            questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
+            questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
+          });
+        }
+      }else if((this.state.indexQuestion - 1) >= 0){ //check if i can proceed with one question
         this.setState({
           indexQuestion: this.state.indexQuestion - 1,
           questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
           questionObj_1: null,
         });
-      }else{
-        this.setState({
-          indexQuestion: this.state.indexQuestion - 2,
-          questionObj_0: this.state.survey.items[this.state.indexQuestion - 2],
-          questionObj_1: this.state.survey.items[this.state.indexQuestion - 1],
-        });
       }
-    }else if((this.state.indexQuestion - 1) >= 0){ //check if i can proceed with one question
-      this.setState({
-        indexQuestion: this.state.indexQuestion - 1,
-        questionObj_0: this.state.survey.items[this.state.indexQuestion - 1],
-        questionObj_1: null,
-      });
     }
   }
 
@@ -123,15 +152,30 @@ export default class ProfessionalMode extends Component {
   }
 
   componentWillReceiveProps(nextProp){ //when the component receive an updated props it update his state
+    showedQuestions = 1;
+    if(this.state.questionObj_1 != null){
+      showedQuestions = 2;
+    }
     if(nextProp.navigation.state.params.skipQuestion == true && nextProp.navigation.state.params.savedData != undefined){ //N.B.: Decide on what to do with savedData object returned by the Page SkipQuestion.js
       nextProp.navigation.state.params.skipQuestion = false;
-      this.nextQuestion();
+      this.state.savedData[nextProp.navigation.state.params.savedData.index] = nextProp.navigation.state.params.savedData.obj;//update the savedData object with the data from handover mode
+
+      console.log(this.state.savedData[nextProp.navigation.state.params.savedData.index]);
+
+      console.log(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined);
+      console.log(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined);
+      console.log(this.state.savedData);
+      if((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
+          || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined )){
+        this.nextQuestion();//if all the question are already compiled the component will automatically proceed
+      }
     }else if(nextProp.navigation.state.params.handoverMode == true && nextProp.navigation.state.params.savedData != undefined){ //it save the data passed from the HandoverMode.js
       nextProp.navigation.state.params.handoverMode = false;
-      this.setState({
-        savedData: nextProp.navigation.state.params.savedData,
-      });
-      this.nextQuestion();
+      this.state.savedData[nextProp.navigation.state.params.savedData.index] = nextProp.navigation.state.params.savedData.obj;//update the savedData object with the data from handover mode
+      if((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
+          || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined )){
+        this.nextQuestion(); //if all the question are already compiled the component will automatically proceed
+      }
     }
   }
 
@@ -143,12 +187,16 @@ export default class ProfessionalMode extends Component {
             <MyTimer />
           </Container>
           <Container style={{flex: 3}}>
-            <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation}/>}
           </Container>
           <Container style={{flex: 0.5}}>
             <Container style={{flexDirection: 'row'}}>
-              <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
-              <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+              <Left>
+                {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
+              </Left>
+              <Right>
+                {(this.state.indexQuestion == (this.state.survey.items.length-1)) ? null : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
+              </Right>
             </Container>
           </Container>
         </Container>
@@ -160,13 +208,17 @@ export default class ProfessionalMode extends Component {
             <MyTimer />
           </Container>
           <Container style={{flex: 3}}>
-            <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
-            <Question data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]}/>
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <Question data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} />}
           </Container>
           <Container style={{flex: 0.5}}>
             <Container style={{flexDirection: 'row'}}>
-              <Left><Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button></Left>
-              <Right><Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
+              <Left>
+                { (this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
+              </Left>
+              <Right>
+                {(this.state.indexQuestion == (this.state.survey.items.length-2)) ? null : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
+              </Right>
             </Container>
           </Container>
         </Container>

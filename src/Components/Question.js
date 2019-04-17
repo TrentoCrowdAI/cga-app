@@ -11,7 +11,9 @@ export default class Question extends Component {
     this.state = {
       indexQuestion: this.props.indexQuestion,
       data: this.props.data,
-      question: {}
+      question: {},
+      save: this.props.save,
+      handoverMode: this.props.handoverMode,
     };
   }
 
@@ -83,11 +85,11 @@ export default class Question extends Component {
 
   //functions in order to change the activity
   skipQuestion = () => {
-    this.props.navigation.navigate("SkipQuestion");
+    this.props.navigation.navigate("SkipQuestion", {indexQuestion: this.state.indexQuestion});
   }
 
   handoverMode = () => {
-    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.props.indexQuestion, questionObj: this.state.question, savedData: this.state.data});
+    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.state.indexQuestion, questionObj: this.state.question, data: this.state.data});
   }
 
   componentWillReceiveProps(nextProp){ //this question allow the component to update itself when it receive an updated props,
@@ -100,28 +102,42 @@ export default class Question extends Component {
   }
 
   render() {
-    this.renderQuestion();
-    return (
-      <Container style={styles.container}>
-        <Container style={{flex: 1}}>
-          {this.renderTitle()}
-        </Container>
-        <Container style={{flex: 2}}>
-          {this.state.question}
-        </Container>
-        <Container style={{flex: 0.5, flexDirection: "row"}}>
-          <Container style={{flex:2}} />
-          <Container style={{flex:1}}>
-            <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
+    if(this.state.handoverMode == undefined){//professionalMode rendering
+      this.renderQuestion();
+      return (
+        <Container style={styles.container}>
+          <Container style={{flex: 1}}>
+            {this.renderTitle()}
           </Container>
-          <Container style={{flex:0.2}} />
-          <Container style={{flex:1}}>
-            <Button block onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
+          <Container style={{flex: 2}}>
+            {this.state.question}
           </Container>
-          <Container style={{flex:2}} />
+          <Container style={{flex: 0.5, flexDirection: "row"}}>
+            <Container style={{flex:2}} />
+            <Container style={{flex:1}}>
+              <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
+            </Container>
+            <Container style={{flex:0.2}} />
+            <Container style={{flex:1}}>
+              <Button block onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
+            </Container>
+            <Container style={{flex:2}} />
+          </Container>
         </Container>
-      </Container>
-    );
+      );
+    }else{//handoverMode rendering
+      this.renderQuestion();
+      return (
+        <Container style={styles.container}>
+          <Container style={{flex: 1}}>
+            {this.renderTitle()}
+          </Container>
+          <Container style={{flex: 2}}>
+            {this.state.question}
+          </Container>
+        </Container>
+      );
+    }
   }
 }
 

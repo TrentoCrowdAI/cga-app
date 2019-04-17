@@ -25,9 +25,9 @@ export default class Checkbox extends Component {
 
   render() {
     return (
-      <ListItem>
+      <ListItem onPress={() => this.update()}>
         <Left><Text>{this.props.text}</Text></Left>
-        <Right><CheckBox onPress={() => this.update()} onLongPress={() => this.update()} checked={this.state.itemSelected}/></Right>
+        <Right><CheckBox onPress={() => this.update()} checked={this.state.itemSelected}/></Right>
       </ListItem>
     );
   }
