@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { Container, Button, Text } from 'native-base';
-import YesNoDialog from './YesNoDialog.js';
 
 export default class ModalMenu extends Component {
   constructor(props){
     super(props);
     this.state = {
       dialogVisible: false,
+      savedData: props.navigation.state.params.savedData,
     }
   }
 
@@ -26,11 +26,17 @@ export default class ModalMenu extends Component {
 
   //functions in order to change the activity
   endSession = () => {
-    this.setState({
-      dialogVisible: true,
-    });
-    /*this.props.navigation.goBack();
-    this.props.navigation.navigate("StopSession");*/
+    Alert.alert(
+      'Attention',
+      'Are you sure that you want end the session?',
+      [
+        {
+          text: 'No',
+        },
+        {text: 'Yes', onPress: () => (this.props.navigation.navigate("EndSession", {data: this.state.savedData}))},
+      ],
+      {cancelable: false},
+    );
   }
 
   showGuide = () => {
@@ -45,7 +51,6 @@ export default class ModalMenu extends Component {
         <Button block onPress={() => this.endSession()} style={styles.button} ><Text>Stop Session</Text></Button>
         <Container style={{flex:0.02}}/>
         <Button block onPress={() => this.showGuide()} style={styles.button} ><Text>Show Guide</Text></Button>
-        <YesNoDialog title="Warning" visible={this.state.dialogVisible} text="Are you sure to end the session?" navigation={this.props.navigation}/>
       </Container>
     );
   }

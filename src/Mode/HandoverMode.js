@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import {Container, Button, Text, Icon, Right} from 'native-base';
 import Question from "../Components/Question.js";
 
@@ -10,7 +10,7 @@ export default class HandoverMode extends Component {
       indexQuestion: this.props.navigation.state.params.indexQuestion,
       questionObj: this.props.navigation.state.params.questionObj,
       data: this.props.navigation.state.params.data,
-      savedData: {},
+      savedData: undefined,
     };
   }
 
@@ -32,7 +32,18 @@ export default class HandoverMode extends Component {
   }
 
   returnToProfessionalMode = () => { //this question allow the component to change the activity passing some data to the professionalmode activity
-    this.props.navigation.navigate("ProfessionalMode", {handoverMode: true, savedData: this.state.savedData});
+    if(this.state.savedData == undefined){
+      Alert.alert( //if the user hasn't compiled the question the app won't allow him to proceed
+        'Attention',
+        'Complete the question before click the save button!',
+        [
+          {text: 'OK'},
+        ],
+        {cancelable: false},
+      );
+    }else{
+      this.props.navigation.navigate("ProfessionalMode", {handoverMode: true, savedData: this.state.savedData});
+    }
   }
 
   render() {

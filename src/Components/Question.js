@@ -56,7 +56,7 @@ export default class Question extends Component {
 
   //this function resolve the problem of a title with a lot of characters, if the lenght of the title is bigger than the threshold it split the title in more than one
   renderTitle = () =>{
-    maxLen = 40
+    maxLen = 40;
     if(this.state.data.labels[0].content.length < maxLen) //basi case when the title is smaller than the treshold
       return(<Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title>);
     else{
@@ -64,12 +64,22 @@ export default class Question extends Component {
       i = 0
       while(i < this.state.data.labels[0].content.length){
         if( i == 0 ){//only the first title has the margintop attribute
-          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
-          i = i + maxLen;
+          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+              break;
+            }
+          }
+          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          i = i + x + maxLen;
         }
         else if((i + maxLen) < this.state.data.labels[0].content.length){
-          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
-          i = i + maxLen;
+          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+              break;
+            }
+          }
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          i = i + x + maxLen;
         } else {//when the characters are minus than the treshold it create a title with the remained characters
           vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, this.state.data.labels[0].content.length)}</Text></Title>);
           i = this.state.data.labels[0].content.length;
