@@ -23,7 +23,6 @@ export default class EndSession extends Component {
   };
 
   render() {
-    console.log(this.state.savedData);
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Container style={{flex: 1}}>

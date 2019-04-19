@@ -150,7 +150,9 @@ export default class ProfessionalMode extends Component {
 
   saveValue = (index, value) => { //this function allow the component to update its state
     this.state.savedData[index] = value;
-    //this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
+    if(this.state.savedData[index] != value){//setting the data only if they are different from the saved one, otherwise it freeze the UI
+      this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
+    }
   }
 
   //this function create an alert and if the user press yes the app will show endsession page, the app will also pass the this.state.savedData param
@@ -176,7 +178,7 @@ export default class ProfessionalMode extends Component {
     if(nextProp.navigation.state.params.skipQuestion == true && nextProp.navigation.state.params.savedData != undefined){ //N.B.: Decide on what to do with savedData object returned by the Page SkipQuestion.js
       nextProp.navigation.state.params.skipQuestion = false;
       this.state.savedData[nextProp.navigation.state.params.savedData.index] = nextProp.navigation.state.params.savedData.obj;//update the savedData object with the data from skipQuestion
-      //this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
+      this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
       if((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
           || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined )){
         this.nextQuestion();//if all the question are already compiled the component will automatically proceed
@@ -184,7 +186,7 @@ export default class ProfessionalMode extends Component {
     }else if(nextProp.navigation.state.params.handoverMode == true && nextProp.navigation.state.params.savedData != undefined){ //it save the data passed from the HandoverMode.js
       nextProp.navigation.state.params.handoverMode = false;
       this.state.savedData[nextProp.navigation.state.params.savedData.index] = nextProp.navigation.state.params.savedData.obj;//update the savedData object with the data from handoverMode
-      //this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
+      this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
       if((showedQuestions == 1 && this.state.savedData[this.state.indexQuestion] != undefined)
           || (showedQuestions == 2 && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion + 1] != undefined )){
         this.nextQuestion(); //if all the question are already compiled the component will automatically proceed
