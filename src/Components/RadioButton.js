@@ -23,16 +23,9 @@ export default class RadioButton extends Component {
 
   render() {
     return (
-      <ListItem   onPress={() => this.update()} 
-                  onLongPress={() => this.update()} >
+      <ListItem onPress={() => this.update()}>
         <Left><Text>{this.props.text}</Text></Left>
-        <Right>
-          <Radio  onPress={() => this.update()} 
-                  onLongPress={() => this.update()} 
-                  selected={this.state.itemSelected == this.state.index}
-                  selectedColor={'gray'}
-                  />
-        </Right>
+        <Right><Radio onPress={() => this.update()} selected={this.state.itemSelected == this.state.index}/></Right>
       </ListItem>
     );
   }

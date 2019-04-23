@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text } from 'native-base';
+import { Container, Title, Text, Button } from 'native-base';
 import Textbox from "./Textbox";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";
@@ -11,7 +11,9 @@ export default class Question extends Component {
     this.state = {
       indexQuestion: this.props.indexQuestion,
       data: this.props.data,
-      question: {}
+      question: {},
+      save: this.props.save,
+      handoverMode: this.props.handoverMode,
     };
   }
 
@@ -54,7 +56,7 @@ export default class Question extends Component {
 
   //this function resolve the problem of a title with a lot of characters, if the lenght of the title is bigger than the threshold it split the title in more than one
   renderTitle = () =>{
-    maxLen = 40
+    maxLen = 40;
     if(this.state.data.labels[0].content.length < maxLen) //basi case when the title is smaller than the treshold
       return(<Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title>);
     else{
@@ -62,12 +64,22 @@ export default class Question extends Component {
       i = 0
       while(i < this.state.data.labels[0].content.length){
         if( i == 0 ){//only the first title has the margintop attribute
-          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
-          i = i + maxLen;
+          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+              break;
+            }
+          }
+          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          i = i + x + maxLen;
         }
         else if((i + maxLen) < this.state.data.labels[0].content.length){
-          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + maxLen))}</Text></Title>);
-          i = i + maxLen;
+          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+              break;
+            }
+          }
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          i = i + x + maxLen;
         } else {//when the characters are minus than the treshold it create a title with the remained characters
           vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, this.state.data.labels[0].content.length)}</Text></Title>);
           i = this.state.data.labels[0].content.length;
@@ -81,6 +93,15 @@ export default class Question extends Component {
     }
   }
 
+  //functions in order to change the activity
+  skipQuestion = () => {
+    this.props.navigation.navigate("SkipQuestion", {indexQuestion: this.state.indexQuestion});
+  }
+
+  handoverMode = () => {
+    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.state.indexQuestion, questionObj: this.state.question, data: this.state.data});
+  }
+
   componentWillReceiveProps(nextProp){ //this question allow the component to update itself when it receive an updated props,
     this.setState({ //when it has updated his state, this function will prepare another question object in order to show the next/previous question
       indexQuestion: nextProp.indexQuestion,
@@ -91,25 +112,60 @@ export default class Question extends Component {
   }
 
   render() {
-    this.renderQuestion();
-    return (
-      <Container style={{flex: 1, flexDirection: "column"}}>
-        <Container style={{flex: 1}}>
-          {this.renderTitle()}
+    if(this.state.handoverMode == undefined){//professionalMode rendering
+      this.renderQuestion();
+      return (
+        <Container style={styles.container}>
+          <Container style={{flex: 1}}>
+            {this.renderTitle()}
+          </Container>
+          <Container style={{flex: 2}}>
+            {this.state.question}
+          </Container>
+          <Container style={{flex: 0.5, flexDirection: "row"}}>
+            <Container style={{flex:2}} />
+            <Container style={{flex:1}}>
+              <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
+            </Container>
+            <Container style={{flex:0.2}} />
+            <Container style={{flex:1}}>
+              <Button block onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
+            </Container>
+            <Container style={{flex:2}} />
+          </Container>
         </Container>
-        <Container style={{flex: 2}}>
-          {this.state.question}
+      );
+    }else{//handoverMode rendering
+      this.renderQuestion();
+      return (
+        <Container style={styles.container}>
+          <Container style={{flex: 1}}>
+            {this.renderTitle()}
+          </Container>
+          <Container style={{flex: 2}}>
+            {this.state.question}
+          </Container>
         </Container>
-      </Container>
-    );
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
-    title: {
-      marginTop: 24,
-    },
-    titleText:{
-      fontSize: 20,
-    }
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+  },
+  title: {
+    marginTop: 24,
+  },
+  titleText:{
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: '#2b2d42'
+  }
 });

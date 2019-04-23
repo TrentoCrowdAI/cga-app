@@ -7,8 +7,8 @@ export default class ImageViewer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: props.images,
-      isVisible: props.isVisible,
+      images: this.props.images,
+      isVisible: this.props.isVisible,
       index: 0,
       controls:{
         close: true, // Component for close button in up right corner, as onPress prop accepts function to close modal
@@ -21,6 +21,7 @@ export default class ImageViewer extends Component {
   componentWillReceiveProps(nextProp){ //when the component receive an update it set the state of the imageviewer as the prop state
     this.setState({
       isVisible: nextProp.isVisible,
+      images: nextProp.images,
     });
   }
 

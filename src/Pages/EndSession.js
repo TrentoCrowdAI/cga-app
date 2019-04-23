@@ -4,6 +4,9 @@ import {Container, Title, Text } from 'native-base';
 export default class EndSession extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      savedData: props.navigation.state.params.savedData,
+    };
   }
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity

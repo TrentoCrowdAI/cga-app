@@ -18,7 +18,8 @@ export default class SkipQuestion extends Component {
             key: "know"
           }
       ],
-      savedData: {}
+      savedData: {},
+      indexQuestion: this.props.navigation.state.params.indexQuestion
     }
   }
 
@@ -35,12 +36,12 @@ export default class SkipQuestion extends Component {
     };
   };
 
-  save = (index, value) => { //this function allow the component to update its state
+  saveValue = (index, value) => { //this function allow the component to update its state
     this.state.savedData[index] = value;
   }
 
   returnToProfessionalMode = () => { //this question allow the component to change the activity passing some data to the professionalmode activity
-    this.props.navigation.navigate("ProfessionalMode", {skipQuestion: true, savedData: this.state.savedData});
+    this.props.navigation.navigate("ProfessionalMode", {skipQuestion: true, savedData: {index:this.state.indexQuestion, obj:{value: 'skipped', note: this.state.savedData[0], real_value: this.state.savedData[1]}}});
   }
 
   render() {
@@ -50,10 +51,10 @@ export default class SkipQuestion extends Component {
           <Title style={styles.title}><Text>Why you want to skip the question??</Text></Title>
         </Container>
         <Container style={{flex: 1}}>
-          <MyPicker save={this.save} labels={this.state.labels} indexQuestion="1"/>
+          <MyPicker save={this.saveValue} labels={this.state.labels} indexQuestion="1"/>
         </Container>
         <Container style={{flex: 1}}>
-          <Textbox label="Note" placeholder="Comment your choice" save={this.save}/>
+          <Textbox label="Note" placeholder="Comment your choice" save={this.saveValue} indexQuestion="0"/>
         </Container>
         <Container style={{flex: 1, flexDirection:'row'}}>
           <Right><Button primary onPress={(() => this.returnToProfessionalMode())} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>

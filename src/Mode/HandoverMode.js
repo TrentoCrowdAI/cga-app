@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import {Container, Button, Text, Icon, Right} from 'native-base';
 import Question from "../Components/Question.js";
 
@@ -9,7 +9,8 @@ export default class HandoverMode extends Component {
     this.state = {
       indexQuestion: this.props.navigation.state.params.indexQuestion,
       questionObj: this.props.navigation.state.params.questionObj,
-      savedData: this.props.navigation.state.params.savedData,
+      data: this.props.navigation.state.params.data,
+      savedData: undefined,
     };
   }
 
@@ -27,18 +28,29 @@ export default class HandoverMode extends Component {
   };
 
   saveValue = (index, value) => { //this function allow the component to update its state
-    this.state.savedData[index] = value;
+    this.state.savedData = {index:index, obj:{value: 'handover', real_value: value}};
   }
 
   returnToProfessionalMode = () => { //this question allow the component to change the activity passing some data to the professionalmode activity
-    this.props.navigation.navigate("ProfessionalMode", {handoverMode: true, savedData: this.state.savedData});
+    if(this.state.savedData == undefined){
+      Alert.alert( //if the user hasn't compiled the question the app won't allow him to proceed
+        'Attention',
+        'Complete the question before click the save button!',
+        [
+          {text: 'OK'},
+        ],
+        {cancelable: false},
+      );
+    }else{
+      this.props.navigation.navigate("ProfessionalMode", {handoverMode: true, savedData: this.state.savedData});
+    }
   }
 
   render() {
     return (
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Container style={{flex: 2}}>
-          <Question data={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]}/>
+          <Question questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true}/>
         </Container>
         <Container style={{flex: 1}}>
           <Button primary onPress={() => this.returnToProfessionalMode()} style={styles.button}><Text>save</Text></Button>

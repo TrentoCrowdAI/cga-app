@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, List } from 'native-base';
+import { Container, List, Content } from 'native-base';
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {
@@ -12,6 +12,7 @@ export default class RadioGroup extends Component {
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;
     }
+    this.props.save(this.state.indexQuestion, this.state.itemSelected);
   }
 
   componentWillReceiveProps(nextProp){ //in order to fix an error when this component receive an update of the props param it set the image viewer to invisible
@@ -19,10 +20,12 @@ export default class RadioGroup extends Component {
       indexQuestion: nextProp.indexQuestion,
       itemSelected: "0"
     });
+    this.props.save(nextProp.indexQuestion, "0");
     if(nextProp.saved != undefined){
       this.setState({
         itemSelected: nextProp.saved
       });
+      this.props.save(nextProp.indexQuestion, nextProp.saved);
     }
   }
 
@@ -44,9 +47,11 @@ export default class RadioGroup extends Component {
   render() {
     return (
       <Container>
-        <List>
-          {this.renderList(this.props.labels)}
-        </List>
+        <Content>
+          <List>
+            {this.renderList(this.props.labels)}
+          </List>
+        </Content>
       </Container>
     );
   }
