@@ -84,18 +84,6 @@ export default class CheckboxGroup extends Component {
   }
 } 
 
-/*
-<Item>
-        <List>
-          {this.renderList(this.props.labels)}
-        </List>
-        <Item>
-          {this.renderButtonImages()}
-        </Item>
-        <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
-      </Item>
-       */
-
 const styles = StyleSheet.create({
     button: {
       alignSelf: 'center',
