@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
-import { Container, Text, Button, Left, Right, Icon } from 'native-base';
+import { Container, Text, Button, Left, Right, Icon, CardItem, Card, Body, Form } from 'native-base';
 import Question from "../Components/Question.js";
 import MyTimer from "../Components/MyTimer.js";
 import QuestionPlaceholder from "../Components/QuestionPlaceholder.js";
@@ -219,8 +219,8 @@ export default class ProfessionalMode extends Component {
     }else{ // data to show if two questions are prepared from the backend
       return (
         <Container style={{flex: 1, flexDirection: "column"}}>
-          <Container style={{flex: 0.1}}>
-            <MyTimer />
+          <Container style={{flex: 0.2}}>
+          <MyTimer />
           </Container>
           <Container style={{flex: 3}}>
             {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text } from 'native-base';
+import { Title, Text, CardItem, Body, Card, Form } from 'native-base';
 
 export default class QuestionPlaceholder extends Component {
   constructor(props){
@@ -20,10 +20,23 @@ export default class QuestionPlaceholder extends Component {
 
   render() {
     return (
-      <Container style={styles.container}>
-        <Title><Text>Question {this.state.index+1} placeholder</Text></Title>
-        <Title><Text>{this.state.type}</Text></Title>
-      </Container>
+      <Card>
+        <CardItem header>
+          <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+            <Form>
+              <Title style={styles.title}><Text style={styles.titleText}>Question {this.state.index+1} placeholder</Text></Title>
+            </Form>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+            <Form>
+              <Text style={styles.titleText}>{this.state.type}</Text>
+            </Form>
+          </Body>
+        </CardItem>
+        <CardItem footer />
+      </Card>
     );
   }
 }
@@ -36,4 +49,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#d6d7da',
   },
+  title: {
+    marginTop: 24
+  },
+  titleText:{
+    fontSize: 20,
+  }
 });

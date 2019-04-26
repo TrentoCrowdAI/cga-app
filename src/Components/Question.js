@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button } from 'native-base';
+import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item } from 'native-base';
 import Textbox from "./Textbox";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";
@@ -20,25 +20,19 @@ export default class Question extends Component {
   //this 3 functions allow the component to create the question basing on the question type
   createTextbox = (label) => {
     return (
-      <Container>
-        <Textbox label={label} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved}/>
-      </Container>
+      <Textbox label={label} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved}/>     
     );
   }
 
   createRadioGroup = (labels) => {
     return (
-      <Container>
-        <RadioGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
-      </Container>
+      <RadioGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
     );
   }
 
   createCheckboxGroup = (labels, images) => {
     return (
-      <Container>
-        <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images}/>
-      </Container>
+      <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images}/>
     );
   }
 
@@ -58,7 +52,7 @@ export default class Question extends Component {
   renderTitle = () =>{
     maxLen = 40;
     if(this.state.data.labels[0].content.length < maxLen) //basi case when the title is smaller than the treshold
-      return(<Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title>);
+      return(<Form><Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title></Form>);
     else{
       vectTitle = []
       i = 0
@@ -86,9 +80,9 @@ export default class Question extends Component {
         }
       }
       return(
-        <Container>
+        <Form>
           {vectTitle}
-        </Container>
+        </Form>
       );
     }
   }
@@ -115,37 +109,42 @@ export default class Question extends Component {
     if(this.state.handoverMode == undefined){//professionalMode rendering
       this.renderQuestion();
       return (
-        <Container style={styles.container}>
-          <Container style={{flex: 1}}>
-            {this.renderTitle()}
-          </Container>
-          <Container style={{flex: 2}}>
-            {this.state.question}
-          </Container>
-          <Container style={{flex: 0.5, flexDirection: "row"}}>
-            <Container style={{flex:2}} />
-            <Container style={{flex:1}}>
-              <Button block onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
-            </Container>
-            <Container style={{flex:0.2}} />
-            <Container style={{flex:1}}>
-              <Button block onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
-            </Container>
-            <Container style={{flex:2}} />
-          </Container>
-        </Container>
+        <Card>
+          <CardItem header>
+            <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+              {this.renderTitle()}
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              {this.state.question}
+            </Body>
+          </CardItem>
+          <CardItem footer>
+            <Left>
+              <Button onPress={() => this.skipQuestion()} style={styles.button}><Text>Skip Question</Text></Button>
+            </Left>
+            <Right>
+              <Button onPress={() => this.handoverMode()} style={styles.button}><Text>Handover mode</Text></Button>
+            </Right>
+          </CardItem>
+        </Card>
       );
     }else{//handoverMode rendering
       this.renderQuestion();
       return (
-        <Container style={styles.container}>
-          <Container style={{flex: 1}}>
-            {this.renderTitle()}
-          </Container>
-          <Container style={{flex: 2}}>
-            {this.state.question}
-          </Container>
-        </Container>
+        <Card>
+          <CardItem header>
+            <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+              {this.renderTitle()}
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              {this.state.question}
+            </Body>
+          </CardItem>
+        </Card>
       );
     }
   }
@@ -153,7 +152,6 @@ export default class Question extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'column',
     borderRadius: 4,
     borderWidth: 0.5,

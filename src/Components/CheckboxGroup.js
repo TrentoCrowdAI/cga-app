@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content,  Text, Button, List, Icon } from 'native-base';
+import { Container, Content,  Text, Button, List, Icon, Item, Form, Body } from 'native-base';
 import Checkbox from "./Checkbox";
 import ImageViewer from "./ImageViewer.js";
 
@@ -69,22 +69,32 @@ export default class CheckboxGroup extends Component {
 
   render() {
     return (
-      <Container style={{flex: 1, flexDirection:"column"}}>
-        <Container style={{flex: 3}}>
-          <Content>
-            <List>
-              {this.renderList(this.props.labels)}
-            </List>
-          </Content>
-        </Container>
-        <Container style={{flex: 1}}>
-          {this.renderButtonImages()}
-          <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
-        </Container>
-      </Container>
+      <Form style={{alignSelf: 'stretch'}}>
+        <List>
+          {this.renderList(this.props.labels)}
+        </List>
+        <Item>
+          <Body>
+            {this.renderButtonImages()}
+          </Body>
+        </Item>
+        <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
+      </Form>      
     );
   }
-}
+} 
+
+/*
+<Item>
+        <List>
+          {this.renderList(this.props.labels)}
+        </List>
+        <Item>
+          {this.renderButtonImages()}
+        </Item>
+        <ImageViewer isVisible={this.state.imageViewerVisible} images={this.state.images}/>
+      </Item>
+       */
 
 const styles = StyleSheet.create({
     button: {

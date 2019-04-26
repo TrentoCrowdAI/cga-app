@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button, Icon, Right } from 'native-base';
+import { Title, Text, Button, Icon, Right, Card, CardItem, Body, Form, Item } from 'native-base';
 import MyPicker from '../Components/MyPicker.js';
 import Textbox from '../Components/Textbox.js';
 
@@ -46,20 +46,30 @@ export default class SkipQuestion extends Component {
 
   render() {
     return (
-      <Container style={{flex: 1, flexDirection: "column"}}>
-        <Container style={{flex: 1}}>
-          <Title style={styles.title}><Text>Why you want to skip the question??</Text></Title>
-        </Container>
-        <Container style={{flex: 1}}>
-          <MyPicker save={this.saveValue} labels={this.state.labels} indexQuestion="1"/>
-        </Container>
-        <Container style={{flex: 1}}>
-          <Textbox label="Note" placeholder="Comment your choice" save={this.saveValue} indexQuestion="0"/>
-        </Container>
-        <Container style={{flex: 1, flexDirection:'row'}}>
-          <Right><Button primary onPress={(() => this.returnToProfessionalMode())} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button></Right>
-        </Container>
-      </Container>
+      <Card>
+        <CardItem header>
+          <Body style={{ flex: 1,  justifyContent: 'center', alignItems: 'center' }}>
+            <Form>
+              <Title style={styles.title}><Text style={styles.titleText}>Why you want to skip the question??</Text></Title>
+            </Form>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Body>
+            <MyPicker save={this.saveValue} labels={this.state.labels} indexQuestion="1"/>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Body>
+            <Textbox label="Note" placeholder="Comment your choice" save={this.saveValue} indexQuestion="0"/>
+          </Body>
+        </CardItem>
+        <CardItem footer>
+          <Right>
+            <Button primary onPress={(() => this.returnToProfessionalMode())} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>
+          </Right>
+        </CardItem>
+      </Card>
     );
   }
 }
@@ -71,5 +81,8 @@ const styles = StyleSheet.create({
     },
     title: {
       marginTop: 24
+    },
+    titleText:{
+      fontSize: 20,
     }
 });

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Content, Picker, Form, Item } from "native-base";
+import { Container, Content, Picker, Form, Item, Label } from "native-base";
 
 export default class MyPicker extends Component {
   constructor(props) {
@@ -21,35 +21,31 @@ export default class MyPicker extends Component {
 
   renderItems = () => { //this function prepare the MyPicker item based on the received datas
     return(
-      <Content>
-        <Form>
-          <Item regular>
-            <Picker
-              mode="dropdown"
-              placeholder="Select One"
-              placeholderStyle={{ color: "#2874F0" }}
-              note={false}
-              selectedValue={this.state.selected}
-              onValueChange={this.onValueChange.bind(this)}
-            >
-            {
-              this.state.labels.map((option, index) => {
-                return <Picker.Item key={index} label={option.label} value={option.key} />
-              })
-            }
-            </Picker>
-          </Item>
-        </Form>
-      </Content>
+      <Item picker >
+        <Label>Type:</Label>
+        <Picker
+          mode="dropdown"
+          placeholder="Select One"
+          placeholderStyle={{ color: "#2874F0" }}
+          note={false}
+          selectedValue={this.state.selected}
+          onValueChange={this.onValueChange.bind(this)}
+        >
+        {
+          this.state.labels.map((option, index) => {
+            return <Picker.Item key={index} label={option.label} value={option.key} />
+          })
+        }
+        </Picker>
+      </Item>
     );
-
   }
 
   render() {
     return (
-      <Container>
+      <Form style={{alignSelf: 'stretch'}}>
         {this.renderItems()}
-      </Container>
+      </Form>
     );
   }
 }

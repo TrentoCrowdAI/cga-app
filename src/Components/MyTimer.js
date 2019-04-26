@@ -7,13 +7,13 @@ import {StyleSheet, View} from 'react-native';
 function Timer({interval}){
     const duration = moment.duration(interval);
     return(
-        <View style={styles.container}>
-            <View style={styles.box}>
-                <Icon name='timer' style={styles.icon} />
-                <Text style={{flex:2, textAlign: 'center'}}>{duration.minutes()}:{duration.seconds()}</Text>
-            </View>
-        </View>
-    )
+      <View style={styles.container}>
+          <View style={styles.box}>
+              <Icon name='timer' style={styles.icon} />
+              <Text style={{flex:2, textAlign: 'center'}}>{duration.minutes()}:{duration.seconds()}</Text>
+          </View>
+      </View>
+    );
 }
 
 export default class MyTimer extends Component {

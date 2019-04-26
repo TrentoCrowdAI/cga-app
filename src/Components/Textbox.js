@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Input, Item, Label } from 'native-base';
+import { Input, Item, Label, Form } from 'native-base';
 
 export default class Textbox extends Component {
   constructor(props){
@@ -34,12 +34,12 @@ export default class Textbox extends Component {
 
   render() {
     return (
-      <Container>
+      <Form style={{alignSelf: 'stretch'}}>
         <Item regular>
           <Label>{this.props.label}</Label>
-          <Input style={{flex:1}} placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }}/>
-        </Item>
-      </Container>
+          <Input placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }}/>
+        </Item>      
+      </Form>
     );
   }
 }
