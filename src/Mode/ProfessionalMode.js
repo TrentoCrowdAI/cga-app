@@ -43,27 +43,33 @@ export default class ProfessionalMode extends Component {
   };
 
   calculateSize = (i) => {//this function calculate if two questions are suitable in order to be shown together in one page in the professionalmode
-    treshold = 5;
     retval = false;
-    if((i+1) <= (this.state.survey.items.length - 1)){
-      if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i+1].type == "inputText"){//check if the first type is a input text
+    treshold = 100;
+
+    //calculate size question i 
+    q1 = 0;
+    for(x = 0; x < this.state.survey.items[i].labels[0].content.length;){//title
+      q1 = q1 + 10;
+      x = x+40;
+    }
+    q1 = q1 + this.state.survey.items[i].options.length * 10; //options
+    q1 = q1 + 10; //buttons
+
+    if(q1 <= treshold){
+      //calculate size question i+1 
+      q2 = 0;
+      for(x = 0; x < this.state.survey.items[i+1].labels[0].content.length;){//title
+        q2 = q2 + 10;
+        x = x+40;
+      }
+      q2 = q2 + this.state.survey.items[i+1].options.length * 10; //options
+      q2 = q2 + 10; //buttons
+
+      if(q2 <= treshold){
         retval = true;
-      }else if(this.state.survey.items[i].type == "inputText" && this.state.survey.items[i+1].type != "inputText"){//inputText & inputText case
-        if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
-          retval = true;
-        }
-      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i+1].type == "inputText"){//inputText & multichoise (with less answer than the treshold)
-        if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
-          retval = true;
-        }
-      }else if(this.state.survey.items[i].type != "inputText" && this.state.survey.items[i+1].type != "inputText"){//multichoise (with less answer than the treshold) & multichoise (with less answer than the treshold)
-        if(this.state.survey.items[i].options != null && this.state.survey.items[i].options.length < treshold){
-          if(this.state.survey.items[i+1].options != null && this.state.survey.items[i+1].options.length < treshold){
-            retval = true;
-          }
-        }
       }
     }
+
     return retval;
   }
 
@@ -211,7 +217,7 @@ export default class ProfessionalMode extends Component {
               {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
             </Left>
             <Right>
-              {(this.state.indexQuestion == (this.state.survey.items.length-2)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
+              {(this.state.indexQuestion == (this.state.survey.items.length-1)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
             </Right>
           </Footer>
         </Container>
