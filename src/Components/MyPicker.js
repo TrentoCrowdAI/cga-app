@@ -22,7 +22,7 @@ export default class MyPicker extends Component {
   renderItems = () => { //this function prepare the MyPicker item based on the received datas
     return(
       <Item picker >
-        <Label>Type:</Label>
+        <Label>Type</Label>
         <Picker
           mode="dropdown"
           placeholder="Select One"
