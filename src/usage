@@ -12,24 +12,33 @@ _________________________________________Components folder______________________
 AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion)
 Checkbox --> ()
 CheckboxGroup --> (Checkbox, ImageViewer)
+DataCollectionCard --> ()
 ImageViewer --> ()
 ModalMenu --> ()
 MyPicker --> ()
 MyTimer --> ()
+ProjectCard --> ()
 Question --> (Textbox, CheckboxGroup, RadioGroup)
 QuestionPlaceholder --> ()
 RadioButton --> ()
 RadioGroup --> (RadioButton)
+SubjectCard --> ()
 TextBox --> ()
+VisitCard --> ()
 ___________________________________________________________________________________________________________
 ___________________________________________Mode folder_____________________________________________________
 HandoverMode --> (Question)
 ProfessionalMode --> (Question, MyTimer, QuestionPlaceholder)
 ___________________________________________________________________________________________________________
 __________________________________________Pages folder_____________________________________________________
+DataCollection --> (DataCollectionCard)
 EndSession --> ()
 Guide --> ()
+LoginPage --> (TextBox)
+ProjectList --> (ProjectCard)
 SkipQuestion --> (MyPicker, TextBox)
 StopSession --> (MyPicker, TextBox)
+SubjectsList --> (SubjectCard)
+SubjectPage --> (VisitCard)
 ____________________________________________________________________________________________________________
 ------------------------------------------------------------------------------------------------------------
