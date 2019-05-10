@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item } from 'native-base';
 
 export default class SubjectCard extends Component {
@@ -11,23 +11,26 @@ export default class SubjectCard extends Component {
       status: this.props.status,
       date: this.props.date,
       place: this.props.place,
+      navigation: this.props.navigation
     };
   }
 
   render() {
     return (
       <Card>
-        <CardItem header>
-          <Body style={{ flex: 1,  justifyContent: 'center'}}>
-            <Title><Text style={styles.titleText}>{this.state.name}{" "}{this.state.surname}</Text></Title>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Left><Text>{this.state.date}</Text></Left><Right><Text>{this.state.status}</Text></Right>
-        </CardItem>
-        <CardItem>
-          <Left><Text>{this.state.place}</Text></Left>
-        </CardItem>
+        <TouchableOpacity onPress={() => this.state.navigation.navigate("SubjectPage")}>
+          <CardItem header>
+            <Body style={{ flex: 1,  justifyContent: 'center'}}>
+              <Title><Text style={styles.titleText}>{this.state.name}{" "}{this.state.surname}</Text></Title>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Left><Text>{this.state.date}</Text></Left><Right><Text>{this.state.status}</Text></Right>
+          </CardItem>
+          <CardItem>
+            <Left><Text>{this.state.place}</Text></Left>
+          </CardItem>
+        </TouchableOpacity>
       </Card>
     );
   }
@@ -42,5 +45,6 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize: 20,
+    fontWeight: 'bold',
   },
 });

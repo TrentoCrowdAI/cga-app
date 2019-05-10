@@ -9,7 +9,7 @@ react-native-material-dialog --> (YesNoDialog) (link https://www.npmjs.com/packa
 
 --------------------------------------------Components usage----------------------------------------------
 _________________________________________Components folder________________________________________________
-AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion)
+AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion, SubjectsList, SubjectPage, DataCollection, LoginPage, SyncList)
 Checkbox --> ()
 CheckboxGroup --> (Checkbox, ImageViewer)
 DataCollectionCard --> ()
@@ -22,6 +22,8 @@ Question --> (Textbox, CheckboxGroup, RadioGroup)
 QuestionPlaceholder --> ()
 RadioButton --> ()
 RadioGroup --> (RadioButton)
+SideBar --> ()
+SideMenuIcon --> ()
 SubjectCard --> ()
 TextBox --> ()
 VisitCard --> ()
@@ -32,7 +34,6 @@ ProfessionalMode --> (Question, MyTimer, QuestionPlaceholder)
 ___________________________________________________________________________________________________________
 __________________________________________Pages folder_____________________________________________________
 DataCollection --> (DataCollectionCard)
-EndSession --> ()
 Guide --> ()
 LoginPage --> (TextBox)
 ProjectList --> (ProjectCard)
@@ -40,5 +41,6 @@ SkipQuestion --> (MyPicker, TextBox)
 StopSession --> (MyPicker, TextBox)
 SubjectsList --> (SubjectCard)
 SubjectPage --> (VisitCard)
+SyncList --> (SyncCard)
 ____________________________________________________________________________________________________________
 ------------------------------------------------------------------------------------------------------------

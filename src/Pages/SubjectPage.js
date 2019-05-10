@@ -33,7 +33,7 @@ export default class SubjectPage extends Component {
   renderVisitCards = (visits) => {
     return visits.map((visit, index) => {
       return (
-        <VisitCard key={index} title={visit.name} date={visit.date} status={visit.status}/>
+        <VisitCard key={index} title={visit.name} date={visit.date} status={visit.status} navigation={this.props.navigation}/>
       );
     });
   }
@@ -41,7 +41,6 @@ export default class SubjectPage extends Component {
   render() {
     return (
       <Container>
-        <Header androidStatusBarColor="#b70e23"  style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
           <Card>
             <CardItem header>
@@ -50,19 +49,19 @@ export default class SubjectPage extends Component {
               </Body>
             </CardItem>
             <CardItem>
-              <Left><Text>Date:{this.state.date}</Text></Left>
+              <Left><Text style={styles.titleText}>Date: </Text><Text>{this.state.date}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text>Interviewer: {this.state.interviewer}</Text></Left>
+              <Left><Text style={styles.titleText}>Interviewer: </Text><Text>{this.state.interviewer}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text>Status: {this.state.status}</Text></Left>
+              <Left><Text style={styles.titleText}>Status: </Text><Text>{this.state.status}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text>Notes: {this.state.notes}</Text></Left>
+              <Left><Text style={styles.titleText}>Notes: </Text><Text>{this.state.notes}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text>Visits: </Text></Left>
+              <Left><Text style={styles.titleText}>Visits: </Text></Left>
             </CardItem>
             <CardItem>
               <Content>
@@ -74,7 +73,7 @@ export default class SubjectPage extends Component {
           </Card>
         </Content>
         <Footer style={{ backgroundColor: 'white' }}>
-          <Button style={styles.button}><Text>Resume</Text></Button>
+          <Button style={styles.button} onPress={() => this.props.navigation.navigate("CgaTestNavigator")}><Text>Resume</Text></Button>
         </Footer>
       </Container>
     );

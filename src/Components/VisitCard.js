@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item } from 'native-base';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Title, Text, Card, CardItem, Right, Left, Body } from 'native-base';
 
 export default class VisitCard extends Component {
   constructor(props){
@@ -9,6 +9,7 @@ export default class VisitCard extends Component {
       title: this.props.title,
       date: this.props.date,
       status: this.props.status,
+      navigation: this.props.navigation,
     };
   }
 
@@ -23,7 +24,6 @@ export default class VisitCard extends Component {
         <CardItem>
           <Left><Text>{this.state.date}</Text></Left><Right><Text>{this.state.status}</Text></Right>
         </CardItem>
-        <CardItem footer />
       </Card>
     );
   }
@@ -38,5 +38,6 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize: 20,
+    fontWeight: 'bold',
   },
 });

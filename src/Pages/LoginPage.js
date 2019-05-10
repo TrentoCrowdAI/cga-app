@@ -10,20 +10,7 @@ export default class LoginPage extends Component {
       data: [],
     };
   }
-
-  static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
-    return {
-      title: "Login Page",
-      //Default Title of ActionBar
-      headerStyle: {
-        backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),
-        //Background color of ActionBar
-      },
-      headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
-      //Text color of ActionBar
-    };
-  };    
-
+  
   save = (index, value) => {
     this.state.data[index] = value;
   }
@@ -31,6 +18,7 @@ export default class LoginPage extends Component {
   login = () => {
     username = this.state.data[0];
     password = this.state.data[1];
+    this.props.navigation.navigate("ProjectsList");
   }
 
   render() {
@@ -38,11 +26,11 @@ export default class LoginPage extends Component {
       <Container>
         <Header androidStatusBarColor="#b70e23"  style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
-          <Textbox label={"Username"} save={this.props.save} indexQuestion={0}/>
-          <Textbox label={"Password"} save={this.props.save} indexQuestion={1}/>
+          <Textbox label={"Username"} save={this.save} indexQuestion={0}/>
+          <Textbox label={"Password"} save={this.save} indexQuestion={1} secureTextEntry={true}/>
           <Button onPress={() => this.login()} style={styles.button}><Text>Login</Text></Button>
         </Content>
-        <Footer  style={{ backgroundColor: 'white' }} />
+        <Footer style={{ backgroundColor: 'white' }} />
       </Container>
     );
   }

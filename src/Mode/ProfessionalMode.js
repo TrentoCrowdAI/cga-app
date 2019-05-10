@@ -170,7 +170,7 @@ export default class ProfessionalMode extends Component {
         {
           text: 'No',
         },
-        {text: 'Yes', onPress: () => this.props.navigation.navigate("EndSession", {savedData: this.state.savedData})},
+        {text: 'Yes', onPress: () => this.props.navigation.navigate("SubjectPage", {savedData: this.state.savedData})},
       ],
       {cancelable: false},
     );

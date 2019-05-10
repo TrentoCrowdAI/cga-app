@@ -33,7 +33,7 @@ export default class ModalMenu extends Component {
         {
           text: 'No',
         },
-        {text: 'Yes', onPress: () => (this.props.navigation.navigate("EndSession", {data: this.state.savedData}))},
+        {text: 'Yes', onPress: () => (this.props.navigation.navigate("SubjectPage", {data: this.state.savedData}))},
       ],
       {cancelable: false},
     );

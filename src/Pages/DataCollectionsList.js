@@ -28,7 +28,7 @@ export default class DataCollectionsList extends Component {
   renderDataCollections = (dataCollections) => {
     return dataCollections.map((dataCollection, index) => {
       return (
-        <DataCollectionCard key={index} title={dataCollection.name} description={dataCollection.description}/>
+        <DataCollectionCard key={index} title={dataCollection.name} description={dataCollection.description} navigation={this.props.navigation}/>
       );
     });
   }
@@ -36,7 +36,6 @@ export default class DataCollectionsList extends Component {
   render() {
     return (
       <Container>
-        <Header androidStatusBarColor="#b70e23"  style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
           <List>
             {this.renderDataCollections(this.state.data)}

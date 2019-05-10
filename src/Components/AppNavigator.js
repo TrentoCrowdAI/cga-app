@@ -1,8 +1,8 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import React, {Component} from 'react';
+import { createAppContainer, createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import ProfessionalMode from '../Mode/ProfessionalMode.js';
 import HandoverMode from '../Mode/HandoverMode.js';
 import StopSession from '../Pages/StopSession.js';
-import EndSession from '../Pages/EndSession.js';
 import Guide from '../Pages/Guide.js';
 import ModalMenu from './ModalMenu.js';
 import SkipQuestion from '../Pages/SkipQuestion.js';
@@ -12,24 +12,76 @@ import ProjectList from '../Pages/ProjectList.js';
 import DataCollectionsList from '../Pages/DataCollectionsList.js';
 import SubjectsList from '../Pages/SubjectsList.js';
 import SubjectPage from '../Pages/SubjectPage.js';
+import SideBar from "./SideBar.js";
+import SideMenuIcon from "./SideMenuIcon.js";
+import SyncList from "../Pages/SyncList.js";
 
-const AppNavigator = createStackNavigator({
-    SubjectPage: {screen: SubjectPage},
-    SubjectsList: {screen: SubjectsList},
-    DataCollectionsList: {screen: DataCollectionsList},
-    ProjectList: {screen: ProjectList},
-    LoginPage: {screen: LoginPage},
+const CgaTestNavigator_StackNavigator = createStackNavigator({  
     SplashScreen: {screen: SplashScreen},
     ProfessionalMode: {screen: ProfessionalMode},
     ModalMenu: { screen: ModalMenu },
     StopSession: {screen: StopSession},
-    EndSession: {screen: EndSession},
     Guide: {screen: Guide},
     SkipQuestion: {screen: SkipQuestion},
     HandoverMode: {screen: HandoverMode},
   }
 );
 
+const ProjectsList_StackNavigator = createStackNavigator({
+  ProjectsList: {
+    screen: ProjectList,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Project List',
+      headerLeft: <SideMenuIcon navigationProps={navigation} />,
+ 
+      headerStyle: {
+        backgroundColor: '#EF233C'
+      },
+      headerTintColor: '#fff',
+    })
+  }, 
+  DataCollectionsList: {screen: DataCollectionsList},
+  SubjectsList: {screen: SubjectsList},
+  SubjectPage: {screen: SubjectPage},
+});
+
+const SyncList_StackNavigator = createStackNavigator({
+  SyncList: {
+    screen: SyncList,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Sync List',
+      headerLeft: <SideMenuIcon navigationProps={navigation} />,
+ 
+      headerStyle: {
+        backgroundColor: '#EF233C'
+      },
+      headerTintColor: '#fff',
+    })
+  },
+});
+
+const AppNavigator = createDrawerNavigator({
+    LoginPage: {
+      screen: LoginPage
+    },
+    
+    ProjectsList: {
+      screen: ProjectsList_StackNavigator
+    },
+
+    SyncList: {
+      screen: SyncList_StackNavigator
+    },
+
+    CgaTestNavigator: {
+      screen: CgaTestNavigator_StackNavigator
+    },
+
+  },
+  {
+    contentComponent: SideBar,
+  }
+);
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;

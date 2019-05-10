@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item } from 'native-base';
 
 export default class DataCollectionCard extends Component {
@@ -8,23 +8,25 @@ export default class DataCollectionCard extends Component {
     this.state = {
       title: this.props.title,
       description: this.props.description,
+      navigation: this.props.navigation,
     };
   }
 
   render() {
     return (
       <Card>
-        <CardItem header>
-          <Body style={{ flex: 1,  justifyContent: 'center'}}>
-            <Title><Text style={styles.titleText}>{this.state.title}</Text></Title>
-          </Body>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <Text>{this.state.description}</Text>
-          </Body>
-        </CardItem>
-        <CardItem footer />
+        <TouchableOpacity onPress={() => this.state.navigation.navigate("SubjectsList")}>
+          <CardItem header>
+            <Body style={{ flex: 1,  justifyContent: 'center'}}>
+              <Title><Text style={styles.titleText}>{this.state.title}</Text></Title>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Text>{this.state.description}</Text>
+            </Body>
+          </CardItem>
+        </TouchableOpacity>
       </Card>
     );
   }
@@ -39,5 +41,6 @@ const styles = StyleSheet.create({
   },
   titleText:{
     fontSize: 20,
+    fontWeight: 'bold',
   },
 });

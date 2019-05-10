@@ -6,7 +6,8 @@ export default class Textbox extends Component {
     super(props);
     this.state = {
       indexQuestion: props.indexQuestion,
-      value: ""
+      value: "",
+      secureTextEntry: this.props.secureTextEntry,
     }
     if(props.saved != undefined){
       this.state.value = props.saved;
@@ -37,7 +38,7 @@ export default class Textbox extends Component {
       <Form style={{alignSelf: 'stretch'}}>
         <Item regular>
           <Label>{this.props.label}</Label>
-          <Input placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }}/>
+          <Input placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }} secureTextEntry={this.state.secureTextEntry}/>
         </Item>      
       </Form>
     );

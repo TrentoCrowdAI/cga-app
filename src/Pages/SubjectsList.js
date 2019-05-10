@@ -15,7 +15,7 @@ export default class SubjectsList extends Component {
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
     return {
-      title: "Data Collection",
+      title: "Patient List",
       //Default Title of ActionBar
       headerStyle: {
         backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),
@@ -29,7 +29,7 @@ export default class SubjectsList extends Component {
   renderSubjectCards = (subjects) => {
     return subjects.map((subject, index) => {
       return (
-        <SubjectCard key={index} name={subject.name} surname={subject.surname} date={subject.date} status={subject.status} place={subject.place}/>
+        <SubjectCard key={index} name={subject.name} surname={subject.surname} date={subject.date} status={subject.status} place={subject.place} navigation={this.props.navigation}/>
       );
     });
   }
@@ -37,7 +37,6 @@ export default class SubjectsList extends Component {
   render() {
     return (
       <Container>
-        <Header androidStatusBarColor="#b70e23"  style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
           <List>
             {this.renderSubjectCards(this.state.data)}
