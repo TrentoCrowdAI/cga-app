@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import { Container, Text, Button, Left, Right, Icon, CardItem, Card, Body, Form, Header, Content, Footer } from 'native-base';
-import Question from "../Components/Question.js";
+import QuestionCard from "../Components/QuestionCard.js";
 import MyTimer from "../Components/MyTimer.js";
-import QuestionPlaceholder from "../Components/QuestionPlaceholder.js";
+import QuestionPlaceholderCard from "../Components/QuestionPlaceholderCard.js";
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -210,7 +210,7 @@ export default class ProfessionalMode extends Component {
             </Body>
           </Header>
           <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
           </Content>
           <Footer style={{ backgroundColor: 'white' }}>
             <Left>
@@ -231,8 +231,8 @@ export default class ProfessionalMode extends Component {
             </Body>
           </Header>
           <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <Question data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholder index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <Question data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <QuestionCard data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} />}
           </Content>
           <Footer style={{ backgroundColor: 'white' }}>
             <Left>

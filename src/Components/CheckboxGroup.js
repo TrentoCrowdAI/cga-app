@@ -63,7 +63,7 @@ export default class CheckboxGroup extends Component {
 
   renderButtonImages = () => { //this function prepare the button that allows to show the image viewer
     if(this.state.images != undefined){
-      return (<Button primary onPress={() => this.setImageViewerVisible(true)} style={styles.button}><Icon name="image"/><Text>Images</Text></Button>);
+      return (<Button primary onPress={() => this.setImageViewerVisible(true)} style={styles.button}><Icon name="image"/><Text>Flashcards</Text></Button>);
     }
   }
 

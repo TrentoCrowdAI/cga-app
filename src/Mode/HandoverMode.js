@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import {Container, Button, Text, Header, Footer, Body, Content} from 'native-base';
-import Question from "../Components/Question.js";
+import QuestionCard from "../Components/QuestionCard.js";
 
 export default class HandoverMode extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ export default class HandoverMode extends Component {
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Header androidStatusBarColor="#115893" style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
-          <Question questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true}/>
+          <QuestionCard questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true}/>
           <Button primary onPress={() => this.returnToProfessionalMode()} style={styles.button}><Text>save</Text></Button>
         </Content>
         <Footer style={{ backgroundColor: 'white' }} />

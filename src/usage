@@ -1,6 +1,6 @@
 --------------------------------------------Package usage--------------------------------------------------------------
 react-navigator --> (AppNavigator) (link https://facebook.github.io/react-native/docs/navigation)
-native-base --> (Checkbox, CheckboxGroup, ImageViewer, ModalMenu, MyPicker, Question, RadioButton, RadioGroup, TextBox,
+native-base --> (Checkbox, CheckboxGroup, ImageViewer, ModalMenu, MyPicker, QuestionCard, RadioButton, RadioGroup, TextBox,
                  YesNoDialog, HandoverMode, ProfessionalMode, EndSession, Guide, SkipQuestion, StopSession )
                  (links https://docs.nativebase.io/docs/GetStarted.html https://www.npmjs.com/package/native-base)
 react-native-image-view --> (ImageViewer) (link https://www.npmjs.com/package/react-native-image-view)
@@ -18,8 +18,8 @@ ModalMenu --> ()
 MyPicker --> ()
 MyTimer --> ()
 ProjectCard --> ()
-Question --> (Textbox, CheckboxGroup, RadioGroup)
-QuestionPlaceholder --> ()
+QuestionCard --> (Textbox, CheckboxGroup, RadioGroup)
+QuestionPlaceholderCard --> ()
 RadioButton --> ()
 RadioGroup --> (RadioButton)
 SideBar --> ()
@@ -29,8 +29,8 @@ TextBox --> ()
 VisitCard --> ()
 ___________________________________________________________________________________________________________
 ___________________________________________Mode folder_____________________________________________________
-HandoverMode --> (Question)
-ProfessionalMode --> (Question, MyTimer, QuestionPlaceholder)
+HandoverMode --> (QuestionCard)
+ProfessionalMode --> (QuestionCard, MyTimer, QuestionPlaceholderCard)
 ___________________________________________________________________________________________________________
 __________________________________________Pages folder_____________________________________________________
 DataCollection --> (DataCollectionCard)

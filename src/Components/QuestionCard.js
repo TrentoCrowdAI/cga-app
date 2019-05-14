@@ -5,7 +5,7 @@ import Textbox from "./Textbox";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";
 
-export default class Question extends Component {
+export default class QuestionCard extends Component {
   constructor(props){
     super(props);
     this.state = {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Title, Text, CardItem, Body, Card, Form } from 'native-base';
 
-export default class QuestionPlaceholder extends Component {
+export default class QuestionPlaceholderCard extends Component {
   constructor(props){
     super(props);
     this.state = {
