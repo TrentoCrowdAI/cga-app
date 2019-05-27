@@ -9,10 +9,13 @@
   "dependencies": {
     "moment": "^2.24.0",
     "native-base": "^2.12.1",
+    "prompt": "^1.0.0",
     "react": "16.8.3",
     "react-native": "^0.59.4",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-image-view": "^2.1.4",
+    "react-native-safari-view": "^2.1.0",
+    "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.6.1"
   },
   "devDependencies": {
