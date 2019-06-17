@@ -1,15 +1,17 @@
 --------------------------------------------Package usage--------------------------------------------------------------
 react-navigator --> (AppNavigator) (link https://facebook.github.io/react-native/docs/navigation)
-native-base --> (Checkbox, CheckboxGroup, ImageViewer, ModalMenu, MyPicker, QuestionCard, RadioButton, RadioGroup, TextBox,
-                 YesNoDialog, HandoverMode, ProfessionalMode, EndSession, Guide, SkipQuestion, StopSession )
+native-base --> (Checkbox, CheckboxGroup, ImageViewer, DataCollectionCard, ModalMenu, MyPicker, MyTimer, ProjectCard, QuestionCard, 
+                 QuestionCardPlaceholder, RadioButton, RadioGroup, SideBar, SideMenuIcon, SubjectCard, TextBox, VisitCard,
+                 HandoverMode, ProfessionalMode, DataCollectionsList, Guide, LoginPage, ProjectList, SkipQuestion, SplashScreen, StopSession,
+                 SubjectPage, SubjectList, SyncList )
                  (links https://docs.nativebase.io/docs/GetStarted.html https://www.npmjs.com/package/native-base)
 react-native-image-view --> (ImageViewer) (link https://www.npmjs.com/package/react-native-image-view)
-react-native-material-dialog --> (YesNoDialog) (link https://www.npmjs.com/package/react-native-material-dialog)
 -----------------------------------------------------------------------------------------------------------------------
 
 --------------------------------------------Components usage----------------------------------------------
 _________________________________________Components folder________________________________________________
-AppNavigator --> (ProfessionalMode, HandoverMode, StopSession, EndSession, Guide, ModalMenu, SkipQuestion, SubjectsList, SubjectPage, DataCollection, LoginPage, SyncList)
+AppNavigator --> (HandoverMode, ProfessionalMode, DataCollectionsList, Guide, LoginPage, ProjectList, SkipQuestion, SplashScreen, StopSession,
+                 SubjectPage, SubjectList, SyncList)
 Checkbox --> ()
 CheckboxGroup --> (Checkbox, ImageViewer)
 DataCollectionCard --> ()
@@ -38,6 +40,7 @@ Guide --> ()
 LoginPage --> (TextBox)
 ProjectList --> (ProjectCard)
 SkipQuestion --> (MyPicker, TextBox)
+SplashScreen --> ()
 StopSession --> (MyPicker, TextBox)
 SubjectsList --> (SubjectCard)
 SubjectPage --> (VisitCard)

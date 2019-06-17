@@ -45,10 +45,10 @@ export default class LoginPage extends Component {
   };
 
   // Handle Login with Google button tap
-  loginWithGoogle = () => this.openURL('http://localhost:3000/auth/google');
+  loginWithGoogle = () => this.openURL('https://cga-api.herokuapp.com/auth/google');
 
   logout = () => {
-    return fetch('http://localhost:3000/logout')
+    return fetch('https://cga-api.herokuapp.com/logout')
       .then(response => {
         console.log('Logged out');
         this.setState({
