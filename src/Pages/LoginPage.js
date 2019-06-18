@@ -38,6 +38,7 @@ export default class LoginPage extends Component {
       // Decode the user string and parse it into JSON
       user: JSON.parse(decodeURI(user_string)),
     });
+    console.log(this.state.user);
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
     }
@@ -78,6 +79,7 @@ export default class LoginPage extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Cookie': 'connect.sid=' + this.state.user.accessToken + ",",
       },
     }).then((responseData) => {
       console.log(this.state.user);
