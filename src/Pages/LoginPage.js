@@ -3,7 +3,6 @@ import { StyleSheet, Image, Linking, Platform, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SafariView from 'react-native-safari-view';
 
-
 export default class LoginPage extends Component {
 
    constructor(props){
@@ -74,7 +73,17 @@ export default class LoginPage extends Component {
 
 
   myProjects = () => {
-    this.props.navigation.navigate("ProjectsList");
+    fetch('https://cga-api.herokuapp.com/projects', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((responseData) => {
+      console.log(this.state.user);
+      console.log(responseData.json());
+      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseData.json()});
+    })
   };
 
   //Esempio di chiamata alle APIs, nel caso in cui venga fatta una richiesta mentre l'utente 
