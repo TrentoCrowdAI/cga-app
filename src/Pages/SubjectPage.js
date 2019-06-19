@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item, Header, List, Footer } from 'native-base';
+import { Container, Title, Text, Button, Card, CardItem, Left, Body, Content, List, Footer } from 'native-base';
 import VisitCard from '../Components/VisitCard.js';
 
 export default class SubjectPage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      name: "Jonas",//this.props.name,
-      surname: "Gonzalez",//this.props.surname,
+      name: props.navigation.state.params.name,
+      surname: props.navigation.state.params.surname,
       status: "rescheduled",//this.props.status,
       date: "08/05/2019",//this.props.date,
       interviewer: "Angely",//this.props.interviewer,
       notes: "The interviewee was tired and requested to rescheduled the rest of the interview",//this.props.notes,
-      visits: [{name: "Demographics", date:"08/05/2019", status:"completed"}, {name: "Physical activitied and interaction", date:"08/05/2019", status:"pending"}, {name: "test1", date:"10/10/2019", status:"completed"}, ]
+      visits: props.navigation.state.params.surveys,
+      navigation: props.navigation.state.params.navigation
     };
   }
 
@@ -33,7 +34,7 @@ export default class SubjectPage extends Component {
   renderVisitCards = (visits) => {
     return visits.map((visit, index) => {
       return (
-        <VisitCard key={index} title={visit.name} date={visit.date} status={visit.status} navigation={this.props.navigation}/>
+        <VisitCard key={index} title={visit.name} date={visit.date} status={visit.status} navigation={this.state.navigation}/>
       );
     });
   }

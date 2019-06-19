@@ -80,6 +80,7 @@ export default class LoginPage extends Component {
       },
     }).then((response) => response.json())
     .then((responseJson) => {
+      //console.log(responseJson);
       this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});
     });
   };

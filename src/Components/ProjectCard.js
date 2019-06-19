@@ -6,16 +6,31 @@ export default class ProjectCard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      id: this.props.id,
       title: this.props.title,
       description: this.props.description,
-      navigation: this.props.navigation,
+      navigation: this.props.navigation
     };
+  }
+
+  moveToDataCollection = () => {
+    fetch('https://cga-api.herokuapp.com/projects/'+this.state.id+'/dataCollections', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+      },
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      //console.log(responseJson);
+      this.state.navigation.navigate("DataCollectionsList", {dataCollections: responseJson, navigation: this.state.navigation});
+    });
   }
 
   render() {
     return (
       <Card>
-        <TouchableOpacity onPress={() => this.state.navigation.navigate("DataCollectionsList")}>
+        <TouchableOpacity onPress={() => this.moveToDataCollection()}>
           <CardItem header>
             <Body style={{ flex: 1,  justifyContent: 'center'}}>
               <Title><Text style={styles.titleText}>{this.state.title}</Text></Title>

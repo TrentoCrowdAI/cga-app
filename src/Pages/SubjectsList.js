@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import {Container, Content, Header, Footer, List, Button, Text } from 'native-base';
+import {Container, Content, Footer, List, Button, Text } from 'native-base';
 import SubjectCard from '../Components/SubjectCard.js';
 
 export default class SubjectsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{name:"Carl", surname:"Perez", place:"Manila", date:"08/05/2019", status:"complete"},
-      {name:"Maria", surname:"Garcia", place:"Manila", date:"08/05/2019", status:"refused"},
-      {name:"Jonas", surname:"Gonzalez", place:"Manila", date:"08/05/2019", status:"rescheduled"},{name:"name 1", surname:"surname 1", place:"place 1", date:"10/10/2019", status:"complete"},],
+      data: this.props.navigation.state.params.subjects,
+      data_collection_id: this.props.navigation.state.params.data_collection_id,
+      navigation: props.navigation.state.params.navigation
     };
   }
 
@@ -29,7 +29,7 @@ export default class SubjectsList extends Component {
   renderSubjectCards = (subjects) => {
     return subjects.map((subject, index) => {
       return (
-        <SubjectCard key={index} name={subject.name} surname={subject.surname} date={subject.date} status={subject.status} place={subject.place} navigation={this.props.navigation}/>
+        <SubjectCard key={index} subject_id={subject.id} data_collection_id={this.state.data_collection_id} name={subject.name} surname={subject.surname} navigation={this.state.navigation}/>
       );
     });
   }

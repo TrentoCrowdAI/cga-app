@@ -7,8 +7,8 @@ export default class DataCollectionsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{name:"Manila field data collection", description:"On the field data collection in Manila"},{name:"Data collection in hospital", description:"Ambulatory data collection"},{name:"ex data collection 3", description:"descr3"},
-              {name:"ex data collection 4", description:"descr4"},{name:"ex data collection 5", description:"descr5"},{name:"ex data collection 6", description:"descr6"}],
+      data: props.navigation.state.params.dataCollections,
+      navigation: props.navigation.state.params.navigation
     };
   }
 
@@ -28,7 +28,7 @@ export default class DataCollectionsList extends Component {
   renderDataCollections = (dataCollections) => {
     return dataCollections.map((dataCollection, index) => {
       return (
-        <DataCollectionCard key={index} title={dataCollection.name} description={dataCollection.description} navigation={this.props.navigation}/>
+        <DataCollectionCard key={index} id={dataCollection.id} title={dataCollection.name} description={dataCollection.description} navigation={this.state.navigation}/>
       );
     });
   }

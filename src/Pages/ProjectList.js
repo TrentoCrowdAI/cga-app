@@ -7,7 +7,6 @@ export default class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: props.navigation.state.params.user,
       data: props.navigation.state.params.projects
     };
   }
@@ -15,7 +14,7 @@ export default class ProjectList extends Component {
   renderProjectsList = (projects) => {
     return projects.map((project, index) => {
       return (
-        <ProjectCard key={index} title={project.name} description={project.description} navigation={this.props.navigation}/>
+        <ProjectCard key={index} id={project.id} title={project.name} description={project.description} navigation={this.props.navigation}/>
       );
     });
   }
