@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import {Container, Content, Header, Footer, List, Button, Icon } from 'native-base';
+import { Container, Content, Footer, List } from 'native-base';
 import ProjectCard from '../Components/ProjectCard.js';
 
 export default class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.navigation.state.params.user,
-      data: this.props.navigation.state.params.projects,//[{name:"CGA Philippines", description:"CGA data collections in the Philippines"},{name:"Cognitive Chatbot study", description:"Data collection for the users studies for the chatbot"}],
+      user: props.navigation.state.params.user,
+      data: props.navigation.state.params.projects
     };
-    console.log(this.props.navigation.state.params.user);
-    console.log(this.props.navigation.state.params.data);
-
-    console.log(this.state.user);
-    console.log(this.state.user);
   }
 
   renderProjectsList = (projects) => {

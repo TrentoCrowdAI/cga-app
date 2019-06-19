@@ -4,13 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SafariView from 'react-native-safari-view';
 
 export default class LoginPage extends Component {
-
    constructor(props){
     super(props);
     this.state = {
-        user: undefined,
-        accessToken: undefined
-      };
+      user: undefined
+    };
   }
   
   //Set up Linking 
@@ -38,7 +36,7 @@ export default class LoginPage extends Component {
       // Decode the user string and parse it into JSON
       user: JSON.parse(decodeURI(user_string)),
     });
-    console.log(this.state.user);
+    
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
     }
@@ -78,14 +76,12 @@ export default class LoginPage extends Component {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cookie': 'connect.sid=' + this.state.user.accessToken + ",",
+        'Cookie': 'connect.sid=' + this.state.user.accessToken + ";",
       },
-    }).then((responseData) => {
-      console.log(this.state.user);
-      console.log(responseData.json());
-      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseData.json()});
-    })
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});
+    });
   };
 
   //Esempio di chiamata alle APIs, nel caso in cui venga fatta una richiesta mentre l'utente 

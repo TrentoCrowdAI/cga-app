@@ -28,6 +28,9 @@ const CgaTestNavigator_StackNavigator = createStackNavigator({
 );
 
 const ProjectsList_StackNavigator = createStackNavigator({
+  LoginPage: {
+    screen: LoginPage
+  },
   ProjectsList: {
     screen: ProjectList,
     navigationOptions: ({ navigation }) => ({
@@ -61,10 +64,6 @@ const SyncList_StackNavigator = createStackNavigator({
 });
 
 const AppNavigator = createDrawerNavigator({
-    LoginPage: {
-      screen: LoginPage
-    },
-    
     ProjectsList: {
       screen: ProjectsList_StackNavigator
     },
