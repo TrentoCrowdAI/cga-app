@@ -14,7 +14,7 @@ import SubjectsList from '../Pages/SubjectsList.js';
 import SubjectPage from '../Pages/SubjectPage.js';
 import SideBar from "./SideBar.js";
 import SideMenuIcon from "./SideMenuIcon.js";
-import SyncList from "../Pages/SyncList.js";
+//import SyncList from "../Pages/SyncList.js";
 
 const CgaTestNavigator_StackNavigator = createStackNavigator({  
     SplashScreen: {screen: SplashScreen},
@@ -48,7 +48,7 @@ const ProjectsList_StackNavigator = createStackNavigator({
   SubjectPage: {screen: SubjectPage},
 });
 
-const SyncList_StackNavigator = createStackNavigator({
+/*const SyncList_StackNavigator = createStackNavigator({
   SyncList: {
     screen: SyncList,
     navigationOptions: ({ navigation }) => ({
@@ -61,16 +61,16 @@ const SyncList_StackNavigator = createStackNavigator({
       headerTintColor: '#fff',
     })
   },
-});
+});*/
 
 const AppNavigator = createDrawerNavigator({
     ProjectsList: {
       screen: ProjectsList_StackNavigator
     },
 
-    SyncList: {
+    /*SyncList: {
       screen: SyncList_StackNavigator
-    },
+    },*/
 
     CgaTestNavigator: {
       screen: CgaTestNavigator_StackNavigator

@@ -2,13 +2,25 @@ import React, {Component} from 'react';
 import { StyleSheet, Image, Linking, Platform, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SafariView from 'react-native-safari-view';
+var RNFS = require('react-native-fs');
+var pathUserId = RNFS.DocumentDirectoryPath + '/configFileUserId.txt';
+var pathAccessToken = RNFS.DocumentDirectoryPath + '/configFileAccessToken.txt';
 
 export default class LoginPage extends Component {
-   constructor(props){
+  constructor(props){
     super(props);
     this.state = {
       user: undefined
     };
+    this.recoverUserInfo();
+  }
+
+  componentWillReceiveProps(nextProp){
+    if(nextProp.navigation.state.params != undefined && nextProp.navigation.state.params.logout != undefined && nextProp.navigation.state.params.logout == true){//if the user tap the logout in the sidebar than we delete the user in the state and the info saved in order to recover the account
+      this.setState({user: undefined});
+      this.removeData(pathAccessToken);
+      this.removeData(pathUserId);
+    } 
   }
   
   //Set up Linking 
@@ -36,22 +48,54 @@ export default class LoginPage extends Component {
       // Decode the user string and parse it into JSON
       user: JSON.parse(decodeURI(user_string)),
     });
+
+    this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in order to recover it in a second time
+    this.storeData(pathAccessToken, this.state.user.accessToken);
     
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
     }
   };
 
+  //this function try to recover the data of the user that was logged in
+  recoverUserInfo = async () => {
+    var userId; 
+    await this.retrieveData(pathUserId).then((response) => userId = response);
+    if(userId != undefined){
+      var accessToken;
+      await this.retrieveData(pathAccessToken).then((response) => accessToken = response);
+      if(accessToken != undefined){//if the data are retrieved successfully than the app try to load the user from the api
+        fetch('https://cga-api.herokuapp.com/users/'+userId, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Cookie': 'connect.sid=' + accessToken + ";",
+          },
+        }).then((response) => response.json())
+        .then((responseJson) => {//setting the user, then the render will reload the page automatically
+          responseJson[0].accessToken = accessToken;
+          this.setState({
+            user: responseJson[0],
+          });
+        });
+      }
+    }
+  }
+
   // Handle Login with Google button tap
-  loginWithGoogle = () => this.openURL('https://cga-api.herokuapp.com/auth/google');
+  loginWithGoogle = () => {
+    this.openURL('https://cga-api.herokuapp.com/auth/google');
+  }
 
   logout = () => {
     return fetch('https://cga-api.herokuapp.com/logout')
       .then(response => {
         console.log('Logged out');
-        this.setState({
+        this.setState({//if the user tap on logout removing the user in the state and the info saved
           user: undefined
         });
+        this.removeData(pathAccessToken);
+        this.removeData(pathUserId);
       })
   }
 
@@ -70,7 +114,7 @@ export default class LoginPage extends Component {
     }
   };
 
-
+  //load the projects connected to the user from the api
   myProjects = () => {
     fetch('https://cga-api.herokuapp.com/projects', {
       method: 'GET',
@@ -80,33 +124,43 @@ export default class LoginPage extends Component {
       },
     }).then((response) => response.json())
     .then((responseJson) => {
-      //console.log(responseJson);
-      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});
+      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});//moving to activity in order to choose the project
     });
   };
 
-  //Esempio di chiamata alle APIs, nel caso in cui venga fatta una richiesta mentre l'utente 
-  //non è loggato o qualsiasi tipo di errore, gestire gli errori
-  // prova = () => {
-  //   return fetch('http://localhost:3000/prova',{
-  //     method: 'get',
-  //     headers: new Headers({
-  //       ContentType: "application/json"
-  //     })
-  //   })
-  //     .then(res => {
-  //       console.log(res);
-  //       if(res.status === 200){
-  //         // TODO: gestire quando la chiamata va a buon fine
-  //       } else{
-  //         // TODO: gestire errori
-  //         console.log(`status: ${res.status}, message: ${res.body}`);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.error(err);
-  //     })
-  // }
+  //store data in the device memory
+  storeData = async (path, value) => {
+    await RNFS.writeFile(path, value, 'utf8')
+    .then((success) => {
+      console.log('FILE WRITTEN ' + path);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+  }
+  
+  //retrieve data from the device
+  retrieveData = async (path) => {
+    return await RNFS.readFile(path, 'utf8')
+    .then((result) => {
+      //console.log(result);
+      return result;
+    })
+    .catch((err) => {
+      console.log(err.message, err.code);
+    });
+  }
+
+  //remove the data from the device
+  removeData = async (path) =>{
+    await RNFS.unlink(path)
+    .then(() => {
+      console.log('FILE DELETED ' + path);
+    })
+    .catch((err) => {// `unlink` will throw an error, if the item to unlink does not exist
+      console.log(err.message);
+    });
+  }
 
   render() {
     const { user } = this.state;

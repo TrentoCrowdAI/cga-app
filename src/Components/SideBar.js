@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Container, Content, Text, List, ListItem, Button } from "native-base";
-const routes = ["ProjectsList", "SyncList", "Logout"];
+import { Container, Content, Text, List, ListItem } from "native-base";
+const activities = [{name:"Projects", navigator_name:"ProjectsList"}, /*{name:"Sync", navigator_name:"SyncList"},*/ {name:"Logout", navigator_name:"LoginPage"}];
 
 export default class SideBar extends Component {
-  renderListItem = (routes) => {
-    return routes.map((route, index) => {
+  renderListItem = (activities) => {
+    return activities.map((activity, index) => {
       return (
-        <ListItem key={index} onPress={() => {this.props.navigation.navigate(route); this.props.navigation.closeDrawer();}}><Text>{route}</Text></ListItem>
+        <ListItem key={index} onPress={() => {activity.name == "Logout" ? this.props.navigation.navigate(activity.navigator_name, {logout: true}) :  this.props.navigation.navigate(activity.navigator_name); this.props.navigation.closeDrawer();}}><Text>{activity.name}</Text></ListItem>
       );
     });
   }
@@ -16,7 +16,7 @@ export default class SideBar extends Component {
       <Container>
         <Content>
           <List>
-            {this.renderListItem(routes)}
+            {this.renderListItem(activities)}
           </List>
         </Content>
       </Container>
