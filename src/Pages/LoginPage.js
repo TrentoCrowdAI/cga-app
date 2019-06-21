@@ -12,7 +12,6 @@ export default class LoginPage extends Component {
     this.state = {
       user: undefined
     };
-    this.recoverUserInfo();
   }
 
   componentWillReceiveProps(nextProp){
@@ -25,6 +24,7 @@ export default class LoginPage extends Component {
   
   //Set up Linking 
   componentDidMount(){
+    this.recoverUserInfo();
     //Add event listener to handle OAuthLogin:// URL
     Linking.addEventListener('url', this.handleOpenURL);
     // Launch from an external URL 
@@ -49,8 +49,10 @@ export default class LoginPage extends Component {
       user: JSON.parse(decodeURI(user_string)),
     });
 
-    this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in order to recover it in a second time
-    this.storeData(pathAccessToken, this.state.user.accessToken);
+    if(this.state.user != null){
+      this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in order to recover it in a second time
+      this.storeData(pathAccessToken, this.state.user.accessToken);
+    }
     
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
@@ -73,10 +75,15 @@ export default class LoginPage extends Component {
           },
         }).then((response) => response.json())
         .then((responseJson) => {//setting the user, then the render will reload the page automatically
-          responseJson[0].accessToken = accessToken;
-          this.setState({
-            user: responseJson[0],
-          });
+          if(responseJson != undefined && responseJson != "User not authenticated"){
+            console.log(responseJson);
+            responseJson[0].accessToken = accessToken;
+            this.setState({
+              user: responseJson[0],
+            });
+          }else{
+            alert("Session expired, please log-in with google.");
+          }
         });
       }
     }

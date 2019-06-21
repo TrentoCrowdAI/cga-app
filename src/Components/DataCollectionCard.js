@@ -23,7 +23,7 @@ export default class DataCollectionCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
-      this.state.navigation.navigate("SubjectsList", {subjects: responseJson, navigation: this.state.navigation, data_collection_id: this.state.id});
+      this.state.navigation.navigate("SubjectsList", {subjects: responseJson, data_collection_id: this.state.id, navigation: this.state.navigation});
     });
   }
 

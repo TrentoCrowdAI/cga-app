@@ -11,11 +11,23 @@ import ImageViewer from "./ImageViewer.js";
 export default class CheckboxGroup extends Component {
   constructor(props) {
     super(props);
+
+    var language = 0;
+    for(language = 0; language < this.props.options[0].labels.length; language++){//searching the language between the proposed
+      if(this.props.options[0].labels[language].language == this.props.language){
+        break;
+      }
+    }
+
     this.state = {
+      options: this.props.options,
       indexQuestion: this.props.indexQuestion,
       itemSelected: {},
       images: this.props.images,
       imageViewerVisible: false,
+      language: this.props.language,
+      languageIndex: language
+      
     }
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;
@@ -50,7 +62,7 @@ export default class CheckboxGroup extends Component {
       if(this.state.itemSelected[index] == undefined)//checks if the state hasn't been restored from the props.saved otherwise it set it to false
         this.state.itemSelected[index] = false;
       return (
-        <Checkbox key={index} text={options.labels[0].content} updateState={this.update} checked={this.state.itemSelected[index]} index={index}/>
+        <Checkbox key={index} text={options.labels[this.state.languageIndex].content} updateState={this.update} checked={this.state.itemSelected[index]} index={index}/>
       );
     });
   }
@@ -71,7 +83,7 @@ export default class CheckboxGroup extends Component {
     return (
       <Form style={{alignSelf: 'stretch'}}>
         <List>
-          {this.renderList(this.props.labels)}
+          {this.renderList(this.state.options)}
         </List>
         <Item>
           <Body>

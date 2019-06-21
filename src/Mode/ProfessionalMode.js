@@ -13,8 +13,9 @@ export default class ProfessionalMode extends Component {
       indexQuestion: 0,
       questionObj_0: undefined,
       questionObj_1: undefined,
-      savedData: {},
-      isLoading: true
+      savedData: {},//props.navigation.state.params.responses
+      isLoading: true,
+      language: 'english'
     };
     this.state.questionObj_0 = this.state.survey.items[this.state.indexQuestion];
     if(this.calculateSize(this.state.indexQuestion) == true){
@@ -48,7 +49,13 @@ export default class ProfessionalMode extends Component {
 
     //calculate size question i 
     q1 = 0;
-    for(x = 0; x < this.state.survey.items[i].labels[0].content.length;){//title
+    var language = 0;
+    for(language = 0; language < this.state.survey.items[i].labels.length; language++){//searching the language between the proposed
+      if(this.state.survey.items[i].labels[language].language == this.state.language){
+        break;
+      }
+    }
+    for(x = 0; x < this.state.survey.items[i].labels[language].content.length;){//title
       q1 = q1 + 10;
       x = x+40;
     }
@@ -58,7 +65,7 @@ export default class ProfessionalMode extends Component {
     if(q1 <= treshold){
       //calculate size question i+1 
       q2 = 0;
-      for(x = 0; x < this.state.survey.items[i+1].labels[0].content.length;){//title
+      for(x = 0; x < this.state.survey.items[i+1].labels[language].content.length;){//title
         q2 = q2 + 10;
         x = x+40;
       }
@@ -210,7 +217,7 @@ export default class ProfessionalMode extends Component {
             </Body>
           </Header>
           <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
           </Content>
           <Footer style={{ backgroundColor: 'white' }}>
             <Left>
@@ -231,8 +238,8 @@ export default class ProfessionalMode extends Component {
             </Body>
           </Header>
           <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} />}
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <QuestionCard data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} />}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
+            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <QuestionCard data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} language={this.state.language} />}
           </Content>
           <Footer style={{ backgroundColor: 'white' }}>
             <Left>

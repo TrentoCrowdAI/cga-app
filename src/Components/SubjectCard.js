@@ -8,8 +8,7 @@ export default class SubjectCard extends Component {
     this.state = {
       data_collection_id: this.props.data_collection_id,
       subject_id: this.props.subject_id,
-      name: this.props.name,
-      surname: this.props.surname,
+      subject: this.props.subject,
       navigation: this.props.navigation
     };
   }
@@ -24,7 +23,7 @@ export default class SubjectCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
-      this.state.navigation.navigate("SubjectPage", {name: this.state.name, surname: this.state.surname, surveys: responseJson, navigation: this.state.navigation});
+      this.state.navigation.navigate("SubjectPage", {subject: this.state.subject, surveys: responseJson, navigation: this.state.navigation});
     });
   }
 
@@ -34,7 +33,7 @@ export default class SubjectCard extends Component {
         <TouchableOpacity onPress={() => this.moveToSubjectPage()}>
           <CardItem header>
             <Body style={{ flex: 1,  justifyContent: 'center'}}>
-              <Title><Text style={styles.titleText}>{this.state.name}{" "}{this.state.surname}</Text></Title>
+              <Title><Text style={styles.titleText}>{this.state.subject.name}{" "}{this.state.subject.surname}</Text></Title>
             </Body>
           </CardItem>
         </TouchableOpacity>

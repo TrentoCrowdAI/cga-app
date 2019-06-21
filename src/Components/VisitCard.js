@@ -8,8 +8,7 @@ export default class VisitCard extends Component {
     this.state = {
       title: this.props.title,
       date: this.props.date,
-      status: this.props.status,
-      navigation: this.props.navigation,
+      status: this.props.status
     };
   }
 
@@ -22,7 +21,7 @@ export default class VisitCard extends Component {
           </Body>
         </CardItem>
         <CardItem>
-          <Left><Text>{this.state.date}</Text></Left><Right><Text>{this.state.status}</Text></Right>
+          <Left><Text>{this.state.date.substring(0,10)}</Text></Left><Right><Text>{this.state.status}</Text></Right>
         </CardItem>
       </Card>
     );

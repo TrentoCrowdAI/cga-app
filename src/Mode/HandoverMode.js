@@ -11,6 +11,7 @@ export default class HandoverMode extends Component {
       questionObj: this.props.navigation.state.params.questionObj,
       data: this.props.navigation.state.params.data,
       savedData: undefined,
+      language: this.props.navigation.state.params.language
     };
   }
 
@@ -51,7 +52,7 @@ export default class HandoverMode extends Component {
       <Container style={{flex: 1, flexDirection: "column"}}>
         <Header androidStatusBarColor="#115893" style={{ backgroundColor: 'white' }} />
         <Content style={{ backgroundColor: 'white' }}>
-          <QuestionCard questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true}/>
+          <QuestionCard questionObj={this.state.questionObj} save={this.saveValue} indexQuestion={this.state.indexQuestion} data={this.state.data} handoverMode={true} language={this.state.language}/>
           <Button primary onPress={() => this.returnToProfessionalMode()} style={styles.button}><Text>save</Text></Button>
         </Content>
         <Footer style={{ backgroundColor: 'white' }} />

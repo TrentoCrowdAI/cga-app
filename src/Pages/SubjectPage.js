@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button, Card, CardItem, Left, Body, Content, List, Footer } from 'native-base';
+import { Container, Title, Text, Button, Card, CardItem, Left, Content, List, Footer } from 'native-base';
 import VisitCard from '../Components/VisitCard.js';
+var RNFS = require('react-native-fs');
+var pathSurveyComponentId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentId.txt';
+var pathSurveyComponentResponseId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentResponseId.txt';
 
 export default class SubjectPage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      name: props.navigation.state.params.name,
-      surname: props.navigation.state.params.surname,
-      status: "rescheduled",//this.props.status,
-      date: "08/05/2019",//this.props.date,
-      interviewer: "Angely",//this.props.interviewer,
-      notes: "The interviewee was tired and requested to rescheduled the rest of the interview",//this.props.notes,
-      visits: props.navigation.state.params.surveys,
+      name: props.navigation.state.params.subject.name,
+      surname: props.navigation.state.params.subject.surname,
+      location: props.navigation.state.params.subject.location,
+      contact: props.navigation.state.params.subject.contact,
+      status: props.navigation.state.params.subject.status,
+      date: props.navigation.state.params.subject.creation_date,
+      surveys: props.navigation.state.params.surveys,
       navigation: props.navigation.state.params.navigation
     };
+
+    var i = 0;
+    for (i = 0; i < this.state.surveys.length; i++){//in order to pass the parameter to the splash screen, that isn't in the same stack, the app will set a file in the device
+      if(this.state.surveys[i].status == 'incomplete'){
+        this.storeData(pathSurveyComponentId, ""+this.state.surveys[i].survey_component_id);
+        this.storeData(pathSurveyComponentResponseId, ""+this.state.surveys[i].survey_component_response_id);
+        break;
+      }
+    }
   }
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
@@ -31,11 +43,22 @@ export default class SubjectPage extends Component {
     };
   };    
 
-  renderVisitCards = (visits) => {
-    return visits.map((visit, index) => {
+  renderVisitCards = (surveys) => {
+    return surveys.map((survey, index) => {
       return (
-        <VisitCard key={index} title={visit.name} date={visit.date} status={visit.status} navigation={this.state.navigation}/>
+        <VisitCard key={index} title={survey.name} date={survey.creation_date} status={survey.status}/>
       );
+    });
+  }
+
+  //store data in the device memory
+  storeData = async (path, value) => {
+    return await RNFS.writeFile(path, value, 'utf8')
+    .then((success) => {
+      return success;
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
   }
 
@@ -44,22 +67,20 @@ export default class SubjectPage extends Component {
       <Container>
         <Content style={{ backgroundColor: 'white' }}>
           <Card>
-            <CardItem header>
-              <Body style={{ flex: 1,  justifyContent: 'center'}}>
-                <Title><Text style={styles.titleText}>{this.state.name}{" "}{this.state.surname}</Text></Title>
-              </Body>
+            <CardItem>
+              <Left><Text style={styles.titleText}>Patient: </Text><Text>{this.state.name}{" "}{this.state.surname}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text style={styles.titleText}>Date: </Text><Text>{this.state.date}</Text></Left>
+              <Left><Text style={styles.titleText}>Location: </Text><Text>{this.state.location}</Text></Left>
             </CardItem>
             <CardItem>
-              <Left><Text style={styles.titleText}>Interviewer: </Text><Text>{this.state.interviewer}</Text></Left>
+              <Left><Text style={styles.titleText}>Contact: </Text><Text>{this.state.contact}</Text></Left>
+            </CardItem>
+            <CardItem>
+              <Left><Text style={styles.titleText}>Created at: </Text><Text>{this.state.date.substring(0, 10)}</Text></Left>
             </CardItem>
             <CardItem>
               <Left><Text style={styles.titleText}>Status: </Text><Text>{this.state.status}</Text></Left>
-            </CardItem>
-            <CardItem>
-              <Left><Text style={styles.titleText}>Notes: </Text><Text>{this.state.notes}</Text></Left>
             </CardItem>
             <CardItem>
               <Left><Text style={styles.titleText}>Visits: </Text></Left>
@@ -67,7 +88,7 @@ export default class SubjectPage extends Component {
             <CardItem>
               <Content>
                 <List>
-                  {this.renderVisitCards(this.state.visits)}
+                  {this.renderVisitCards(this.state.surveys)}
                 </List> 
               </Content>
             </CardItem>

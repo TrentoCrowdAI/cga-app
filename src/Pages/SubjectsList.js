@@ -29,7 +29,7 @@ export default class SubjectsList extends Component {
   renderSubjectCards = (subjects) => {
     return subjects.map((subject, index) => {
       return (
-        <SubjectCard key={index} subject_id={subject.id} data_collection_id={this.state.data_collection_id} name={subject.name} surname={subject.surname} navigation={this.state.navigation}/>
+        <SubjectCard key={index} subject_id={subject.id} data_collection_id={this.state.data_collection_id} subject={subject} navigation={this.state.navigation}/>
       );
     });
   }
@@ -42,9 +42,6 @@ export default class SubjectsList extends Component {
             {this.renderSubjectCards(this.state.data)}
           </List>
         </Content>
-        <Footer style={{ backgroundColor: 'white' }}>
-          <Button style={styles.button}><Text>New Interview</Text></Button>
-        </Footer>
       </Container>
     );
   }

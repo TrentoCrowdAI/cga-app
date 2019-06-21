@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
-import { Container, List, Content, Form } from 'native-base';
+import { List, Form } from 'native-base';
 import RadioButton from "./RadioButton";
 
 export default class RadioGroup extends Component {
   constructor(props) {
     super(props);
+
+    var language = 0;
+    for(language = 0; language < this.props.options[0].labels.length; language++){//searching the language between the proposed
+      if(this.props.options[0].labels[language].language == this.props.language){
+        break;
+      }
+    }
+
     this.state = {
+      options: props.options,
       indexQuestion: props.indexQuestion,
-      itemSelected: "0"
+      itemSelected: "0",
+      language: this.props.language,
+      languageIndex: language
     }
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;
@@ -39,7 +50,7 @@ export default class RadioGroup extends Component {
   renderList(initialArr) { //this function prepare the list of radiobutton in order to add them in one time
     return initialArr.map((options, index) => {
       return (
-        <RadioButton key={index} text={options.labels[0].content} updateState={this.updateState} selected={this.state.itemSelected} index={"" + index} />
+        <RadioButton key={index} text={options.labels[this.state.languageIndex].content} updateState={this.updateState} selected={this.state.itemSelected} index={"" + index} />
       );
     });
   }
@@ -48,7 +59,7 @@ export default class RadioGroup extends Component {
     return (
       <Form style={{alignSelf: 'stretch'}}>
         <List>
-          {this.renderList(this.props.labels)}
+          {this.renderList(this.state.options)}
         </List>
       </Form>
     );

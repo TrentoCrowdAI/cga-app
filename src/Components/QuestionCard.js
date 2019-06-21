@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Title, Text, Button, Card, CardItem, Right, Left, Body, Form, Content, Item } from 'native-base';
-import Textbox from "./Textbox";
+import { Title, Text, Button, Card, CardItem, Right, Left, Body, Form } from 'native-base';
+import TextQuestion from "./TextQuestion";
 import CheckboxGroup from "./CheckboxGroup";
 import RadioGroup from "./RadioGroup";
 
@@ -14,32 +14,33 @@ export default class QuestionCard extends Component {
       question: {},
       save: this.props.save,
       handoverMode: this.props.handoverMode,
+      language: this.props.language
     };
   }
 
   //this 3 functions allow the component to create the question basing on the question type
-  createTextbox = (label) => {
+  createTextbox = (labels) => {
     return (
-      <Textbox label={label} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved}/>     
+      <TextQuestion labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} language={this.state.language}/>     
     );
   }
 
-  createRadioGroup = (labels) => {
+  createRadioGroup = (options) => {
     return (
-      <RadioGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} />
+      <RadioGroup options={options} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved}  language={this.state.language}/>
     );
   }
 
-  createCheckboxGroup = (labels, images) => {
+  createCheckboxGroup = (options, images) => {
     return (
-      <CheckboxGroup labels={labels} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images}/>
+      <CheckboxGroup options={options} save={this.props.save} indexQuestion={this.state.indexQuestion} saved={this.props.saved} images={images} language={this.state.language}/>
     );
   }
 
   //basing on the question type this method create the question object in order to show it
   renderQuestion = () => {
     if(this.state.data.type == "inputText"){
-      this.state.question = this.createTextbox(this.state.data.options[0].content);
+      this.state.question = this.createTextbox(this.state.data.options[0].labels);//in this case the question has only one group of label than we directly pass it
     }else if(this.state.data.type == "SingleChoise"){
       this.state.question = this.createRadioGroup(this.state.data.options);
     }
@@ -51,32 +52,40 @@ export default class QuestionCard extends Component {
   //this function resolve the problem of a title with a lot of characters, if the lenght of the title is bigger than the threshold it split the title in more than one
   renderTitle = () =>{
     maxLen = 40;
-    if(this.state.data.labels[0].content.length < maxLen) //basi case when the title is smaller than the treshold
-      return(<Form><Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content}</Text></Title></Form>);
+
+    var language = 0;
+    for(language = 0; language < this.state.data.labels.length; language++){//searching the language between the proposed
+      if(this.state.data.labels[language].language == this.state.language){
+        break;
+      }
+    }
+
+    if(this.state.data.labels[language].content.length < maxLen) //basi case when the title is smaller than the treshold
+      return(<Form><Title style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[language].content}</Text></Title></Form>);
     else{
       vectTitle = []
       i = 0
-      while(i < this.state.data.labels[0].content.length){
+      while(i < this.state.data.labels[language].content.length){
         if( i == 0 ){//only the first title has the margintop attribute
-          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
-            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+          for(x = 0; x < this.state.data.labels[language].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[language].content[i+maxLen+x] == ' '){
               break;
             }
           }
-          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          vectTitle.push(<Title key={i} style={styles.title}><Text style={styles.titleText}>{this.state.data.labels[language].content.substring(i, (i + x + maxLen))}</Text></Title>);
           i = i + x + maxLen;
         }
-        else if((i + maxLen) < this.state.data.labels[0].content.length){
-          for(x = 0; x < this.state.data.labels[0].content.length; x++){//searching fot the first space in order to separate the sentence correctly
-            if(this.state.data.labels[0].content[i+maxLen+x] == ' '){
+        else if((i + maxLen) < this.state.data.labels[language].content.length){
+          for(x = 0; x < this.state.data.labels[language].content.length; x++){//searching fot the first space in order to separate the sentence correctly
+            if(this.state.data.labels[language].content[i+maxLen+x] == ' '){
               break;
             }
           }
-          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, (i + x + maxLen))}</Text></Title>);
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[language].content.substring(i, (i + x + maxLen))}</Text></Title>);
           i = i + x + maxLen;
         } else {//when the characters are minus than the treshold it create a title with the remained characters
-          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[0].content.substring(i, this.state.data.labels[0].content.length)}</Text></Title>);
-          i = this.state.data.labels[0].content.length;
+          vectTitle.push(<Title key={i}><Text style={styles.titleText}>{this.state.data.labels[language].content.substring(i, this.state.data.labels[language].content.length)}</Text></Title>);
+          i = this.state.data.labels[language].content.length;
         }
       }
       return(
@@ -93,7 +102,7 @@ export default class QuestionCard extends Component {
   }
 
   handoverMode = () => {
-    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.state.indexQuestion, questionObj: this.state.question, data: this.state.data});
+    this.props.navigation.navigate("HandoverMode", {indexQuestion: this.state.indexQuestion, questionObj: this.state.question, data: this.state.data, language: this.state.language});
   }
 
   componentWillReceiveProps(nextProp){ //this question allow the component to update itself when it receive an updated props,
