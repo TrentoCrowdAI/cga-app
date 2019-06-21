@@ -30,8 +30,8 @@ export default class SpalshScreen extends Component {
     });
   }
 
-  moveToProfessionalMode = (items, response) => {//put the data inside the navigation component and move the activity to ProfessionalMode
-    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response});
+  moveToProfessionalMode = (items, response, accessToken, surveyComponentResponseId) => {//put the data inside the navigation component and move the activity to ProfessionalMode
+    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, accessToken: accessToken, surveyComponentResponseId});
   }
 
   prepareData = async () => {
@@ -63,7 +63,7 @@ export default class SpalshScreen extends Component {
       })
       .then((responses) => {
         //console.log(responses);
-        this.moveToProfessionalMode(survey, responses);
+        this.moveToProfessionalMode(survey, responses, accessToken, surveyComponentResponseId);
       });
     });
   }

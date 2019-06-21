@@ -29,7 +29,10 @@ const CgaTestNavigator_StackNavigator = createStackNavigator({
 
 const ProjectsList_StackNavigator = createStackNavigator({
   LoginPage: {
-    screen: LoginPage
+    screen: LoginPage,
+    navigationOptions:({navigation}) => ({
+      header: null,
+    }),
   },
   ProjectsList: {
     screen: ProjectList,
