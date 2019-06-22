@@ -16,17 +16,6 @@ import SideBar from "./SideBar.js";
 import SideMenuIcon from "./SideMenuIcon.js";
 //import SyncList from "../Pages/SyncList.js";
 
-const CgaTestNavigator_StackNavigator = createStackNavigator({  
-    SplashScreen: {screen: SplashScreen},
-    ProfessionalMode: {screen: ProfessionalMode},
-    ModalMenu: { screen: ModalMenu },
-    StopSession: {screen: StopSession},
-    Guide: {screen: Guide},
-    SkipQuestion: {screen: SkipQuestion},
-    HandoverMode: {screen: HandoverMode},
-  }
-);
-
 const ProjectsList_StackNavigator = createStackNavigator({
   LoginPage: {
     screen: LoginPage,
@@ -81,11 +70,6 @@ const AppNavigator = createDrawerNavigator({
     /*SyncList: {
       screen: SyncList_StackNavigator
     },*/
-
-    /*CgaTestNavigator: {
-      screen: CgaTestNavigator_StackNavigator
-    },*/
-
   },
   {
     contentComponent: SideBar,

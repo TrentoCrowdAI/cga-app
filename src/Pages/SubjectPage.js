@@ -62,6 +62,10 @@ export default class SubjectPage extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps.navigation.state.params);
+  }
+
   render() {
     return (
       <Container>
@@ -95,7 +99,7 @@ export default class SubjectPage extends Component {
           </Card>
         </Content>
         <Footer style={{ backgroundColor: 'white' }}>
-          <Button style={styles.button} onPress={() => this.props.navigation.navigate("SplashScreen")}><Text>Resume</Text></Button>
+          <Button style={styles.button} onPress={() => this.props.navigation.navigate("SplashScreen", {mode:"download"})}><Text>Resume</Text></Button>
         </Footer>
       </Container>
     );
