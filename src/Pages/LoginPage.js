@@ -24,7 +24,9 @@ export default class LoginPage extends Component {
   
   //Set up Linking 
   componentDidMount(){
-    this.recoverUserInfo();
+    if(this.state.user == undefined){
+      this.recoverUserInfo();
+    }
     //Add event listener to handle OAuthLogin:// URL
     Linking.addEventListener('url', this.handleOpenURL);
     // Launch from an external URL 
@@ -49,7 +51,7 @@ export default class LoginPage extends Component {
       user: JSON.parse(decodeURI(user_string)),
     });
 
-    if(this.state.user != null){
+    if(this.state.user != null && this.state.user.id != undefined && this.state.user.accessToken != undefined){
       this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in order to recover it in a second time
       this.storeData(pathAccessToken, this.state.user.accessToken);
     }

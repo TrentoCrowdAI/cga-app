@@ -23,7 +23,7 @@ export default class SubjectCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
-      this.state.navigation.navigate("SubjectPage", {subject: this.state.subject, surveys: responseJson, navigation: this.state.navigation});
+      this.state.navigation.navigate("SubjectPage", {subject: this.state.subject, surveys: responseJson, navigation: this.state.navigation, dataCollectionId: this.state.data_collection_id, user: this.state.navigation.state.params.user});
     });
   }
 

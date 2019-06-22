@@ -193,7 +193,7 @@ export default class ProfessionalMode extends Component {
           text: 'No',
         },
         {text: 'Yes', onPress: () => {  
-            this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, accessToken: this.state.accessToken, surveyComponentResponseId: this.state.surveyComponentResponseId});
+          this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, accessToken: this.state.accessToken, surveyComponentResponseId: this.state.surveyComponentResponseId});
         }},
       ],
       {cancelable: false},

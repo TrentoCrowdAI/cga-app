@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Container, Text, Title } from 'native-base';
-import { StackActions } from 'react-navigation';
-const popAction = StackActions.pop({
-  n: 1,
-});
 var RNFS = require('react-native-fs');
 var pathSurveyId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentId.txt';
 var pathAccessToken = RNFS.DocumentDirectoryPath + '/configFileAccessToken.txt';
@@ -82,7 +78,7 @@ export default class SpalshScreen extends Component {
       }
     }
     Promise.all(vettPromise).then((result) => result).then((result) => {
-      this.props.navigation.dispatch(popAction);
+      this.props.navigation.goBack();
     });
   }
 

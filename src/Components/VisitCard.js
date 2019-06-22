@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Title, Text, Card, CardItem, Right, Left, Body } from 'native-base';
 
 export default class VisitCard extends Component {
@@ -10,6 +10,15 @@ export default class VisitCard extends Component {
       date: this.props.date,
       status: this.props.status
     };
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      title: nextProps.title,
+      date: nextProps.date,
+      status: nextProps.status
+    });
+    this.forceUpdate();
   }
 
   render() {
