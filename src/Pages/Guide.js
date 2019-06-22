@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Text, Card, CardItem, Body } from 'native-base';
+import { Container, Text, Card, CardItem, Body, Icon } from 'native-base';
 
 export default class Guide extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      oldProfessionalModeState: props.navigation.state.params.oldProfessionalModeState,
     }
   }
 
@@ -16,8 +17,9 @@ export default class Guide extends Component {
         backgroundColor: navigation.getParam('BackgroundColor', '#EF233C'),
         //Background color of ActionBar
       },
-      headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
+      headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
+      headerLeft:(<Button transparent onPress = {() => (navigation.replace('ProfessionalMode', {oldProfessionalModeState: navigation.state.params.oldProfessionalModeState}))}><Icon name='arrowleft' style={{color:"white"}} /></Button>)
     };
   };
 

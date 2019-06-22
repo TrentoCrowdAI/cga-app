@@ -9,23 +9,28 @@ import QuestionPlaceholderCard from "../Components/QuestionPlaceholderCard.js";
 export default class ProfessionalMode extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      accessToken: props.navigation.state.params.accessToken,
-      surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
-      survey: props.navigation.state.params.survey,
-      indexQuestion: 0,
-      questionObj_0: undefined,
-      questionObj_1: undefined,
-      savedData: {},
-      isLoading: true,
-      language: 'english'
-    };
+    if(props.navigation.state.params.oldProfessionalModeState != null){
+      this.state = props.navigation.state.params.oldProfessionalModeState;
+    }else{
+      this.state = {
+        accessToken: props.navigation.state.params.accessToken,
+        surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
+        survey: props.navigation.state.params.survey,
+        responses: props.navigation.state.params.responses,
+        indexQuestion: 0,
+        questionObj_0: undefined,
+        questionObj_1: undefined,
+        savedData: {},
+        isLoading: true,
+        language: 'english'
+      };
+    }
 
     //recover the old questions
-    for(var x = 0; x < props.navigation.state.params.survey.items.length; x++){
-      for(var i = 0; i < props.navigation.state.params.responses.length; i++){
-        if(props.navigation.state.params.responses[i].survey_item_id == props.navigation.state.params.survey.items[x].id){
-          this.state.savedData[x] = props.navigation.state.params.responses[i].value;
+    for(var x = 0; x < this.state.survey.items.length; x++){
+      for(var i = 0; i < this.state.responses.length; i++){
+        if(this.state.responses[i].survey_item_id == this.state.survey.items[x].id){
+          this.state.savedData[x] = this.state.responses[i].value;
           break;
         }
       }
@@ -37,6 +42,7 @@ export default class ProfessionalMode extends Component {
     }
     this.props.navigation.setParams({ Title: this.state.survey.name });
     this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
+    this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   static navigationOptions = ({ navigation }) => { //this function prepare the header of the activity
@@ -52,7 +58,7 @@ export default class ProfessionalMode extends Component {
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate('ModalMenu', {savedData: navigation.state.params.savedData, survey: navigation.state.params.survey, accessToken: navigation.state.params.accessToken, surveyComponentResponseId: navigation.state.params.surveyComponentResponseId})}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
+        <Button transparent onPress={() => navigation.replace('ModalMenu', {savedData: navigation.state.params.savedData, survey: navigation.state.params.survey, accessToken: navigation.state.params.accessToken, indexQuestion: navigation.state.params.indexQuestion, surveyComponentResponseId: navigation.state.params.surveyComponentResponseId, oldProfessionalModeState:navigation.state.params.oldProfessionalModeState})}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
       ),
       headerLeft:(<Button transparent />)
     };
@@ -134,6 +140,7 @@ export default class ProfessionalMode extends Component {
         });
       }
     }
+    this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   prevQuestion = () => {
@@ -174,6 +181,7 @@ export default class ProfessionalMode extends Component {
         });
       }
     }
+    this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   saveValue = (index, value) => { //this function allow the component to update its state
@@ -181,6 +189,7 @@ export default class ProfessionalMode extends Component {
     if(this.state.savedData[index] != value){//setting the data only if they are different from the saved one, otherwise it freeze the UI
       this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
     }
+    this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   //this function create an alert and if the user press yes the app will show endsession page, the app will also pass the this.state.savedData param

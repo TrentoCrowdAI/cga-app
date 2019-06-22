@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert } from 'react-native';
-import { Container, Button, Text } from 'native-base';
+import { Container, Button, Text, Icon } from 'native-base';
 
 export default class ModalMenu extends Component {
   constructor(props){
     super(props);
+    console.log(props.navigation.state.params.oldProfessionalModeState)
     this.state = {
+      oldProfessionalModeState: props.navigation.state.params.oldProfessionalModeState,
       dialogVisible: false,
       surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
       accessToken: props.navigation.state.params.accessToken,
@@ -24,6 +26,7 @@ export default class ModalMenu extends Component {
         //Background color of ActionBar
       },
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
+      headerLeft:(<Button transparent onPress = {() => (navigation.replace('ProfessionalMode', {oldProfessionalModeState: navigation.state.params.oldProfessionalModeState}))}><Icon name='leftarrow' style={{color:"white"}} /></Button>)
     };
   };
 
@@ -46,7 +49,7 @@ export default class ModalMenu extends Component {
 
   showGuide = () => {
     this.props.navigation.goBack();
-    this.props.navigation.navigate("Guide");
+    this.props.navigation.navigate("Guide", {oldProfessionalModeState: this.state.oldProfessionalModeState});
   }
 
   render() {

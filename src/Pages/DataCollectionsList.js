@@ -7,6 +7,7 @@ export default class DataCollectionsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      update: true,
       data: props.navigation.state.params.dataCollections,
       navigation: props.navigation.state.params.navigation
     };
