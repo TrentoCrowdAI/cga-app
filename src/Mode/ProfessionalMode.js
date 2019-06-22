@@ -4,6 +4,11 @@ import { Container, Text, Button, Left, Right, Icon, Body, Header, Content, Foot
 import QuestionCard from "../Components/QuestionCard.js";
 import MyTimer from "../Components/MyTimer.js";
 import QuestionPlaceholderCard from "../Components/QuestionPlaceholderCard.js";
+import HandleBack from "../Components/HandleBack.js";
+import { StackActions } from 'react-navigation';
+const popAction = StackActions.pop({
+  n: 1,
+});
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
@@ -21,10 +26,10 @@ export default class ProfessionalMode extends Component {
     };
 
     //recover the old questions
-    for(var i = 0; i < props.navigation.state.params.responses.length; i++){
-      for(var x = 0; x < props.navigation.state.params.survey.items.length; x++){
+    for(var x = 0; x < props.navigation.state.params.survey.items.length; x++){
+      for(var i = 0; i < props.navigation.state.params.responses.length; i++){
         if(props.navigation.state.params.responses[i].survey_item_id == props.navigation.state.params.survey.items[x].id){
-          this.state.savedData[i] = props.navigation.state.params.responses[i].value;
+          this.state.savedData[x] = props.navigation.state.params.responses[i].value;
           break;
         }
       }
@@ -51,8 +56,9 @@ export default class ProfessionalMode extends Component {
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate('ModalMenu', {savedData: navigation.state.params.savedData})}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
-      )
+        <Button transparent onPress={() => navigation.navigate('ModalMenu', {savedData: navigation.state.params.savedData, survey: navigation.state.params.survey, accessToken: navigation.state.params.accessToken, surveyComponentResponseId: navigation.state.params.surveyComponentResponseId})}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
+      ),
+      headerLeft:(<Button transparent />)
     };
   };
 
@@ -197,7 +203,10 @@ export default class ProfessionalMode extends Component {
               vettPromise.push(this.uploadData(i));
             }
           }
-          Promise.all(vettPromise).then((result) => console.log(result)).then((result) => this.props.navigation.navigate("SubjectPage", {savedData: this.state.savedData}));
+          Promise.all(vettPromise).then((result) => result).then((result) => {
+            //this.props.navigation.navigate("SubjectPage");
+            this.props.navigation.dispatch(popAction);
+          });
         }},
       ],
       {cancelable: false},
@@ -241,51 +250,55 @@ export default class ProfessionalMode extends Component {
         this.nextQuestion(); //if all the question are already compiled the component will automatically proceed
       }
     }
-  }
+  } 
 
   render() {
     if(this.state.questionObj_1 == null){ // data to show if only one question is prepared from the backend
       return (
-        <Container>
-          <Header androidStatusBarColor="#b70e23" style={{ backgroundColor: 'white' }}>
-            <Body>
-              <MyTimer />
-            </Body>
-          </Header>
-          <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
-          </Content>
-          <Footer style={{ backgroundColor: 'white' }}>
-            <Left>
-              {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
-            </Left>
-            <Right>
-              {(this.state.indexQuestion == (this.state.survey.items.length-1)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
-            </Right>
-          </Footer>
-        </Container>
+        <HandleBack onBack={this.onBack} navigation={this.props.navigate}>
+          <Container>
+            <Header androidStatusBarColor="#b70e23" style={{ backgroundColor: 'white' }}>
+              <Body>
+                <MyTimer />
+              </Body>
+            </Header>
+            <Content style={{ backgroundColor: 'white' }}>
+              {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
+            </Content>
+            <Footer style={{ backgroundColor: 'white' }}>
+              <Left>
+                {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
+              </Left>
+              <Right>
+                {(this.state.indexQuestion == (this.state.survey.items.length-1)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
+              </Right>
+            </Footer>
+          </Container>
+        </HandleBack>
       );
     }else{ // data to show if two questions are prepared from the backend
       return (
-        <Container>
-          <Header androidStatusBarColor="#b70e23" style={{ backgroundColor: 'white' }}>
-            <Body>
-              <MyTimer />
-            </Body>
-          </Header>
-          <Content style={{ backgroundColor: 'white' }}>
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
-            {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <QuestionCard data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} language={this.state.language} />}
-          </Content>
-          <Footer style={{ backgroundColor: 'white' }}>
-            <Left>
-              {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
-            </Left>
-            <Right>
-              {(this.state.indexQuestion == (this.state.survey.items.length-2)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
-            </Right>
-          </Footer>
-        </Container>
+        <HandleBack onBack={this.onBack} navigation={this.props.navigate}>
+          <Container>
+            <Header androidStatusBarColor="#b70e23" style={{ backgroundColor: 'white' }}>
+              <Body>
+                <MyTimer />
+              </Body>
+            </Header>
+            <Content style={{ backgroundColor: 'white' }}>
+              {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion] != undefined && this.state.savedData[this.state.indexQuestion].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion} type={this.state.savedData[this.state.indexQuestion].value} /> : <QuestionCard data={this.state.questionObj_0} save={this.saveValue} indexQuestion={this.state.indexQuestion} saved={this.state.savedData[this.state.indexQuestion]} navigation={this.props.navigation} language={this.state.language}/>}
+              {(this.state.savedData != undefined && this.state.savedData[this.state.indexQuestion+1] != undefined && this.state.savedData[this.state.indexQuestion+1].real_value != undefined) ? <QuestionPlaceholderCard index={this.state.indexQuestion+1} type={this.state.savedData[this.state.indexQuestion+1].value} /> : <QuestionCard data={this.state.questionObj_1} save={this.saveValue} indexQuestion={this.state.indexQuestion+1} saved={this.state.savedData[this.state.indexQuestion+1]} navigation={this.props.navigation} language={this.state.language} />}
+            </Content>
+            <Footer style={{ backgroundColor: 'white' }}>
+              <Left>
+                {(this.state.indexQuestion == 0) ? null : <Button onPress={() => this.prevQuestion()} style={styles.button}><Icon name='arrow-back'/><Text>Previous</Text></Button>}
+              </Left>
+              <Right>
+                {(this.state.indexQuestion == (this.state.survey.items.length-2)) ? <Button onPress={() => this.showEndSessionAlert()} style={styles.button} ><Text>End Session</Text></Button> : <Button onPress={() => this.nextQuestion()} style={styles.button}><Text>Next</Text><Icon name='arrow-forward'/></Button>}
+              </Right>
+            </Footer>
+          </Container>
+        </HandleBack>
       );
     }
   }

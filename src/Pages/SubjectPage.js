@@ -95,7 +95,7 @@ export default class SubjectPage extends Component {
           </Card>
         </Content>
         <Footer style={{ backgroundColor: 'white' }}>
-          <Button style={styles.button} onPress={() => this.props.navigation.navigate("CgaTestNavigator")}><Text>Resume</Text></Button>
+          <Button style={styles.button} onPress={() => this.props.navigation.navigate("SplashScreen")}><Text>Resume</Text></Button>
         </Footer>
       </Container>
     );

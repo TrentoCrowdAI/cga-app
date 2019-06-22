@@ -49,6 +49,13 @@ const ProjectsList_StackNavigator = createStackNavigator({
   DataCollectionsList: {screen: DataCollectionsList},
   SubjectsList: {screen: SubjectsList},
   SubjectPage: {screen: SubjectPage},
+  SplashScreen: {screen: SplashScreen},
+  ProfessionalMode: {screen: ProfessionalMode},
+  ModalMenu: { screen: ModalMenu },
+  StopSession: {screen: StopSession},
+  Guide: {screen: Guide},
+  SkipQuestion: {screen: SkipQuestion},
+  HandoverMode: {screen: HandoverMode},
 });
 
 /*const SyncList_StackNavigator = createStackNavigator({
@@ -75,15 +82,16 @@ const AppNavigator = createDrawerNavigator({
       screen: SyncList_StackNavigator
     },*/
 
-    CgaTestNavigator: {
+    /*CgaTestNavigator: {
       screen: CgaTestNavigator_StackNavigator
-    },
+    },*/
 
   },
   {
     contentComponent: SideBar,
   }
 );
+
 const AppContainer = createAppContainer(AppNavigator);
 
 export default AppContainer;

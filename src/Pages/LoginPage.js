@@ -76,7 +76,6 @@ export default class LoginPage extends Component {
         }).then((response) => response.json())
         .then((responseJson) => {//setting the user, then the render will reload the page automatically
           if(responseJson != undefined && responseJson != "User not authenticated"){
-            console.log(responseJson);
             responseJson[0].accessToken = accessToken;
             this.setState({
               user: responseJson[0],

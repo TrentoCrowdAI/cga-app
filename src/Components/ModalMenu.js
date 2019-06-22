@@ -7,6 +7,9 @@ export default class ModalMenu extends Component {
     super(props);
     this.state = {
       dialogVisible: false,
+      surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
+      accessToken: props.navigation.state.params.accessToken,
+      survey: props.navigation.state.params.survey,
       savedData: props.navigation.state.params.savedData,
     }
   }
@@ -33,10 +36,35 @@ export default class ModalMenu extends Component {
         {
           text: 'No',
         },
-        {text: 'Yes', onPress: () => (this.props.navigation.navigate("SubjectPage", {data: this.state.savedData}))},
+        {text: 'Yes', onPress: () => {
+          let vettPromise = []
+          for(var i = 0; i < this.state.survey.items.length; i++){
+            if(this.state.savedData[i] != undefined){
+              vettPromise.push(this.uploadData(i));
+            }
+          }
+          Promise.all(vettPromise).then((result) => result).then((result) => {  
+            this.props.navigation.navigate("SubjectPage");
+          });
+        }},
       ],
       {cancelable: false},
     );
+  }
+
+  uploadData(i){
+    return new Promise((resolve, reject) => {
+      fetch('https://cga-api.herokuapp.com/componentResponses/'+this.state.surveyComponentResponseId+'/surveyItemResponses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': 'connect.sid='+this.state.accessToken+';'
+        },
+        body: JSON.stringify({survey_item_response:{name:this.state.survey.items[i].name, value:this.state.savedData[i], survey_item_id:this.state.survey.items[i].id}})
+      }).then((responseData) => {
+        console.log(responseData);
+      }).then((result) => resolve(result));
+    })
   }
 
   showGuide = () => {
