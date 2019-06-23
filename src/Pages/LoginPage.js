@@ -24,9 +24,6 @@ export default class LoginPage extends Component {
   
   //Set up Linking 
   componentDidMount(){
-    if(this.state.user == undefined){
-      this.recoverUserInfo();
-    }
     //Add event listener to handle OAuthLogin:// URL
     Linking.addEventListener('url', this.handleOpenURL);
     // Launch from an external URL 
@@ -35,6 +32,9 @@ export default class LoginPage extends Component {
         this.handleOpenURL({ url });
       }  
     })
+    if(this.state.user == undefined){
+      this.recoverUserInfo();
+    }
   };
 
   componentWillUnmount() {
@@ -52,8 +52,10 @@ export default class LoginPage extends Component {
     });
 
     if(this.state.user != null && this.state.user.id != undefined && this.state.user.accessToken != undefined){
-      this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in order to recover it in a second time
+      this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in ord1er to recover it in a second time
       this.storeData(pathAccessToken, this.state.user.accessToken);
+    }else{
+      alert("We're sorry but occurred some problem with the login, please try again. ");
     }
     
     if (Platform.OS === 'ios') {
@@ -77,6 +79,7 @@ export default class LoginPage extends Component {
           },
         }).then((response) => response.json())
         .then((responseJson) => {//setting the user, then the render will reload the page automatically
+          //console.log(responseJson);
           if(responseJson != undefined && responseJson != "User not authenticated"){
             responseJson[0].accessToken = accessToken;
             this.setState({
@@ -84,6 +87,10 @@ export default class LoginPage extends Component {
             });
           }else{
             alert("Session expired, please log-in with google.");
+            this.setState({
+              user: undefined,
+            });
+            this.forceUpdate();
           }
         });
       }
