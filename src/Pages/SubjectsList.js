@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import {Container, Content, Footer, List, Button, Text } from 'native-base';
+import {Container, Content, Form, List, Label, Input, Item } from 'native-base';
 import SubjectCard from '../Components/SubjectCard.js';
 
 export default class SubjectsList extends Component {
@@ -9,6 +9,7 @@ export default class SubjectsList extends Component {
     this.state = {
       update: false,
       data: this.props.navigation.state.params.subjects,
+      dataSearched: this.props.navigation.state.params.subjects,
       data_collection_id: this.props.navigation.state.params.data_collection_id,
       navigation: props.navigation.state.params.navigation
     };
@@ -66,13 +67,33 @@ export default class SubjectsList extends Component {
     });
   }
 
+  updateSearch = (text) => {
+    var newDataSearched = [];
+    for(var i = 0; i < this.state.data.length; i++){
+      var nameSurname = this.state.data[i].name.toLowerCase().concat(' '.concat(this.state.data[i].surname.toLowerCase()));
+      var surnameName = this.state.data[i].surname.toLowerCase().concat(' '.concat(this.state.data[i].name.toLowerCase()));
+      if(this.state.data[i].name.toLowerCase().includes(text.toLowerCase()) || this.state.data[i].surname.toLowerCase().includes(text.toLowerCase()) 
+          || nameSurname.includes(text.toLowerCase()) || surnameName.includes(text.toLowerCase())){
+        newDataSearched.push(this.state.data[i]);
+      }
+    }
+    this.setState({dataSearched: newDataSearched});
+    this.forceUpdate();
+  }
+
   render() {
     if(this.state.data != null && this.state.data.length > 0){
       return (
         <Container>
+          <Form style={{alignSelf: 'stretch'}}>
+            <Item regular>
+              <Label>Search</Label>
+              <Input onChangeText={(text) => { this.updateSearch(text); }}/>
+            </Item>      
+          </Form>
           <Content style={{ backgroundColor: 'white' }}>
             <List>
-              {this.renderSubjectCards(this.state.data)}
+              {this.renderSubjectCards(this.state.dataSearched)}
             </List>
           </Content>
         </Container>
