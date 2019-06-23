@@ -14,6 +14,14 @@ export default class DataCollectionCard extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      title: nextProps.title,
+      description: nextProps.description,
+    });
+    this.forceUpdate();
+  }
+
   moveToSubjects = () => {
     fetch('https://cga-api.herokuapp.com/dataCollections/'+this.state.id+'/subjects', {
       method: 'GET',

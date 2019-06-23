@@ -41,9 +41,9 @@ export default class SubjectsList extends Component {
 
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('willFocus', () => { 
+      this.props.navigation.addListener('willFocus', () => { //when the user return to the page, the app will update the subject list
         if(this.state.update == true){
-          fetch('https://cga-api.herokuapp.com/dataCollections/'+this.state.data_collection_id+'/subjects', {
+          fetch('https://cga-api.herokuapp.com/dataCollections/'+this.state.data_collection_id+'/subjects', { 
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -51,7 +51,7 @@ export default class SubjectsList extends Component {
             },
           }).then((response) => response.json())
           .then((responseJson) => {
-            //console.log(responseJson);
+            console.log(responseJson);
             this.setState({update:false, data: responseJson});
             this.forceUpdate();
           });
@@ -67,15 +67,21 @@ export default class SubjectsList extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Content style={{ backgroundColor: 'white' }}>
-          <List>
-            {this.renderSubjectCards(this.state.data)}
-          </List>
-        </Content>
-      </Container>
-    );
+    if(this.state.data != null && this.state.data.length > 0){
+      return (
+        <Container>
+          <Content style={{ backgroundColor: 'white' }}>
+            <List>
+              {this.renderSubjectCards(this.state.data)}
+            </List>
+          </Content>
+        </Container>
+      );
+    }else{
+      return (
+        <Container><Title>We're sorry but for this data collection you have no subject assinged. Try later.</Title></Container>
+      );
+    }
   }
 }
 

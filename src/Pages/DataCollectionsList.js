@@ -41,7 +41,7 @@ export default class DataCollectionsList extends Component {
 
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('willFocus', () => { 
+      this.props.navigation.addListener('willFocus', () => {  //when the user return to the page, the app will update the datacollection list
         if(this.state.update == true){
           fetch('https://cga-api.herokuapp.com/projects/'+this.state.projectId+'/dataCollections', {
             method: 'GET',
@@ -67,16 +67,22 @@ export default class DataCollectionsList extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Content style={{ backgroundColor: 'white' }}>
-          <List>
-            {this.renderDataCollections(this.state.data)}
-          </List>
-        </Content>
-        <Footer  style={{ backgroundColor: 'white' }} />
-      </Container>
-    );
+    if(this.state.data != null && this.state.data.length > 0){
+      return (
+        <Container>
+          <Content style={{ backgroundColor: 'white' }}>
+            <List>
+              {this.renderDataCollections(this.state.data)}
+            </List>
+          </Content>
+          <Footer  style={{ backgroundColor: 'white' }} />
+        </Container>
+      );
+    }else{
+      return (
+        <Container><Title>We're sorry but for this project there aren't any data collection. Try later.</Title></Container>
+      );
+    }
   }
 }
 

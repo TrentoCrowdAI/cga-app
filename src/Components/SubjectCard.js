@@ -14,6 +14,15 @@ export default class SubjectCard extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      data_collection_id: nextProps.data_collection_id,
+      subject_id: nextProps.subject_id,
+      subject: nextProps.subject,
+    });
+    this.forceUpdate();
+  }
+
   moveToSubjectPage = () => {
     fetch('https://cga-api.herokuapp.com/dataCollections/'+this.state.data_collection_id+'/subjects/'+this.state.subject_id+'/surveys', {
       method: 'GET',
@@ -36,6 +45,11 @@ export default class SubjectCard extends Component {
           <CardItem header>
             <Body style={{ flex: 1,  justifyContent: 'center'}}>
               <Title><Text style={styles.titleText}>{this.state.subject.name}{" "}{this.state.subject.surname}</Text></Title>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Body style={{ flex: 1,  justifyContent: 'center'}}>
+              <Text>{this.state.subject.status}</Text>
             </Body>
           </CardItem>
         </TouchableOpacity>

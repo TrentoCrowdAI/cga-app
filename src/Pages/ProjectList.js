@@ -27,7 +27,7 @@ export default class ProjectList extends Component {
 
   componentDidMount() {
     this.subs = [
-      this.props.navigation.addListener('willFocus', () => { 
+      this.props.navigation.addListener('willFocus', () => { //when the user return to the page, the app will update the project list
         if(this.state.update == true){
           fetch('https://cga-api.herokuapp.com/projects', {
             method: 'GET',
@@ -53,7 +53,7 @@ export default class ProjectList extends Component {
   }
 
   render() {
-    if(this.state.data.length > 0){
+    if(this.state.data != null && this.state.data.length > 0){
       return (
         <Container>
           <Content style={{ backgroundColor: 'white' }}>
@@ -65,7 +65,9 @@ export default class ProjectList extends Component {
         </Container>
       );
     }else{
-      <Container><Title>We're sorry but now your account isn't connected to any projects. Try later.</Title></Container>
+      return (
+        <Container><Title>We're sorry but now your account isn't connected to any projects. Try later.</Title></Container>
+      );
     }
   }
 }

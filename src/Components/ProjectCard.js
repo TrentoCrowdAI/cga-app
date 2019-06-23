@@ -14,6 +14,14 @@ export default class ProjectCard extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      title: nextProps.title,
+      description: nextProps.description,
+    });
+    this.forceUpdate();
+  }
+
   moveToDataCollection = () => {
     fetch('https://cga-api.herokuapp.com/projects/'+this.state.id+'/dataCollections', {
       method: 'GET',
