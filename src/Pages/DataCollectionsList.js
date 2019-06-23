@@ -7,7 +7,8 @@ export default class DataCollectionsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      update: true,
+      update: false,
+      projectId: props.navigation.state.params.projectId,
       data: props.navigation.state.params.dataCollections,
       navigation: props.navigation.state.params.navigation
     };
@@ -29,8 +30,39 @@ export default class DataCollectionsList extends Component {
   renderDataCollections = (dataCollections) => {
     return dataCollections.map((dataCollection, index) => {
       return (
-        <DataCollectionCard key={index} id={dataCollection.id} title={dataCollection.name} description={dataCollection.description} navigation={this.state.navigation}/>
+        <DataCollectionCard key={index} enableDataCollectionUpdate={this.enableDataCollectionUpdate} id={dataCollection.id} title={dataCollection.name} description={dataCollection.description} navigation={this.state.navigation}/>
       );
+    });
+  }
+
+  enableDataCollectionUpdate = () => {
+    this.setState({update:true});
+  }
+
+  componentDidMount() {
+    this.subs = [
+      this.props.navigation.addListener('willFocus', () => { 
+        if(this.state.update == true){
+          fetch('https://cga-api.herokuapp.com/projects/'+this.state.projectId+'/dataCollections', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+            },
+          }).then((response) => response.json())
+          .then((responseJson) => {
+            //console.log(responseJson);
+            this.setState({update:false, data: responseJson});
+            this.forceUpdate();
+          });
+        }
+      })
+    ];
+  }
+
+  componentWillUnmount() {
+    this.subs.forEach((sub) => {
+      sub.remove();
     });
   }
 

@@ -6,6 +6,7 @@ export default class SubjectCard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      enableSubjectListUpdate: this.props.enableSubjectListUpdate,
       data_collection_id: this.props.data_collection_id,
       subject_id: this.props.subject_id,
       subject: this.props.subject,
@@ -23,6 +24,7 @@ export default class SubjectCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
+      this.props.enableSubjectListUpdate();
       this.state.navigation.navigate("SubjectPage", {subject: this.state.subject, surveys: responseJson, navigation: this.state.navigation, dataCollectionId: this.state.data_collection_id, user: this.state.navigation.state.params.user});
     });
   }

@@ -6,6 +6,7 @@ export default class ProjectCard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      enableProjectUpdate: this.props.enableProjectUpdate,
       id: this.props.id,
       title: this.props.title,
       description: this.props.description,
@@ -23,7 +24,8 @@ export default class ProjectCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
-      this.state.navigation.navigate("DataCollectionsList", {dataCollections: responseJson, navigation: this.state.navigation});
+      this.state.enableProjectUpdate();
+      this.state.navigation.navigate("DataCollectionsList", {dataCollections: responseJson, projectId: this.state.id, navigation: this.state.navigation});
     });
   }
 

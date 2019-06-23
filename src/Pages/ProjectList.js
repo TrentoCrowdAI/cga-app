@@ -7,15 +7,48 @@ export default class ProjectList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.navigation.state.params.projects
+      update: false,
+      data: props.navigation.state.params.projects,
+      navigation: this.props.navigation
     };
   }
 
   renderProjectsList = (projects) => {
     return projects.map((project, index) => {
       return (
-        <ProjectCard key={index} id={project.id} title={project.name} description={project.description} navigation={this.props.navigation}/>
+        <ProjectCard key={index} enableProjectUpdate={this.enableProjectUpdate} id={project.id} title={project.name} description={project.description} navigation={this.props.navigation}/>
       );
+    });
+  }
+
+  enableProjectUpdate = () => {
+    this.setState({update:true});
+  }
+
+  componentDidMount() {
+    this.subs = [
+      this.props.navigation.addListener('willFocus', () => { 
+        if(this.state.update == true){
+          fetch('https://cga-api.herokuapp.com/projects', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+            },
+          }).then((response) => response.json())
+          .then((responseJson) => {
+            //console.log(responseJson);
+            this.setState({update:false, data: responseJson});
+            this.forceUpdate();
+          });
+        }
+      })
+    ];
+  }
+
+  componentWillUnmount() {
+    this.subs.forEach((sub) => {
+      sub.remove();
     });
   }
 

@@ -7,6 +7,7 @@ export default class SubjectsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      update: false,
       data: this.props.navigation.state.params.subjects,
       data_collection_id: this.props.navigation.state.params.data_collection_id,
       navigation: props.navigation.state.params.navigation
@@ -29,8 +30,39 @@ export default class SubjectsList extends Component {
   renderSubjectCards = (subjects) => {
     return subjects.map((subject, index) => {
       return (
-        <SubjectCard key={index} subject_id={subject.id} data_collection_id={this.state.data_collection_id} subject={subject} navigation={this.state.navigation}/>
+        <SubjectCard key={index} enableSubjectListUpdate={this.enableSubjectListUpdate} subject_id={subject.id} data_collection_id={this.state.data_collection_id} subject={subject} navigation={this.state.navigation}/>
       );
+    });
+  }
+
+  enableSubjectListUpdate = () => {
+    this.setState({update:true});
+  }
+
+  componentDidMount() {
+    this.subs = [
+      this.props.navigation.addListener('willFocus', () => { 
+        if(this.state.update == true){
+          fetch('https://cga-api.herokuapp.com/dataCollections/'+this.state.data_collection_id+'/subjects', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+            },
+          }).then((response) => response.json())
+          .then((responseJson) => {
+            //console.log(responseJson);
+            this.setState({update:false, data: responseJson});
+            this.forceUpdate();
+          });
+        }
+      })
+    ];
+  }
+
+  componentWillUnmount() {
+    this.subs.forEach((sub) => {
+      sub.remove();
     });
   }
 

@@ -6,6 +6,7 @@ export default class DataCollectionCard extends Component {
   constructor(props){
     super(props);
     this.state = {
+      enableDataCollectionUpdate: this.props.enableDataCollectionUpdate,
       id: this.props.id,
       title: this.props.title,
       description: this.props.description,
@@ -23,6 +24,7 @@ export default class DataCollectionCard extends Component {
     }).then((response) => response.json())
     .then((responseJson) => {
       //console.log(responseJson);
+      this.state.enableDataCollectionUpdate();
       this.state.navigation.navigate("SubjectsList", {subjects: responseJson, data_collection_id: this.state.id, navigation: this.state.navigation});
     });
   }
