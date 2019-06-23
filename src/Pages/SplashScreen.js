@@ -70,6 +70,7 @@ export default class SpalshScreen extends Component {
     this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, accessToken: accessToken, surveyComponentResponseId});
   }
 
+  //upload the survey_reponses to the server
   uploadSurvey = async () => {
     let vettPromise = []
     for(var i = 0; i < this.props.navigation.state.params.survey.items.length; i++){
@@ -82,6 +83,7 @@ export default class SpalshScreen extends Component {
     });
   }
 
+  //single upload of survey_response object
   uploadData(i){
     return new Promise((resolve, reject) => {
       fetch('https://cga-api.herokuapp.com/componentResponses/'+this.props.navigation.state.params.surveyComponentResponseId+'/surveyItemResponses', {
