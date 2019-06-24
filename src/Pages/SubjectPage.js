@@ -19,7 +19,6 @@ export default class SubjectPage extends Component {
       surname: props.navigation.state.params.subject.surname,
       location: props.navigation.state.params.subject.location,
       contact: props.navigation.state.params.subject.contact,
-      status: props.navigation.state.params.subject.status,
       date: props.navigation.state.params.subject.creation_date,
       surveys: props.navigation.state.params.surveys,
       navigation: props.navigation.state.params.navigation
@@ -110,7 +109,6 @@ export default class SubjectPage extends Component {
                   surname: responseJson[i].surname,
                   location: responseJson[i].location,
                   contact: responseJson[i].contact,
-                  status: responseJson[i].status,
                   date: responseJson[i].creation_date});
                 break;
               }
@@ -145,12 +143,6 @@ export default class SubjectPage extends Component {
                 <Left><Text style={styles.titleText}>Contact: </Text><Text>{this.state.contact}</Text></Left>
               </CardItem>
               <CardItem>
-                <Left><Text style={styles.titleText}>Created at: </Text><Text>{this.state.date.substring(0, 10)}</Text></Left>
-              </CardItem>
-              <CardItem>
-                <Left><Text style={styles.titleText}>Status: </Text><Text>{this.state.status}</Text></Left>
-              </CardItem>
-              <CardItem>
                 <Left><Text style={styles.titleText}>Visits: </Text></Left>
               </CardItem>
               <CardItem>
@@ -183,12 +175,6 @@ export default class SubjectPage extends Component {
               </CardItem>
               <CardItem>
                 <Left><Text style={styles.titleText}>Contact: </Text><Text>{this.state.contact}</Text></Left>
-              </CardItem>
-              <CardItem>
-                <Left><Text style={styles.titleText}>Created at: </Text><Text>{this.state.date.substring(0, 10)}</Text></Left>
-              </CardItem>
-              <CardItem>
-                <Left><Text style={styles.titleText}>Status: </Text><Text>{this.state.status}</Text></Left>
               </CardItem>
               <CardItem>
                 <Left><Text style={styles.titleText}>Visits: </Text></Left>

@@ -3,7 +3,6 @@ import {View, TouchableOpacity, Image} from 'react-native';
 
 export default class SideMenuIcon extends Component { 
   toggleDrawer = () => {
-    console.log(this.props.navigationProps);
     this.props.navigationProps.toggleDrawer();
   }
   render() {

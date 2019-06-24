@@ -47,11 +47,6 @@ export default class SubjectCard extends Component {
               <Title><Text style={styles.titleText}>{this.state.subject.name}{" "}{this.state.subject.surname}</Text></Title>
             </Body>
           </CardItem>
-          <CardItem>
-            <Body style={{ flex: 1,  justifyContent: 'center'}}>
-              <Text>{this.state.subject.status}</Text>
-            </Body>
-          </CardItem>
         </TouchableOpacity>
       </Card>
     );

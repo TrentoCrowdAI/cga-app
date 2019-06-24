@@ -11,7 +11,8 @@ export default class SubjectsList extends Component {
       data: this.props.navigation.state.params.subjects,
       dataSearched: this.props.navigation.state.params.subjects,
       data_collection_id: this.props.navigation.state.params.data_collection_id,
-      navigation: props.navigation.state.params.navigation
+      navigation: props.navigation.state.params.navigation,
+      textSearched: undefined
     };
   }
 
@@ -52,9 +53,13 @@ export default class SubjectsList extends Component {
             },
           }).then((response) => response.json())
           .then((responseJson) => {
-            //console.log(responseJson);
             this.setState({update:false, data: responseJson});
             this.forceUpdate();
+            if(this.state.textSearched != undefined){
+              this.updateSearch(this.state.textSearched);
+            }else{
+              this.setState({dataSearched:responseJson});
+            }
           });
         }
       })
@@ -77,7 +82,7 @@ export default class SubjectsList extends Component {
         newDataSearched.push(this.state.data[i]);
       }
     }
-    this.setState({dataSearched: newDataSearched});
+    this.setState({dataSearched: newDataSearched, textSearched: text});
     this.forceUpdate();
   }
 
