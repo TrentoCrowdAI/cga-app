@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content, Footer, List } from 'native-base';
+import { Container, Content, Footer, List, Title, Text } from 'native-base';
 import ProjectCard from '../Components/ProjectCard.js';
 
 export default class ProjectList extends Component {
@@ -66,7 +66,7 @@ export default class ProjectList extends Component {
       );
     }else{
       return (
-        <Container><Title>We're sorry but now your account isn't connected to any projects. Try later.</Title></Container>
+        <Container><Title><Text>We're sorry but now your account isn't connected to any projects. Try later.</Text></Title></Container>
       );
     }
   }

@@ -39,12 +39,12 @@ export default class QuestionCard extends Component {
 
   //basing on the question type this method create the question object in order to show it
   renderQuestion = () => {
-    if(this.state.data.type == "inputText"){
+    if(this.state.data.type.toLowerCase().includes("inputtext")){
       this.state.question = this.createTextbox(this.state.data.options[0].labels);//in this case the question has only one group of label than we directly pass it
-    }else if(this.state.data.type == "SingleChoise"){
+    }else if(this.state.data.type.toLowerCase().includes("singlechoise")){
       this.state.question = this.createRadioGroup(this.state.data.options);
     }
-    else if(this.state.data.type == "MultipleChoise"){
+    else if(this.state.data.type.toLowerCase().includes("multiplechoise")){
       this.state.question = this.createCheckboxGroup(this.state.data.options, this.state.data.images);
     }
   }

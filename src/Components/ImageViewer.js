@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Text, Icon, Button, Left, Right } from 'native-base';
 import ImageView from 'react-native-image-view';
 
 export default class ImageViewer extends Component {
@@ -29,7 +28,7 @@ export default class ImageViewer extends Component {
     const images = [ ];
     if(this.state.images != undefined){
       for(i = 0; i < this.state.images.length; i++){
-        images.push({source: {uri: this.state.images[i].path}, title: this.state.images[i].title, width: 400, height: 400 })
+        images.push({source: {uri: this.state.images[i].link}, title: this.state.images[i].title, width: 400, height: 400 })
       }
     }
 

@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content,  Text, Button, List, Icon, Item, Form, Body } from 'native-base';
+import { Text, Button, List, Icon, Item, Form, Body } from 'native-base';
 import Checkbox from "./Checkbox";
 import ImageViewer from "./ImageViewer.js";
 
@@ -27,7 +27,6 @@ export default class CheckboxGroup extends Component {
       imageViewerVisible: false,
       language: this.props.language,
       languageIndex: language
-      
     }
     if(props.saved != undefined){
       this.state.itemSelected = props.saved;
@@ -74,7 +73,7 @@ export default class CheckboxGroup extends Component {
   }
 
   renderButtonImages = () => { //this function prepare the button that allows to show the image viewer
-    if(this.state.images != undefined){
+    if(this.state.images != undefined && this.state.images.length != 0){
       return (<Button primary onPress={() => this.setImageViewerVisible(true)} style={styles.button}><Icon name="image"/><Text>Flashcards</Text></Button>);
     }
   }
@@ -99,7 +98,7 @@ export default class CheckboxGroup extends Component {
 const styles = StyleSheet.create({
     button: {
       alignSelf: 'center',
-      width:150,
+      width: 170,
       backgroundColor: '#FF9933'
     }
 });

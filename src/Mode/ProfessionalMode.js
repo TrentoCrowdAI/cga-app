@@ -26,7 +26,11 @@ export default class ProfessionalMode extends Component {
       for(var x = 0; x < this.state.survey.items.length; x++){
         for(var i = 0; i < props.navigation.state.params.responses.length; i++){
           if(props.navigation.state.params.responses[i].survey_item_id == this.state.survey.items[x].id){
-            this.state.savedData[x] = props.navigation.state.params.responses[i].value;
+            if(props.navigation.state.params.responses[i].value != undefined && props.navigation.state.params.responses[i].value.includes("{") && props.navigation.state.params.responses[i].value.includes("}")){
+              this.state.savedData[x] = JSON.parse(props.navigation.state.params.responses[i].value);
+            }else{
+              this.state.savedData[x] = props.navigation.state.params.responses[i].value;
+            }
             break;
           }
         }

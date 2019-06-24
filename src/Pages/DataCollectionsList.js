@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import {Container, Content, Header, Footer, List } from 'native-base';
+import {Container, Content, Footer, List, Title, Text } from 'native-base';
 import DataCollectionCard from '../Components/DataCollectionCard.js';
 
 export default class DataCollectionsList extends Component {
@@ -80,7 +80,7 @@ export default class DataCollectionsList extends Component {
       );
     }else{
       return (
-        <Container><Title>We're sorry but for this project there aren't any data collection. Try later.</Title></Container>
+        <Container><Title><Text>We're sorry but for this project there aren't any data collection. Try later.</Text></Title></Container>
       );
     }
   }

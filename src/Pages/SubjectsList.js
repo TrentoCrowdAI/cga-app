@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet } from 'react-native';
-import {Container, Content, Form, List, Label, Input, Item } from 'native-base';
+import {Container, Content, Form, List, Label, Input, Item, Title, Text } from 'native-base';
 import SubjectCard from '../Components/SubjectCard.js';
 
 export default class SubjectsList extends Component {
@@ -52,7 +52,7 @@ export default class SubjectsList extends Component {
             },
           }).then((response) => response.json())
           .then((responseJson) => {
-            console.log(responseJson);
+            //console.log(responseJson);
             this.setState({update:false, data: responseJson});
             this.forceUpdate();
           });
@@ -100,7 +100,7 @@ export default class SubjectsList extends Component {
       );
     }else{
       return (
-        <Container><Title>We're sorry but for this data collection you have no subject assinged. Try later.</Title></Container>
+        <Container><Title><Text>We're sorry but for this data collection you have no subject assinged. Try later.</Text></Title></Container>
       );
     }
   }
