@@ -8,16 +8,24 @@ export default class VisitCard extends Component {
     this.state = {
       title: this.props.title,
       date: this.props.date,
-      status: this.props.status
+      status: this.props.status,
+      started: this.props.started
     };
+    if(this.state.started == true){
+      this.setState({status: "Incomplete but already started"});
+    }
   }
 
   componentWillReceiveProps(nextProps){
     this.setState({
       title: nextProps.title,
       date: nextProps.date,
-      status: nextProps.status
+      status: nextProps.status,
+      started: this.props.started
     });
+    if(this.state.started == true){
+      this.setState({status: "Incomplete but already started"});
+    }
     this.forceUpdate();
   }
 

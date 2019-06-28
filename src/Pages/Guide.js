@@ -36,7 +36,15 @@ export default class Guide extends Component {
                 </Body>
               </CardItem>
             </Card>
-            <Card>
+            
+          </List>
+        </Content>
+      </Container>
+    );
+  }
+}
+
+/*<Card>
               <CardItem>
                 <Body>
                   <Title><Text>MultipleChoise</Text></Title>
@@ -89,10 +97,4 @@ export default class Guide extends Component {
                   <Image source={require('../Images/Stop.gif')} style={{width: 500, height: 500 }}/>
                 </Body>
               </CardItem>
-            </Card>
-          </List>
-        </Content>
-      </Container>
-    );
-  }
-}
+            </Card> */

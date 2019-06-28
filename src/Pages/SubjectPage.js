@@ -21,7 +21,8 @@ export default class SubjectPage extends Component {
       contact: props.navigation.state.params.subject.contact,
       date: props.navigation.state.params.subject.creation_date,
       surveys: props.navigation.state.params.surveys,
-      navigation: props.navigation.state.params.navigation
+      navigation: props.navigation.state.params.navigation,
+      alreadyStarted: false
     };
 
     var i = 0;
@@ -30,6 +31,9 @@ export default class SubjectPage extends Component {
         this.state.buttonVisible = true;
         this.storeData(pathSurveyComponentId, ""+this.state.surveys[i].survey_component_id);
         this.storeData(pathSurveyComponentResponseId, ""+this.state.surveys[i].survey_component_response_id);
+        if(this.state.surveys[i].count != null && parseInt(this.state.surveys[i].count) > 1){
+          this.state.alreadyStarted = true;
+        }
         break;
       }
     }
@@ -51,7 +55,7 @@ export default class SubjectPage extends Component {
   renderVisitCards = (surveys) => {
     return surveys.map((survey, index) => {
       return (
-        <VisitCard key={index} title={survey.name} date={survey.creation_date} status={survey.status}/>
+        <VisitCard key={index} title={survey.name} date={survey.creation_date} status={survey.status} started={survey.count > 1 ? true : false}/>
       );
     });
   }
@@ -88,6 +92,10 @@ export default class SubjectPage extends Component {
                 this.setState({buttonVisible: true});//the button to start the survey will be buttonVisible
                 this.storeData(pathSurveyComponentId, "" + responseJson[i].survey_component_id);
                 this.storeData(pathSurveyComponentResponseId, "" + responseJson[i].survey_component_response_id);
+                console.log(parseInt(this.state.surveys[i].count));
+                if(this.state.surveys[i].count != null && parseInt(this.state.surveys[i].count) > 1){
+                  this.state.alreadyStarted = true;
+                }
                 break;
               }
             }
@@ -158,7 +166,7 @@ export default class SubjectPage extends Component {
             <Button style={styles.button} onPress={() => {
                 this.state.update = true;
                 this.props.navigation.navigate("SplashScreen", {mode:"download"});
-            }}><Text>Resume</Text></Button>
+            }}><Text>{this.state.alreadyStarted == false ? "Start interview" : "Resume interview"}</Text></Button>
           </Footer>
         </Container>
       );

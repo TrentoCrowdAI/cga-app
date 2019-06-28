@@ -51,6 +51,10 @@ export default class MyTimer extends Component {
         now: 0
       });
     }
+
+    componentWillUnmount(){
+      if (this.timer) clearInterval(this.timer)
+    }
   
     render() {
       const {now, start} = this.state;
