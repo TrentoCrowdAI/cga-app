@@ -5,14 +5,20 @@ import { Title, Text, Card, CardItem, Right, Left, Body } from 'native-base';
 export default class VisitCard extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      title: this.props.title,
-      date: this.props.date,
-      status: this.props.status,
-      started: this.props.started
-    };
-    if(this.state.started == true){
-      this.setState({status: "Incomplete but already started"});
+    if(this.props.status == 'incomplete' && this.props.started == true){
+      this.state = {
+        status: "Incomplete but already started",
+        title: this.props.title,
+        date: this.props.date,
+        started: this.props.started
+      };
+    }else{
+      this.state = {
+        title: this.props.title,
+        date: this.props.date,
+        status: this.props.status,
+        started: this.props.started
+      };
     }
   }
 
@@ -23,7 +29,7 @@ export default class VisitCard extends Component {
       status: nextProps.status,
       started: this.props.started
     });
-    if(this.state.started == true){
+    if(this.state.status == 'incomplete' && this.state.started == true){
       this.setState({status: "Incomplete but already started"});
     }
     this.forceUpdate();

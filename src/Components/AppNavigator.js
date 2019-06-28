@@ -14,6 +14,7 @@ import SubjectsList from '../Pages/SubjectsList.js';
 import SubjectPage from '../Pages/SubjectPage.js';
 import SideBar from "./SideBar.js";
 import SideMenuIcon from "./SideMenuIcon.js";
+import GuideGif from "../Pages/GuideGif.js";
 //import SyncList from "../Pages/SyncList.js";
 
 const ProjectsList_StackNavigator = createStackNavigator({
@@ -45,6 +46,7 @@ const ProjectsList_StackNavigator = createStackNavigator({
   Guide: {screen: Guide},
   SkipQuestion: {screen: SkipQuestion},
   HandoverMode: {screen: HandoverMode},
+  GuideGif: {screen: GuideGif}
 });
 
 /*const SyncList_StackNavigator = createStackNavigator({

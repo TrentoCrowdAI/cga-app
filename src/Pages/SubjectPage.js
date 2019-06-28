@@ -86,13 +86,13 @@ export default class SubjectPage extends Component {
             //console.log(responseJson);
             this.setState({surveys: responseJson});
             this.setState({buttonVisible: false});
+            this.setState({alreadyStarted: false});
             var i = 0;
             for (i = 0; i < responseJson.length; i++){//in order to pass the parameter to the splash screen, that isn't in the same stack, the app will set a file in the device
               if(responseJson[i].status == 'incomplete'){
                 this.setState({buttonVisible: true});//the button to start the survey will be buttonVisible
                 this.storeData(pathSurveyComponentId, "" + responseJson[i].survey_component_id);
                 this.storeData(pathSurveyComponentResponseId, "" + responseJson[i].survey_component_response_id);
-                console.log(parseInt(this.state.surveys[i].count));
                 if(this.state.surveys[i].count != null && parseInt(this.state.surveys[i].count) > 1){
                   this.state.alreadyStarted = true;
                 }
