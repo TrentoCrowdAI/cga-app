@@ -5,6 +5,7 @@ var RNFS = require('react-native-fs');
 var pathSurveyId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentId.txt';
 var pathAccessToken = RNFS.DocumentDirectoryPath + '/configFileAccessToken.txt';
 var pathSurveyComponentResponseId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentResponseId.txt';
+var pathLanguage = RNFS.DocumentDirectoryPath + '/configLanguage.txt';
 
 export default class SpalshScreen extends Component {
   constructor(props) {
@@ -22,6 +23,8 @@ export default class SpalshScreen extends Component {
 
   //retrieve the data in order to show the survey
   prepareData = async () => {
+    var language; 
+    await this.retrieveData(pathLanguage).then((response) => language = response);
     var surveyComponentId; 
     await this.retrieveData(pathSurveyId).then((response) => surveyComponentId = response);
     var accessToken; 
@@ -50,7 +53,7 @@ export default class SpalshScreen extends Component {
       })
       .then((responses) => {
         //console.log(responses);
-        this.moveToProfessionalMode(survey, responses, accessToken, surveyComponentResponseId);
+        this.moveToProfessionalMode(survey, responses, accessToken, surveyComponentResponseId, language);
       });
     });
   }
@@ -66,8 +69,8 @@ export default class SpalshScreen extends Component {
     });
   }
 
-  moveToProfessionalMode = (items, response, accessToken, surveyComponentResponseId) => {//put the data inside the navigation component and move the activity to ProfessionalMode
-    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, accessToken: accessToken, surveyComponentResponseId});
+  moveToProfessionalMode = (items, response, accessToken, surveyComponentResponseId, language) => {//put the data inside the navigation component and move the activity to ProfessionalMode
+    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, accessToken: accessToken, surveyComponentResponseId: surveyComponentResponseId, language:language});
   }
 
   //upload the survey_reponses to the server

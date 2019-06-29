@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Content, Text, List, ListItem } from "native-base";
-const activities = [{name:"Projects", navigator_name:"ProjectsList"}, /*{name:"Sync", navigator_name:"SyncList"},*/ {name:"Logout", navigator_name:"LoginPage"}];
+const activities = [{name:"Projects", navigator_name:"ProjectsList"}, /*{name:"Sync", navigator_name:"SyncList"},*/ {name:"Language Settings", navigator_name:"LanguageSelection"},{name:"Logout", navigator_name:"LoginPage"}];
 
 export default class SideBar extends Component {
   renderListItem = (activities) => {

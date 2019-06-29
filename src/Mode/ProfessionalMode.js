@@ -5,21 +5,37 @@ import HandleBack from "../Components/HandleBack.js";
 import QuestionCard from "../Components/QuestionCard.js";
 import MyTimer from "../Components/MyTimer.js";
 import QuestionPlaceholderCard from "../Components/QuestionPlaceholderCard.js";
+var RNFS = require('react-native-fs');
+var pathLanguage = RNFS.DocumentDirectoryPath + '/configLanguage.txt';
 
 export default class ProfessionalMode extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      accessToken: props.navigation.state.params.accessToken,
-      surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
-      survey: props.navigation.state.params.survey,
-      indexQuestion: 0,
-      questionObj_0: undefined,
-      questionObj_1: undefined,
-      savedData: {},
-      isLoading: true,
-      language: 'english'
-    };
+    if(props.navigation.state.params.language == undefined){
+      this.state = {
+        accessToken: props.navigation.state.params.accessToken,
+        surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
+        survey: props.navigation.state.params.survey,
+        indexQuestion: 0,
+        questionObj_0: undefined,
+        questionObj_1: undefined,
+        savedData: {},
+        isLoading: true,
+        language: 'english'
+      };
+    }else{
+      this.state = {
+        accessToken: props.navigation.state.params.accessToken,
+        surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
+        survey: props.navigation.state.params.survey,
+        indexQuestion: 0,
+        questionObj_0: undefined,
+        questionObj_1: undefined,
+        savedData: {},
+        isLoading: true,
+        language: props.navigation.state.params.language
+      };
+    }
 
     //recover the old questions
     if(props.navigation.state.params.responses != undefined){
@@ -72,15 +88,25 @@ export default class ProfessionalMode extends Component {
   calculateSize = (i) => {//this function calculate if two questions are suitable in order to be shown together in one page in the professionalmode
     retval = false;
     treshold = 100;
-
+    
     //calculate size question i 
     q1 = 0;
     var language = 0;
+    var bool = false;
     for(language = 0; language < this.state.survey.items[i].labels.length; language++){//searching the language between the proposed
-      if(this.state.survey.items[i].labels[language].language == this.state.language){
+      if(this.state.survey.items[i].labels[language].language.toLowerCase() == this.state.language){
+        bool = true;
         break;
       }
     }
+    if(bool == false){//if the selected language isn't present, using english
+      for(language = 0; language < this.state.survey.items[i].labels.length; language++){//searching the language between the proposed
+        if(this.state.survey.items[i].labels[language].language.toLowerCase() == 'english'){
+          break;
+        }
+      }
+    }
+
     for(x = 0; x < this.state.survey.items[i].labels[language].content.length;){//title
       q1 = q1 + 10;
       x = x+40;

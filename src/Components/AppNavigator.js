@@ -15,6 +15,7 @@ import SubjectPage from '../Pages/SubjectPage.js';
 import SideBar from "./SideBar.js";
 import SideMenuIcon from "./SideMenuIcon.js";
 import GuideGif from "../Pages/GuideGif.js";
+import LanguageSelection from "../Pages/LanguageSelection.js";
 //import SyncList from "../Pages/SyncList.js";
 
 const ProjectsList_StackNavigator = createStackNavigator({
@@ -64,6 +65,21 @@ const ProjectsList_StackNavigator = createStackNavigator({
   },
 });*/
 
+const LanguageSelection_StackNavigator = createStackNavigator({
+  LanguageSelection: {
+    screen: LanguageSelection,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Language Settings',
+      headerLeft: <SideMenuIcon navigationProps={navigation} />,
+ 
+      headerStyle: {
+        backgroundColor: '#EF233C'
+      },
+      headerTintColor: '#fff',
+    })
+  },
+});
+
 const AppNavigator = createDrawerNavigator({
     ProjectsList: {
       screen: ProjectsList_StackNavigator
@@ -72,6 +88,10 @@ const AppNavigator = createDrawerNavigator({
     /*SyncList: {
       screen: SyncList_StackNavigator
     },*/
+    
+    LanguageSelection: {
+      screen: LanguageSelection_StackNavigator
+    },
   },
   {
     contentComponent: SideBar,

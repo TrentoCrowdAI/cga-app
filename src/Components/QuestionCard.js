@@ -54,9 +54,19 @@ export default class QuestionCard extends Component {
     maxLen = 40;
 
     var language = 0;
+    var bool = false;
     for(language = 0; language < this.state.data.labels.length; language++){//searching the language between the proposed
-      if(this.state.data.labels[language].language == this.state.language){
+      if(this.state.data.labels[language].language.toLowerCase() == this.state.language){
+        bool = true;
         break;
+      }
+    }
+    if(bool == false){//if the selected language isn't present, using english
+      for(language = 0; language < this.state.data.labels.length; language++){//searching the language between the proposed
+        if(this.state.data.labels[language].language.toLowerCase() == 'english'){
+          bool = true;
+          break;
+        }
       }
     }
 

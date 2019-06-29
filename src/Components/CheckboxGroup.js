@@ -13,9 +13,18 @@ export default class CheckboxGroup extends Component {
     super(props);
 
     var language = 0;
+    var bool = false;
     for(language = 0; language < this.props.options[0].labels.length; language++){//searching the language between the proposed
-      if(this.props.options[0].labels[language].language == this.props.language){
+      if(this.props.options[0].labels[language].language.toLowerCase() == this.props.language){
+        bool = true;
         break;
+      }
+    }
+    if(bool == false){//if the selected language isn't present, using english
+      for(language = 0; language < this.props.options[0].labels.length; language++){//searching the language between the proposed
+        if(this.props.options[0].labels[language].language.toLowerCase() == 'english'){
+          break;
+        }
       }
     }
 
