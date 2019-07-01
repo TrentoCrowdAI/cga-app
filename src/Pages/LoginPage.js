@@ -12,8 +12,10 @@ export default class LoginPage extends Component {
     this.state = {
       user: undefined
     };
+    this.recoverUserInfo();   
   }
 
+  //called when the user perform the logout from the sidebar
   componentWillReceiveProps(nextProp){
     if(nextProp.navigation.state.params != undefined && nextProp.navigation.state.params.logout != undefined && nextProp.navigation.state.params.logout == true){//if the user tap the logout in the sidebar than we delete the user in the state and the info saved in order to recover the account
       this.setState({user: undefined});
@@ -21,7 +23,7 @@ export default class LoginPage extends Component {
       this.removeData(pathUserId);
     } 
   }
-  
+
   //Set up Linking 
   componentDidMount(){
     //Add event listener to handle OAuthLogin:// URL
@@ -32,9 +34,6 @@ export default class LoginPage extends Component {
         this.handleOpenURL({ url });
       }  
     })
-    if(this.state.user == undefined){
-      this.recoverUserInfo();
-    }
   };
 
   componentWillUnmount() {
@@ -44,20 +43,25 @@ export default class LoginPage extends Component {
 
   handleOpenURL = ({ url }) => {
     // Extract stringified user string out of the URL
-    const [, user_string] = url.match(/user=([^#]+)/);
+    var [, user_string] = url.match(/user=([^#]+)/);
 
     this.setState({
       // Decode the user string and parse it into JSON
       user: JSON.parse(decodeURI(user_string)),
     });
-
-    if(this.state.user != null && this.state.user.id != undefined && this.state.user.accessToken != undefined){
-      this.storeData(pathUserId, this.state.user.id);//when the user is retrieved we save this two data in ord1er to recover it in a second time
-      this.storeData(pathAccessToken, this.state.user.accessToken);
+    var user = JSON.parse(decodeURI(user_string));
+    console.log(user);
+    if(user != undefined && user.id != undefined && user.accessToken != undefined){
+      this.storeData(pathUserId, user.id).then((response) => {
+        this.storeData(pathAccessToken, user.accessToken).then((response) => {
+          this.forceUpdate();
+        });
+      });//when the user is retrieved we save this two data in order to recover it in a second time
+      
     }else{
       alert("We're sorry but occurred some problem with the login, please try again. ");
     }
-    
+
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
     }
@@ -79,18 +83,14 @@ export default class LoginPage extends Component {
           },
         }).then((response) => response.json())
         .then((responseJson) => {//setting the user, then the render will reload the page automatically
-          //console.log(responseJson);
+          console.log(responseJson);
           if(responseJson != undefined && responseJson != "User not authenticated"){
             responseJson[0].accessToken = accessToken;
             this.setState({
-              user: responseJson[0],
+              user: responseJson[0]
             });
           }else{
             alert("Session expired, please log-in with google.");
-            this.setState({
-              user: undefined,
-            });
-            this.forceUpdate();
           }
         });
       }
@@ -103,15 +103,12 @@ export default class LoginPage extends Component {
   }
 
   logout = () => {
-    return fetch('https://cga-api.herokuapp.com/logout')
-      .then(response => {
-        console.log('Logged out');
-        this.setState({//if the user tap on logout removing the user in the state and the info saved
-          user: undefined
-        });
-        this.removeData(pathAccessToken);
-        this.removeData(pathUserId);
-      })
+    console.log('Logged out');
+    this.setState({//if the user tap on logout removing the user in the state and the info saved
+      user: undefined
+    });
+    this.removeData(pathAccessToken);
+    this.removeData(pathUserId);
   }
 
   // Open URL in a browser
@@ -139,7 +136,18 @@ export default class LoginPage extends Component {
       },
     }).then((response) => response.json())
     .then((responseJson) => {
-      this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});//moving to activity in order to choose the project
+      console.log(responseJson);
+      if(responseJson != undefined && responseJson != "User not authenticated"){
+        this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});//moving to activity in order to choose the project
+      }else{
+        this.setState({
+          user: undefined,
+        });
+        this.removeData(pathAccessToken);
+        this.removeData(pathUserId);
+        this.forceUpdate();
+        alert("Session expired, please log-in with google.");
+      }
     });
   };
 
@@ -158,7 +166,6 @@ export default class LoginPage extends Component {
   retrieveData = async (path) => {
     return await RNFS.readFile(path, 'utf8')
     .then((result) => {
-      //console.log(result);
       return result;
     })
     .catch((err) => {
