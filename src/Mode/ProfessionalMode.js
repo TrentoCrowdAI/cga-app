@@ -50,6 +50,9 @@ export default class ProfessionalMode extends Component {
             }else{
               this.state.savedData[x] = props.navigation.state.params.responses[i].value;
             }
+            if(i < this.state.survey.items.length - 2 && (i%2 == 0)){
+              this.state.indexQuestion = i;
+            }
             break;
           }
         }

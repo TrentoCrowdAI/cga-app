@@ -23,14 +23,20 @@ export default class VisitCard extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    this.setState({
-      title: nextProps.title,
-      date: nextProps.date,
-      status: nextProps.status,
-      started: nextProps.started
-    });
-    if(this.state.status == 'incomplete' && this.state.started == true){
-      this.setState({status: "Incomplete but already started"});
+    if(nextProps.status == 'incomplete' && nextProps.started == true){
+      this.setState({
+        title: nextProps.title,
+        date: nextProps.date,
+        status: "Incomplete but already started",
+        started: nextProps.started
+      });
+    }else{
+      this.setState({
+        title: nextProps.title,
+        date: nextProps.date,
+        status: nextProps.status,
+        started: nextProps.started
+      });
     }
     this.forceUpdate();
   }
