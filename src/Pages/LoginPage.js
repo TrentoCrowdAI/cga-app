@@ -4,22 +4,23 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SafariView from 'react-native-safari-view';
 var RNFS = require('react-native-fs');
 var pathUserId = RNFS.DocumentDirectoryPath + '/configFileUserId.txt';
-var pathAccessToken = RNFS.DocumentDirectoryPath + '/configFileAccessToken.txt';
+var pathExpressSessionToken = RNFS.DocumentDirectoryPath + '/configFileExpressSessionToken.txt';
+var pathExpressSessionSignatureToken = RNFS.DocumentDirectoryPath + '/configFileExpressSessionSignatureToken.txt';
 
 export default class LoginPage extends Component {
   constructor(props){
     super(props);
     this.state = {
       user: undefined
-    };
-    this.recoverUserInfo();   
+    };   
   }
 
   //called when the user perform the logout from the sidebar
   componentWillReceiveProps(nextProp){
     if(nextProp.navigation.state.params != undefined && nextProp.navigation.state.params.logout != undefined && nextProp.navigation.state.params.logout == true){//if the user tap the logout in the sidebar than we delete the user in the state and the info saved in order to recover the account
       this.setState({user: undefined});
-      this.removeData(pathAccessToken);
+      this.removeData(pathExpressSessionToken);
+      this.removeData(pathExpressSessionSignatureToken);
       this.removeData(pathUserId);
     } 
   }
@@ -50,11 +51,12 @@ export default class LoginPage extends Component {
       user: JSON.parse(decodeURI(user_string)),
     });
     var user = JSON.parse(decodeURI(user_string));
-    console.log(user);
-    if(user != undefined && user.id != undefined && user.accessToken != undefined){
+    if(user != undefined && user.id != undefined && user.expressSessionCookie != undefined && user.expressSessionSignatureCookie != undefined){
       this.storeData(pathUserId, user.id).then((response) => {
-        this.storeData(pathAccessToken, user.accessToken).then((response) => {
-          this.forceUpdate();
+        this.storeData(pathExpressSessionToken, user.expressSessionCookie).then((response) => {
+          this.storeData(pathExpressSessionSignatureToken, user.expressSessionSignatureCookie).then((response) => {
+            this.forceUpdate();
+          });
         });
       });//when the user is retrieved we save this two data in order to recover it in a second time
       
@@ -67,39 +69,44 @@ export default class LoginPage extends Component {
     }
   };
 
-  //this function try to recover the data of the user that was logged in
-  recoverUserInfo = async () => {
-    var userId; 
-    await this.retrieveData(pathUserId).then((response) => userId = response);
-    if(userId != undefined){
-      var accessToken;
-      await this.retrieveData(pathAccessToken).then((response) => accessToken = response);
-      if(accessToken != undefined){//if the data are retrieved successfully than the app try to load the user from the api
+  // Handle Login with Google button tap
+  loginWithGoogle = async () => {
+    if(this.state.user == undefined){//trying to recover the data of the user that was logged in
+      var userId; 
+      var expressSessionCookie;
+      var expressSessionSignatureCookie;
+      await this.retrieveData(pathUserId).then((response) => userId = response);
+      await this.retrieveData(pathExpressSessionToken).then((response) => expressSessionCookie = response);
+      await this.retrieveData(pathExpressSessionSignatureToken).then((response) => expressSessionSignatureCookie = response);
+      if(userId != undefined && expressSessionCookie != undefined && expressSessionSignatureCookie != undefined){
         fetch('https://cga-api.herokuapp.com/users/'+userId, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            'Cookie': 'connect.sid=' + accessToken + ";",
+            'Cookie': "express:sess=" + expressSessionCookie + '; express:sess.sig=' + expressSessionSignatureCookie + ';',
           },
         }).then((response) => response.json())
         .then((responseJson) => {//setting the user, then the render will reload the page automatically
-          console.log(responseJson);
+          //console.log(responseJson);
           if(responseJson != undefined && responseJson != "User not authenticated"){
-            responseJson[0].accessToken = accessToken;
+            responseJson[0].expressSessionCookie = expressSessionCookie;
+            responseJson[0].expressSessionSignatureCookie = expressSessionSignatureCookie;
             this.setState({
               user: responseJson[0]
             });
+            this.forceUpdate();
           }else{
-            alert("Session expired, please log-in with google.");
+            this.removeData(pathExpressSessionToken);
+            this.removeData(pathExpressSessionSignatureToken);
+            this.removeData(pathUserId);
+            this.forceUpdate();
+            this.openURL('https://cga-api.herokuapp.com/auth/google');//if the saved data are no longer valid then reopen the url in order to request a new login
           }
         });
+      }else{
+        this.openURL('https://cga-api.herokuapp.com/auth/google');//if the saved data are no longer valid then reopen the url in order to request a new login
       }
     }
-  }
-
-  // Handle Login with Google button tap
-  loginWithGoogle = () => {
-    this.openURL('https://cga-api.herokuapp.com/auth/google');
   }
 
   logout = () => {
@@ -107,7 +114,8 @@ export default class LoginPage extends Component {
     this.setState({//if the user tap on logout removing the user in the state and the info saved
       user: undefined
     });
-    this.removeData(pathAccessToken);
+    this.removeData(pathExpressSessionToken);
+    this.removeData(pathExpressSessionSignatureToken);
     this.removeData(pathUserId);
   }
 
@@ -132,24 +140,24 @@ export default class LoginPage extends Component {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Cookie': 'connect.sid=' + this.state.user.accessToken + ";",
+        'Cookie': "express:sess=" + this.state.user.expressSessionCookie + '; express:sess.sig=' + this.state.user.expressSessionSignatureCookie + ';',
       },
     }).then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      if(responseJson != undefined && responseJson != "User not authenticated"){
-        this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: responseJson});//moving to activity in order to choose the project
+    .then((projectJson) => {
+      if(projectJson != undefined && projectJson != "User not authenticated"){
+        this.props.navigation.navigate("ProjectsList", {user: this.state.user, projects: projectJson});//moving to activity in order to choose the project
       }else{
         this.setState({
           user: undefined,
         });
-        this.removeData(pathAccessToken);
+        this.removeData(pathExpressSessionToken);
+        this.removeData(pathExpressSessionSignatureToken);
         this.removeData(pathUserId);
         this.forceUpdate();
         alert("Session expired, please log-in with google.");
       }
     });
-  };
+  }
 
   //store data in the device memory
   storeData = async (path, value) => {

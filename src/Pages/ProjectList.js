@@ -33,7 +33,7 @@ export default class ProjectList extends Component {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
-              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+              'Cookie': "express:sess=" + this.state.navigation.state.params.user.expressSessionCookie + '; express:sess.sig=' + this.state.navigation.state.params.user.expressSessionSignatureCookie + ';',
             },
           }).then((response) => response.json())
           .then((responseJson) => {

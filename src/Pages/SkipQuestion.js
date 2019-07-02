@@ -61,7 +61,7 @@ export default class SkipQuestion extends Component {
         </CardItem>
         <CardItem>
           <Body>
-            <Textbox label="Note" placeholder="Comment your choice" save={this.saveValue} indexQuestion="0"/>
+            <Textbox label="Note" placeholder="Comment your choice" save={this.saveValue} indexQuestion="0" multiline={true}/>
           </Body>
         </CardItem>
         <CardItem footer>

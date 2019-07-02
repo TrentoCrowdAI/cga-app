@@ -27,7 +27,7 @@ export default class VisitCard extends Component {
       title: nextProps.title,
       date: nextProps.date,
       status: nextProps.status,
-      started: this.props.started
+      started: nextProps.started
     });
     if(this.state.status == 'incomplete' && this.state.started == true){
       this.setState({status: "Incomplete but already started"});

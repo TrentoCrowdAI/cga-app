@@ -8,6 +8,7 @@ export default class Textbox extends Component {
       indexQuestion: props.indexQuestion,
       value: "",
       secureTextEntry: this.props.secureTextEntry,
+      multiline: this.props.multiline 
     }
     if(props.saved != undefined){
       this.state.value = props.saved;
@@ -38,7 +39,7 @@ export default class Textbox extends Component {
       <Form style={{alignSelf: 'stretch'}}>
         <Item regular>
           <Label>{this.props.label}</Label>
-          <Input placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }} secureTextEntry={this.state.secureTextEntry}/>
+          <Input placeholder={this.props.placeholder} value={this.state.value} onChangeText={(text) => { this.update(text); }} secureTextEntry={this.state.secureTextEntry} multiline={this.props.multiline}/>
         </Item>      
       </Form>
     );

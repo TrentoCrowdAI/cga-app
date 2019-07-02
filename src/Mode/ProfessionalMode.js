@@ -5,6 +5,7 @@ import HandleBack from "../Components/HandleBack.js";
 import QuestionCard from "../Components/QuestionCard.js";
 import MyTimer from "../Components/MyTimer.js";
 import QuestionPlaceholderCard from "../Components/QuestionPlaceholderCard.js";
+import { tsImportEqualsDeclaration } from '@babel/types';
 var RNFS = require('react-native-fs');
 var pathLanguage = RNFS.DocumentDirectoryPath + '/configLanguage.txt';
 
@@ -13,7 +14,8 @@ export default class ProfessionalMode extends Component {
     super(props);
     if(props.navigation.state.params.language == undefined){
       this.state = {
-        accessToken: props.navigation.state.params.accessToken,
+        expressSessionCookie: props.navigation.state.params.expressSessionCookie,
+        expressSessionSignatureCookie: props.navigation.state.params.expressSessionSignatureCookie,
         surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
         survey: props.navigation.state.params.survey,
         indexQuestion: 0,
@@ -25,7 +27,8 @@ export default class ProfessionalMode extends Component {
       };
     }else{
       this.state = {
-        accessToken: props.navigation.state.params.accessToken,
+        expressSessionCookie: props.navigation.state.params.expressSessionCookie,
+        expressSessionSignatureCookie: props.navigation.state.params.expressSessionSignatureCookie,
         surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
         survey: props.navigation.state.params.survey,
         indexQuestion: 0,
@@ -79,7 +82,7 @@ export default class ProfessionalMode extends Component {
       headerTintColor: navigation.getParam('HeaderTintColor', '#fff'),
       //Text color of ActionBar
       headerRight: (
-        <Button transparent onPress={() => {navigation.navigate('ModalMenu', {savedData: navigation.state.params.savedData, survey: navigation.state.params.survey, accessToken: navigation.state.params.accessToken, indexQuestion: navigation.state.params.indexQuestion, surveyComponentResponseId: navigation.state.params.surveyComponentResponseId, onGoBackAction:navigation.state.params.onGoBackAction})}}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
+        <Button transparent onPress={() => {navigation.navigate('ModalMenu', {savedData: navigation.state.params.savedData, survey: navigation.state.params.survey, expressSessionCookie: navigation.state.params.expressSessionCookie, expressSessionSignatureCookie: navigation.state.params.expressSessionSignatureCookie, indexQuestion: navigation.state.params.indexQuestion, surveyComponentResponseId: navigation.state.params.surveyComponentResponseId, onGoBackAction:navigation.state.params.onGoBackAction})}}><Text /><Icon name='more' style={{color:"white"}} /></Button> //this button prepare the datas that will be passed to ModalMenu
       ),
       headerLeft:(<Button transparent />)
     };
@@ -171,7 +174,6 @@ export default class ProfessionalMode extends Component {
         });
       }
     }
-    //this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   prevQuestion = () => {
@@ -212,7 +214,6 @@ export default class ProfessionalMode extends Component {
         });
       }
     }
-    //this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   saveValue = (index, value) => { //this function allow the component to update its state
@@ -220,7 +221,6 @@ export default class ProfessionalMode extends Component {
     if(this.state.savedData[index] != value){//setting the data only if they are different from the saved one, otherwise it freeze the UI
       this.props.navigation.setParams({ savedData: this.state.savedData }); //setting the first params that will be passed to ModalMenu
     }
-    //this.props.navigation.setParams({oldProfessionalModeState: this.state});
   }
 
   //this function create an alert and if the user press yes the app will show endsession page, the app will also pass the this.state.savedData param
@@ -233,7 +233,7 @@ export default class ProfessionalMode extends Component {
           text: 'No',
         },
         {text: 'Yes', onPress: () => {  
-          this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, accessToken: this.state.accessToken, surveyComponentResponseId: this.state.surveyComponentResponseId});
+          this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, expressSessionCookie: this.state.expressSessionCookie, expressSessionSignatureCookie: this.state.expressSessionSignatureCookie, surveyComponentResponseId: this.state.surveyComponentResponseId});
         }},
       ],
       {cancelable: false},

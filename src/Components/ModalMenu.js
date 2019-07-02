@@ -8,7 +8,8 @@ export default class ModalMenu extends Component {
     this.state = {
       dialogVisible: false,
       surveyComponentResponseId: props.navigation.state.params.surveyComponentResponseId,
-      accessToken: props.navigation.state.params.accessToken,
+      expressSessionCookie: props.navigation.state.params.expressSessionCookie,
+      expressSessionSignatureCookie: props.navigation.state.params.expressSessionSignatureCookie,
       survey: props.navigation.state.params.survey,
       savedData: props.navigation.state.params.savedData,
     }
@@ -37,7 +38,7 @@ export default class ModalMenu extends Component {
           text: 'No',
         },
         {text: 'Yes', onPress: () => {
-          this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, accessToken: this.state.accessToken, surveyComponentResponseId: this.state.surveyComponentResponseId});
+          this.props.navigation.replace("SplashScreen", {mode:"upload", savedData: this.state.savedData, survey: this.state.survey, expressSessionCookie: this.state.expressSessionCookie, expressSessionSignatureCookie: this.state.expressSessionSignatureCookie, surveyComponentResponseId: this.state.surveyComponentResponseId});
           this.props.navigation.state.params.onGoBackAction();
         }},
       ],

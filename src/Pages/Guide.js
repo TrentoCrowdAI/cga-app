@@ -52,7 +52,7 @@ export default class Guide extends Component {
   render() {
     return (
       <Container style={{flex: 1}}>
-        <Text>Select an option in order to show the gif that explain how the feature works</Text>
+        <Title><Text>Select an option in order to show the gif that explain how the feature works.</Text></Title>
         <Content>
           <List>
             <Card>

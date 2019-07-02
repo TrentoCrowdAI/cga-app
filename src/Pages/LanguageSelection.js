@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Text, List, Content } from 'native-base';
+import { Container, Text, List, Content, Title } from 'native-base';
 import LanguageCard from "../Components/LanguageCard.js";
 
 var RNFS = require('react-native-fs');
@@ -22,8 +22,11 @@ export default class Guide extends Component {
 
   recoverLanguageSetting = async () => {
     await this.getLanguage().then((response) => {
-      this.setState({selectedLanguage: response});
-      this.setState({languageCards: this.renderLanguageCards(languages, response)});
+      if(response != undefined){
+        this.setState({selectedLanguage: response});
+        this.setState({languageCards: this.renderLanguageCards(languages, response)});
+        this.forceUpdate();
+      }
     });
   }
 
@@ -77,7 +80,8 @@ export default class Guide extends Component {
   render() {
     return (
       <Container style={{flex: 1}}>
-        <Text>Select an option in order to select the language, if the language isn't present among those available, then english will be used.</Text>
+        <Title><Text>Select an option in order to select the language</Text></Title>
+        <Title><Text>If the option isn't present among those available, then english will be used.</Text></Title>
         <Content>
           <List>
             {this.state.languageCards}

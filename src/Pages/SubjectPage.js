@@ -79,7 +79,7 @@ export default class SubjectPage extends Component {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
-              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+              'Cookie': "express:sess=" + this.state.user.expressSessionCookie + '; express:sess.sig=' + this.state.user.expressSessionSignatureCookie + ';',
             },
           }).then((response) => response.json())
           .then((responseJson) => {
@@ -94,7 +94,7 @@ export default class SubjectPage extends Component {
                 this.storeData(pathSurveyComponentId, "" + responseJson[i].survey_component_id);
                 this.storeData(pathSurveyComponentResponseId, "" + responseJson[i].survey_component_response_id);
                 if(this.state.surveys[i].count != null && parseInt(this.state.surveys[i].count) > 1){
-                  this.state.alreadyStarted = true;
+                  this.setState({alreadyStarted: true});
                 }
                 break;
               }
@@ -105,7 +105,7 @@ export default class SubjectPage extends Component {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
-              'Cookie': 'connect.sid=' + this.state.navigation.state.params.user.accessToken + ";",
+              'Cookie': "express:sess=" + this.state.user.expressSessionCookie + '; express:sess.sig=' + this.state.user.expressSessionSignatureCookie + ';',
             },
           }).then((response) => response.json())
           .then((responseJson) => {

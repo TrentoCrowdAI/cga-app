@@ -3,7 +3,8 @@ import { ActivityIndicator } from 'react-native';
 import { Container, Text, Title } from 'native-base';
 var RNFS = require('react-native-fs');
 var pathSurveyId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentId.txt';
-var pathAccessToken = RNFS.DocumentDirectoryPath + '/configFileAccessToken.txt';
+var pathExpressSessionToken = RNFS.DocumentDirectoryPath + '/configFileExpressSessionToken.txt';
+var pathExpressSessionSignatureToken = RNFS.DocumentDirectoryPath + '/configFileExpressSessionSignatureToken.txt';
 var pathSurveyComponentResponseId = RNFS.DocumentDirectoryPath + '/configFileSurveyComponentResponseId.txt';
 var pathLanguage = RNFS.DocumentDirectoryPath + '/configLanguage.txt';
 
@@ -27,15 +28,17 @@ export default class SpalshScreen extends Component {
     await this.retrieveData(pathLanguage).then((response) => language = response);
     var surveyComponentId; 
     await this.retrieveData(pathSurveyId).then((response) => surveyComponentId = response);
-    var accessToken; 
-    await this.retrieveData(pathAccessToken).then((response) => accessToken = response);
+    var expressSessionCookie;
+    await this.retrieveData(pathExpressSessionToken).then((response) => expressSessionCookie = response);
+    var expressSessionSignatureCookie;
+    await this.retrieveData(pathExpressSessionSignatureToken).then((response) => expressSessionSignatureCookie = response);
     var surveyComponentResponseId; 
     await this.retrieveData(pathSurveyComponentResponseId).then((response) => surveyComponentResponseId = response);
     fetch('https://cga-api.herokuapp.com/surveyComponents/'+surveyComponentId, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Cookie': 'connect.sid='+accessToken+';'
+        'Cookie': "express:sess=" + expressSessionCookie + '; express:sess.sig=' + expressSessionSignatureCookie + ';',
       },
     }).then((responseData) => {
       return responseData.json();
@@ -46,14 +49,14 @@ export default class SpalshScreen extends Component {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Cookie': 'connect.sid='+accessToken+';'
+          'Cookie': "express:sess=" + expressSessionCookie + '; express:sess.sig=' + expressSessionSignatureCookie + ';',
         },
       }).then((responseData) => {
         return responseData.json();
       })
       .then((responses) => {
         //console.log(responses);
-        this.moveToProfessionalMode(survey, responses, accessToken, surveyComponentResponseId, language);
+        this.moveToProfessionalMode(survey, responses, expressSessionCookie, expressSessionSignatureCookie, surveyComponentResponseId, language);
       });
     });
   }
@@ -69,8 +72,8 @@ export default class SpalshScreen extends Component {
     });
   }
 
-  moveToProfessionalMode = (items, response, accessToken, surveyComponentResponseId, language) => {//put the data inside the navigation component and move the activity to ProfessionalMode
-    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, accessToken: accessToken, surveyComponentResponseId: surveyComponentResponseId, language:language});
+  moveToProfessionalMode = (items, response, expressSessionCookie, expressSessionSignatureCookie, surveyComponentResponseId, language) => {//put the data inside the navigation component and move the activity to ProfessionalMode
+    this.props.navigation.replace("ProfessionalMode", {survey: items, responses: response, expressSessionCookie: expressSessionCookie, expressSessionSignatureCookie:expressSessionSignatureCookie, surveyComponentResponseId: surveyComponentResponseId, language:language});
   }
 
   //upload the survey_reponses to the server
@@ -93,7 +96,7 @@ export default class SpalshScreen extends Component {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Cookie': 'connect.sid='+this.props.navigation.state.params.accessToken+';'
+          'Cookie': "express:sess=" + this.props.navigation.state.params.expressSessionCookie + '; express:sess.sig=' + this.props.navigation.state.params.expressSessionSignatureCookie + ';',
         },
         body: JSON.stringify({survey_item_response:{name:this.props.navigation.state.params.survey.items[i].name, value:this.props.navigation.state.params.savedData[i], survey_item_id:this.props.navigation.state.params.survey.items[i].id}})
       }).then((responseData) => {
