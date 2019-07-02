@@ -12,7 +12,7 @@ export default class LoginPage extends Component {
     super(props);
     this.state = {
       user: undefined
-    };   
+    }; 
   }
 
   //called when the user perform the logout from the sidebar
@@ -25,6 +25,35 @@ export default class LoginPage extends Component {
     } 
   }
 
+  recoverUserState = async () => {
+    var userId; 
+    var expressSessionCookie;
+    var expressSessionSignatureCookie;
+    await this.retrieveData(pathUserId).then((response) => userId = response);
+    await this.retrieveData(pathExpressSessionToken).then((response) => expressSessionCookie = response);
+    await this.retrieveData(pathExpressSessionSignatureToken).then((response) => expressSessionSignatureCookie = response);
+    if(userId != undefined && expressSessionCookie != undefined && expressSessionSignatureCookie != undefined){
+      fetch('https://cga-api.herokuapp.com/users/'+userId, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Cookie': "express:sess=" + expressSessionCookie + '; express:sess.sig=' + expressSessionSignatureCookie + ';',
+        },
+      }).then((response) => response.json())
+      .then((responseJson) => {//setting the user, then the render will reload the page automatically
+        //console.log(responseJson);
+        if(responseJson != undefined && responseJson != "User not authenticated"){
+          responseJson[0].expressSessionCookie = expressSessionCookie;
+          responseJson[0].expressSessionSignatureCookie = expressSessionSignatureCookie;
+          this.setState({
+            user: responseJson[0]
+          });
+          this.forceUpdate();
+        }
+      });  
+    }
+  }
+
   //Set up Linking 
   componentDidMount(){
     //Add event listener to handle OAuthLogin:// URL
@@ -35,6 +64,7 @@ export default class LoginPage extends Component {
         this.handleOpenURL({ url });
       }  
     })
+    this.recoverUserState();
   };
 
   componentWillUnmount() {
@@ -71,42 +101,7 @@ export default class LoginPage extends Component {
 
   // Handle Login with Google button tap
   loginWithGoogle = async () => {
-    if(this.state.user == undefined){//trying to recover the data of the user that was logged in
-      var userId; 
-      var expressSessionCookie;
-      var expressSessionSignatureCookie;
-      await this.retrieveData(pathUserId).then((response) => userId = response);
-      await this.retrieveData(pathExpressSessionToken).then((response) => expressSessionCookie = response);
-      await this.retrieveData(pathExpressSessionSignatureToken).then((response) => expressSessionSignatureCookie = response);
-      if(userId != undefined && expressSessionCookie != undefined && expressSessionSignatureCookie != undefined){
-        fetch('https://cga-api.herokuapp.com/users/'+userId, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Cookie': "express:sess=" + expressSessionCookie + '; express:sess.sig=' + expressSessionSignatureCookie + ';',
-          },
-        }).then((response) => response.json())
-        .then((responseJson) => {//setting the user, then the render will reload the page automatically
-          //console.log(responseJson);
-          if(responseJson != undefined && responseJson != "User not authenticated"){
-            responseJson[0].expressSessionCookie = expressSessionCookie;
-            responseJson[0].expressSessionSignatureCookie = expressSessionSignatureCookie;
-            this.setState({
-              user: responseJson[0]
-            });
-            this.forceUpdate();
-          }else{
-            this.removeData(pathExpressSessionToken);
-            this.removeData(pathExpressSessionSignatureToken);
-            this.removeData(pathUserId);
-            this.forceUpdate();
-            this.openURL('https://cga-api.herokuapp.com/auth/google');//if the saved data are no longer valid then reopen the url in order to request a new login
-          }
-        });
-      }else{
-        this.openURL('https://cga-api.herokuapp.com/auth/google');//if the saved data are no longer valid then reopen the url in order to request a new login
-      }
-    }
+    this.openURL('https://cga-api.herokuapp.com/auth/google');
   }
 
   logout = () => {
