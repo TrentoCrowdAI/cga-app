@@ -45,7 +45,7 @@ export default class SpalshScreen extends Component {
     })
     .then((survey) => {
       //console.log(survey);
-      fetch('https://cga-api.herokuapp.com/componentResponses/'+surveyComponentResponseId+'/surveyItemResponses', {
+      fetch('https://cga-api.herokuapp.com/componentResponses/'+surveyComponentResponseId+'/itemResponses', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -92,7 +92,7 @@ export default class SpalshScreen extends Component {
   //single upload of survey_response object
   uploadData(i){
     return new Promise((resolve, reject) => {
-      fetch('https://cga-api.herokuapp.com/componentResponses/'+this.props.navigation.state.params.surveyComponentResponseId+'/surveyItemResponses', {
+      fetch('https://cga-api.herokuapp.com/componentResponses/'+this.props.navigation.state.params.surveyComponentResponseId+'/itemResponses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
